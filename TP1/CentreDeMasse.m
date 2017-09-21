@@ -3,7 +3,7 @@ classdef CentreDeMasse
 
 function [centre] = CentreDeMasseCylindre(rayon, hauteur)
 % x, y, z
-
+ 
 centre = [0, 0, hauteur/2];
 
 end
@@ -30,6 +30,7 @@ for i = 1:numel(masses)
     centreI = centreI * poids;
     
     centre = centre + centreI;
+    disp(centre);
 end
 
 end
