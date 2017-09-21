@@ -30,7 +30,6 @@ for i = 1:numel(masses)
     centreI = centreI * poids;
     
     centre = centre + centreI;
-    disp(centre);
 end
 
 end
