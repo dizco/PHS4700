@@ -1,4 +1,4 @@
-classdef Solide 
+classdef (Abstract) Solide 
     properties
        CentreDeMasse 
        Masse
@@ -9,5 +9,9 @@ classdef Solide
             solide.CentreDeMasse = [0 0 0];
             solide.Masse = 0;
         end
+    end
+    
+    methods (Abstract) 
+        v = CalculerVolume(obj)
     end
 end

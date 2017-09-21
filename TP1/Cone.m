@@ -11,6 +11,10 @@ classdef Cone < Solide
             cone.Rayon = 0;
             cone.Hauteur = 0;
         end
+        
+        function v = CalculerVolume(obj) 
+            v = 1/3 * pi * obj.Rayon ^ 2 * obj.Hauteur;
+        end
     end
     
 end
