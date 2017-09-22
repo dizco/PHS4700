@@ -11,7 +11,7 @@ classdef FormeFusee < Solide
             fusee.Cylindre = cylindre;
             cone.CentreDeMasse(3) = cone.CentreDeMasse(3) + cylindre.Hauteur; % Offset le cm du cone avec la hauteur du cylindre 
             fusee.Cone = cone;
-            fusee.CentreDeMasse = CentreDeMasse.CentreDeMasseObjets([cylindre.CentreDeMasse; cone.CentreDeMasse], [cylindre.Masse; cone.Masse]);
+            fusee.CentreDeMasse = [0 0 0]; % Set le centre de masse juste quand on recoit la masse
         end
         
         function CoordonneesBasMilieu(obj, x, y, z)
@@ -29,11 +29,12 @@ classdef FormeFusee < Solide
         end
         
         function RepartirMasseUniforme(obj, masse)
-            t = (obj.Cylindre.CalculerVolume() / obj.CalculerVolume()) * masse;
-            disp('Masse cyl');
-            disp(t);
+            obj.Masse = masse;
+            %disp('cyl masse');
+            %disp((obj.Cylindre.CalculerVolume() / obj.CalculerVolume()) * masse);
             obj.Cylindre.Masse = (obj.Cylindre.CalculerVolume() / obj.CalculerVolume()) * masse;
             obj.Cone.Masse = (obj.Cone.CalculerVolume() / obj.CalculerVolume()) * masse;
+            obj.CentreDeMasse = CentreDeMasse.CentreDeMasseObjets([obj.Cylindre.CentreDeMasse; obj.Cone.CentreDeMasse], [obj.Cylindre.Masse; obj.Cone.Masse]);
         end
     end
     

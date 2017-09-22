@@ -1,4 +1,4 @@
-classdef (Abstract) Solide 
+classdef (Abstract) Solide < handle
     properties
        CentreDeMasse 
        Masse

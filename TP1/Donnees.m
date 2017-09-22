@@ -29,6 +29,8 @@ hautReservoir.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautReservoir.Rayo
 
 reservoir = FormeFusee(basReservoir, hautReservoir);
 reservoir.CoordonneesBasMilieu(0, basNavette.Rayon + basReservoir.Rayon, 0);
+%reservoir.RepartirMasseUniforme(); %TODO: Prendre en compte que le
+%reservoir est separe en 2, hydrogene et oxygene
 
 % Propulseur
 basPropulseur = Cylindre();
@@ -44,10 +46,12 @@ hautPropulseur.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautPropulseur.Ra
 % Propulseur gauche
 propulseurGauche = FormeFusee(basPropulseur, hautPropulseur);
 propulseurGauche.CoordonneesBasMilieu(- (basReservoir.Rayon + basPropulseur.Rayon), basNavette.Rayon + basReservoir.Rayon, 0);
+propulseurGauche.RepartirMasseUniforme(469000);
 
 % Propulseur droit
 propulseurDroit = FormeFusee(basPropulseur, hautPropulseur);
 propulseurDroit.CoordonneesBasMilieu(basReservoir.Rayon + basPropulseur.Rayon, basNavette.Rayon + basReservoir.Rayon, 0);
+propulseurDroit.RepartirMasseUniforme(469000);
 
 
 
