@@ -18,11 +18,11 @@ classdef CentreDeMasse
 			
 			masseTotale = sum(massesObjets);
             
-			centreTotal = [0;0;0];
+			centreTotal = [0, 0, 0];
 		
 			for i = 1:numel(massesObjets)
 				%x = element numero 1, y = element numero 2, z = element numero 3;
-				centreObjetPondere = [centreObjets(i, 1) ; centreObjets(i, 2) ; centreObjets(i, 3)] * massesObjets(i);
+				centreObjetPondere = [centreObjets(i, 1) , centreObjets(i, 2) , centreObjets(i, 3)] * massesObjets(i);
 				centreTotal = centreTotal + centreObjetPondere;
 			end %fin boucle for
 			centreTotal = centreTotal / masseTotale;

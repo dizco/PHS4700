@@ -1,4 +1,4 @@
-classdef (Abstract) Solide < handle
+classdef (Abstract) Solide < matlab.mixin.Copyable
     properties
        CentreDeMasse 
        Masse
