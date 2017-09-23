@@ -1,19 +1,27 @@
 function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
 
-Donnees();
-
-pcmNL = navette.CentreDeMasse;
-
-INL = 0;
-alphaNL = [0,0,0];
-
-if (AngRot ~= 0)
-    % TODO: Cas 2
-end
-
-if (vangulaire ~= 0)
-    % TODO: Cas 2
-end
+	Donnees();
+    
+    centresDeMasse = [ navette.CentreDeMasse; reservoir.CentreDeMasse; propulseurGauche.CentreDeMasse; propulseurDroit.CentreDeMasse ];
+    masses = [ navette.Masse; reservoir.Masse; propulseurGauche.Masse; propulseurDroit.Masse ];
+    
+    disp('centres de masse');
+    disp(centresDeMasse);
+    
+    pcmNL = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
+    disp('centre de masse syst');
+    disp(pcmNL);
+    
+	INL = 0;
+	alphaNL = [0,0,0];
+	
+	if (AngRot ~= 0)
+		% TODO: Cas 2
+	end
+	
+	if (vangulaire ~= 0)
+		% TODO: Cas 2
+	end
     
 end
 

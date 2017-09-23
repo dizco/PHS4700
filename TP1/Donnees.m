@@ -30,6 +30,13 @@ hautReservoir.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautReservoir.Rayo
 reservoir = FormeFusee(basReservoir, hautReservoir);
 reservoir.CoordonneesBasMilieu(0, basNavette.Rayon + basReservoir.Rayon, 0);
 
+masseHydrogeneBasReservoir = 108000;
+volumeOxygeneBasReservoir = pi * (4.2 ^ 2) * (39.1 - 46.9 * (2/3)); % pi * R^2 * h
+masseOxygeneBasReservoir = 631000 * volumeOxygeneBasReservoir / (volumeOxygeneBasReservoir + hautReservoir.CalculerVolume());
+masseOxygeneHautReservoir = 631000 - masseOxygeneBasReservoir;
+
+reservoir.RepartirMasseParComposante(masseHydrogeneBasReservoir + masseOxygeneBasReservoir, masseOxygeneHautReservoir);
+
 % Propulseur
 basPropulseur = Cylindre();
 basPropulseur.Rayon = 1.855;
@@ -42,12 +49,14 @@ hautPropulseur.Hauteur = 5.6;
 hautPropulseur.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautPropulseur.Rayon, hautPropulseur.Hauteur); % CM si le bas du cylindre est à l'origine
 
 % Propulseur gauche
-propulseurGauche = FormeFusee(basPropulseur, hautPropulseur);
+propulseurGauche = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurGauche.CoordonneesBasMilieu(- (basReservoir.Rayon + basPropulseur.Rayon), basNavette.Rayon + basReservoir.Rayon, 0);
+propulseurGauche.RepartirMasseUniforme(469000);
 
 % Propulseur droit
-propulseurDroit = FormeFusee(basPropulseur, hautPropulseur);
+propulseurDroit = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurDroit.CoordonneesBasMilieu(basReservoir.Rayon + basPropulseur.Rayon, basNavette.Rayon + basReservoir.Rayon, 0);
+propulseurDroit.RepartirMasseUniforme(469000);
 
 
 
