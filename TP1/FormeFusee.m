@@ -3,6 +3,7 @@ classdef FormeFusee < Solide
     properties
         Cylindre
         Cone
+        Inertie
     end
     
     methods
@@ -12,6 +13,7 @@ classdef FormeFusee < Solide
             cone.CentreDeMasse(3) = cone.CentreDeMasse(3) + cylindre.Hauteur; % Offset le cm du cone avec la hauteur du cylindre 
             fusee.Cone = cone;
             fusee.CentreDeMasse = [0 0 0]; % Set le centre de masse juste quand on recoit la masse
+            fusee.Inertie = [0 0 0 ;0 0 0;0 0 0];
         end
         
         function CoordonneesBasMilieu(obj, x, y, z)
