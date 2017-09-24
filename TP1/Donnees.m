@@ -20,15 +20,7 @@ navette.CoordonneesBasMilieu(0, 0, 0);
 navette.RepartirMasseUniforme(mNavette);
 
 %Calcul de l'inertie totale de la navette
-basNavette.Masse = mNavette * basNavette.CalculerVolume();
-basNavette.Inertie = MomentInertie.InertieCylindre(basNavette.Masse, basNavette.Rayon, basNavette.Hauteur);
-basNavette.InertieAjust = MomentInertie.InertieAjusteeCM(basNavette.Inertie, basNavette.Masse, basNavette.CentreDeMasse, navette.CentreDeMasse);
-
-hautNavette.Masse = mNavette * hautNavette.CalculerVolume();
-hautNavette.Inertie = MomentInertie.InertieCone(hautNavette.Masse, hautNavette.Rayon, hautNavette.Hauteur);
-hautNavette.InertieAjust = MomentInertie.InertieAjusteeCM(hautNavette.Inertie, hautNavette.Masse, hautNavette.CentreDeMasse, navette.CentreDeMasse);
-
-navette.Inertie = basNavette.InertieAjust + hautNavette.InertieAjust;
+navette.CalculerInertie();
 
 
 % Reservoir
@@ -60,13 +52,7 @@ hautReservoir.Masse = masseOxygeneHautReservoir;
 reservoir.RepartirMasseParComposante(basReservoir.Masse, hautReservoir.Masse);
 
 %Calcul de l'inertie totale du réservoir
-basReservoir.Inertie = MomentInertie.InertieCylindre(basReservoir.Masse, basReservoir.Rayon, basReservoir.Hauteur);
-basReservoir.InertieAjust = MomentInertie.InertieAjusteeCM(basReservoir.Inertie, basReservoir.Masse, basReservoir.CentreDeMasse, reservoir.CentreDeMasse);
-
-hautReservoir.Inertie = MomentInertie.InertieCone(hautReservoir.Masse, hautReservoir.Rayon, hautReservoir.Hauteur);
-hautReservoir.InertieAjust = MomentInertie.InertieAjusteeCM(hautReservoir.Inertie, hautReservoir.Masse, hautReservoir.CentreDeMasse, reservoir.CentreDeMasse);
-
-reservoir.Inertie = basReservoir.InertieAjust + hautReservoir.InertieAjust;
+reservoir.CalculerInertie();
 
 % Propulseur
 mPropulseur = 469000;
@@ -91,24 +77,11 @@ propulseurDroit = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurDroit.CoordonneesBasMilieu(basReservoir.Rayon + basPropulseur.Rayon, basNavette.Rayon + basReservoir.Rayon, 0);
 propulseurDroit.RepartirMasseUniforme(mPropulseur);
 
-%Calcul de l'inertie des propulseurs - étapes préliminaires
-basPropulseur.Masse = mNavette * basPropulseur.CalculerVolume();
-basPropulseur.Inertie = MomentInertie.InertieCylindre(basPropulseur.Masse, basPropulseur.Rayon, basPropulseur.Hauteur);
-
-hautPropulseur.Masse = mNavette * hautPropulseur.CalculerVolume();
-hautPropulseur.Inertie = MomentInertie.InertieCone(hautPropulseur.Masse, hautPropulseur.Rayon, hautPropulseur.Hauteur);
-
 %Calcul de l'inertie du propulseur gauche
-basPropulseur.InertieAjust = MomentInertie.InertieAjusteeCM(basPropulseur.Inertie, basPropulseur.Masse, propulseurGauche.Cylindre.CentreDeMasse, propulseurGauche.CentreDeMasse);
-hautPropulseur.InertieAjust = MomentInertie.InertieAjusteeCM(hautPropulseur.Inertie, hautPropulseur.Masse, propulseurGauche.Cone.CentreDeMasse, propulseurGauche.CentreDeMasse);
-
-propulseurGauche.Inertie = basPropulseur.InertieAjust + hautPropulseur.InertieAjust;
+propulseurGauche.CalculerInertie();
 
 %Calcul de l'inertie du propulseur droit
-basPropulseur.InertieAjust = MomentInertie.InertieAjusteeCM(basPropulseur.Inertie, basPropulseur.Masse, propulseurDroit.Cylindre.CentreDeMasse, propulseurDroit.CentreDeMasse);
-hautPropulseur.InertieAjust = MomentInertie.InertieAjusteeCM(hautPropulseur.Inertie, hautPropulseur.Masse, propulseurDroit.Cone.CentreDeMasse, propulseurDroit.CentreDeMasse);
-
-propulseurDroit.Inertie = basPropulseur.InertieAjust + hautPropulseur.InertieAjust;
+propulseurDroit.CalculerInertie();
 
 
 

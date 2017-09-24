@@ -13,11 +13,18 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     disp('centre de masse syst');
     disp(pcmNL);
     
+    %Ajustement de l'inertie par rapport au centre de masse
+    navette.AjusterInertie(pcmNL);
+    reservoir.AjusterInertie(pcmNL);
+    propulseurGauche.AjusterInertie(pcmNL);
+    propulseurDroit.AjusterInertie(pcmNL);
     
-    INL = MomentInertie.InertieSysteme(objets, pcmNL);
-	%INL = 0;
+    %Somme de toutes les inerties
+    INL = MomentInertie.InertieSysteme(objets);
     disp('inertie syst');
     disp(INL);
+    
+    
 	alphaNL = [0,0,0];
 	
 	if (AngRot ~= 0)
