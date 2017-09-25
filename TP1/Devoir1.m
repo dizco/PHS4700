@@ -10,8 +10,8 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     disp(centresDeMasse);
     
     pcmNLCalcul = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
+    pcmNLCalcul = pcmNLCalcul + transpose(posNL);
     pcmNL = Rotation(AngRot, pcmNLCalcul);
-    pcmNL = pcmNL + posNL;
     disp('centre de masse syst');
     disp(pcmNL);
     
@@ -35,6 +35,15 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     alphaNL = AccelerationAngulaire( AngRot, pcmNL, INL, vangulaire, forces );
     disp('acceleration angulaire');
     disp(alphaNL);
+    
+	
+	if (AngRot ~= 0)
+		% TODO: Cas 2
+	end
+	
+	if (vangulaire ~= 0)
+		% TODO: Cas 2
+	end
     
 end
 
