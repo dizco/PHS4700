@@ -2,10 +2,13 @@
 % rampe de lancement
 
 % Navette
+mNavette = 109000;
+
 basNavette = Cylindre();
 basNavette.Rayon = 3.5;
 basNavette.Hauteur = 27.93;
 basNavette.CentreDeMasse = CentreDeMasse.CentreDeMasseCylindre(basNavette.Rayon, basNavette.Hauteur);
+
 
 hautNavette = Cone();
 hautNavette.Rayon = 3.5;
@@ -14,7 +17,11 @@ hautNavette.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautNavette.Rayon, h
 
 navette = FormeFusee(basNavette, hautNavette);
 navette.CoordonneesBasMilieu(0, 0, 0);
-navette.RepartirMasseUniforme(109000);
+navette.RepartirMasseUniforme(mNavette);
+
+%Calcul de l'inertie totale de la navette
+navette.CalculerInertie();
+
 
 % Reservoir
 basReservoir = Cylindre();
@@ -39,9 +46,17 @@ basReservoir.CentreDeMasse = CentreDeMasse.CentreDeMasseObjets([cmCyl1; cmCyl2],
 
 reservoir = FormeFusee(basReservoir, hautReservoir);
 reservoir.CoordonneesBasMilieu(0, basNavette.Rayon + basReservoir.Rayon, 0);
-reservoir.RepartirMasseParComposante(masseHydrogeneBasReservoir + masseOxygeneBasReservoir, masseOxygeneHautReservoir);
+basReservoir.Masse = masseHydrogeneBasReservoir + masseOxygeneBasReservoir;
+hautReservoir.Masse = masseOxygeneHautReservoir;
+
+reservoir.RepartirMasseParComposante(basReservoir.Masse, hautReservoir.Masse);
+
+%Calcul de l'inertie totale du réservoir
+reservoir.CalculerInertie();
 
 % Propulseur
+mPropulseur = 469000;
+
 basPropulseur = Cylindre();
 basPropulseur.Rayon = 1.855;
 basPropulseur.Hauteur = 39.9;
@@ -55,12 +70,18 @@ hautPropulseur.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautPropulseur.Ra
 % Propulseur gauche
 propulseurGauche = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurGauche.CoordonneesBasMilieu(- (basReservoir.Rayon + basPropulseur.Rayon), basNavette.Rayon + basReservoir.Rayon, 0);
-propulseurGauche.RepartirMasseUniforme(469000);
+propulseurGauche.RepartirMasseUniforme(mPropulseur);
 
 % Propulseur droit
 propulseurDroit = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurDroit.CoordonneesBasMilieu(basReservoir.Rayon + basPropulseur.Rayon, basNavette.Rayon + basReservoir.Rayon, 0);
-propulseurDroit.RepartirMasseUniforme(469000);
+propulseurDroit.RepartirMasseUniforme(mPropulseur);
+
+%Calcul de l'inertie du propulseur gauche
+propulseurGauche.CalculerInertie();
+
+%Calcul de l'inertie du propulseur droit
+propulseurDroit.CalculerInertie();
 
 
 

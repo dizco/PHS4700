@@ -3,6 +3,8 @@ classdef Cylindre < Solide
     properties 
         Rayon
         Hauteur
+        Inertie
+        InertieAjust
     end
     
     methods
@@ -10,6 +12,8 @@ classdef Cylindre < Solide
             cyl = cyl@Solide();
             cyl.Rayon = 0;
             cyl.Hauteur = 0;
+            cyl.Inertie = [0 0 0 ;0 0 0;0 0 0];
+            cyl.InertieAjust = [0 0 0 ;0 0 0;0 0 0];
         end
         
         function v = CalculerVolume(obj) 
