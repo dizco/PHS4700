@@ -3,16 +3,16 @@ classdef MomentInertie
         
         function [inertie] = InertieCone( masse, rayon, hauteur )
             %matrice de base
-            inertie = [1 0 0 ;0 1 0;0 0 1];
+            inertie = [1, 0, 0 ;0, 1, 0;0, 0, 1];
             
             %Ic,xx = m(12r^2+3h^2)/80
-            Ic_xx = (masse/80) * (12 * (rayon^2) + 3 * (hauteur^2));
+            Ic_xx = masse * (((12 * (rayon^2) + 3 * (hauteur^2))) / 80)
                 
             %Ic,yy = %Ic,xx = m(12r^2+3h^2)/80
             Ic_yy = Ic_xx;
                 
             %Ic,zz = m(3r^2/10)
-            Ic_zz = (masse/10) * (3*(rayon^2));
+            Ic_zz = masse * ((3*(rayon^2)) / 10);
             
             inertie(1,1) = Ic_xx;
             inertie(2,2) = Ic_yy;
@@ -21,7 +21,7 @@ classdef MomentInertie
         
         function [inertie] = InertieCylindre( masse, rayon, hauteur )
             %matrice de base
-            inertie = [1 0 0 ;0 1 0;0 0 1];
+            inertie = [1, 0, 0 ;0, 1, 0;0, 0, 1];
             
             %Ic,xx = (m/4)*(r^2) + (m/12)*(l^2)
             Ic_xx = ((masse/4) * (rayon^2)) + ((masse/12) * (hauteur^2));
@@ -59,13 +59,17 @@ classdef MomentInertie
                 
         end
         
-        function [inertieTotale] = InertieSysteme( obj )
-            inertieTotale = [0 0 0 ;0 0 0;0 0 0];
+        function [inertieTotale] = InertieSysteme( obj, angRot )
+            inertieCalcul = [0, 0, 0 ;0, 0, 0;0, 0, 0];
             
             for i = 1:numel(obj)
 				%x = element numero 1, y = element numero 2, z = element numero 3;
-				inertieTotale = inertieTotale + obj(i).Inertie;
+				inertieCalcul = inertieCalcul + obj(i).Inertie;
 			end %fin boucle for
+            
+            %Matrice de rotation
+            RotX = [1, 0, 0; 0, cos(angRot), -sin(angRot); 0, sin(angRot), cos(angRot)];
+            inertieTotale = RotX * transpose(inertieCalcul);
         end
         
     end

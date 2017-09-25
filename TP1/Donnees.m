@@ -67,6 +67,7 @@ hautPropulseur.Rayon = 1.855;
 hautPropulseur.Hauteur = 5.6;
 hautPropulseur.CentreDeMasse = CentreDeMasse.CentreDeMasseCone(hautPropulseur.Rayon, hautPropulseur.Hauteur); % CM si le bas du cylindre est à l'origine
 
+
 % Propulseur gauche
 propulseurGauche = FormeFusee(copy(basPropulseur), copy(hautPropulseur));
 propulseurGauche.CoordonneesBasMilieu(- (basReservoir.Rayon + basPropulseur.Rayon), basNavette.Rayon + basReservoir.Rayon, 0);

@@ -46,7 +46,7 @@ classdef FormeFusee < Solide
         
         function CalculerInertie(obj)
             obj.Cylindre.Inertie = MomentInertie.InertieCylindre(obj.Cylindre.Masse, obj.Cylindre.Rayon, obj.Cylindre.Hauteur);
-            obj.Cone.Inertie = MomentInertie.InertieCone(obj.Cone.Masse, obj.Cone.Rayon, obj.Cone.Hauteur);
+            obj.Cone.Inertie = MomentInertie.InertieCone(obj.Cone.Masse, obj.Cone.Rayon, obj.Cone.Hauteur);         
         end
         
         function AjusterInertie(obj, cmGlobal)

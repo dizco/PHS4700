@@ -20,12 +20,19 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     propulseurDroit.AjusterInertie(pcmNL);
     
     %Somme de toutes les inerties
-    INL = MomentInertie.InertieSysteme(objets);
+    INL = MomentInertie.InertieSysteme(objets, AngRot);
     disp('inertie syst');
     disp(INL);
     
     
-	alphaNL = [0,0,0];
+	%alphaNL = [0,0,0];
+    %alphaNL = AccelerationAngulaire( angRot, momentInertie, vitesseAngulaire, forces)
+   
+    
+    alphaNL = AccelerationAngulaire( AngRot, pcmNL, INL, vangulaire, forces );
+    disp('acceleration angulaire');
+    disp(alphaNL);
+    
 	
 	if (AngRot ~= 0)
 		% TODO: Cas 2
