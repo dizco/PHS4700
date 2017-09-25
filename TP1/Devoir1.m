@@ -9,7 +9,9 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     disp('centres de masse');
     disp(centresDeMasse);
     
-    pcmNL = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
+    pcmNLCalcul = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
+    pcmNL = Rotation(AngRot, pcmNLCalcul);
+    pcmNL = pcmNL + posNL;
     disp('centre de masse syst');
     disp(pcmNL);
     
@@ -20,7 +22,8 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     propulseurDroit.AjusterInertie(pcmNL);
     
     %Somme de toutes les inerties
-    INL = MomentInertie.InertieSysteme(objets, AngRot);
+    INLCalcul = MomentInertie.InertieSysteme(objets, AngRot);
+    INL = Rotation(AngRot, INLCalcul);
     disp('inertie syst');
     disp(INL);
     
@@ -32,15 +35,6 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     alphaNL = AccelerationAngulaire( AngRot, pcmNL, INL, vangulaire, forces );
     disp('acceleration angulaire');
     disp(alphaNL);
-    
-	
-	if (AngRot ~= 0)
-		% TODO: Cas 2
-	end
-	
-	if (vangulaire ~= 0)
-		% TODO: Cas 2
-	end
     
 end
 

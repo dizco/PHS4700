@@ -8,9 +8,9 @@
 function accelerationAngulaire = AccelerationAngulaire( angRot, cm, momentInertie, vitesseAngulaire, forces)
             %tau(t)
 			%momentDeForce = MomentForce(positionForce, centreDeMasse, force);
-            positionN = [0,0,0] - cm;
-            positionPG = [- (4.2 + 1.855), 3.5 + 4.2, 0] - cm;
-            positionPD = [4.2 + 1.855, 3.5 + 4.2, 0] - cm;
+            positionN = [0;0;0] - cm;
+            positionPG = [- (4.2 + 1.855); 3.5 + 4.2; 0] - cm;
+            positionPD = [4.2 + 1.855; 3.5 + 4.2; 0] - cm;
              
             momentForceN = MomentForce(positionN, [0; 0; forces(1)]);
             momentForcePG = MomentForce(positionPG, [0; 0; forces(2)]);
@@ -23,7 +23,7 @@ function accelerationAngulaire = AccelerationAngulaire( angRot, cm, momentInerti
             
             %Matrice de rotation
             RotX = [1, 0, 0; 0, cos(angRot), -sin(angRot); 0, sin(angRot), cos(angRot)];
-            momentsRot = RotX * transpose(momentTotal);
+            momentsRot = RotX * momentTotal;
             
             %a(t) = I(t)^-1 * (tau(t) + L(t) x omega(t)
             %accelerationAngulaire = inv(momentInertie) * (momentDeForce + cross(momentCinetique, vitesseAngulaire));
