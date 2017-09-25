@@ -6,7 +6,7 @@ classdef MomentInertie
             inertie = [1, 0, 0 ;0, 1, 0;0, 0, 1];
             
             %Ic,xx = m(12r^2+3h^2)/80
-            Ic_xx = masse * (((12 * (rayon^2) + 3 * (hauteur^2))) / 80)
+            Ic_xx = masse * (((12 * (rayon^2) + 3 * (hauteur^2))) / 80);
                 
             %Ic,yy = %Ic,xx = m(12r^2+3h^2)/80
             Ic_yy = Ic_xx;

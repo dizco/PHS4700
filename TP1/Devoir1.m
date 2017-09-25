@@ -6,11 +6,13 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     masses = [ navette.Masse; reservoir.Masse; propulseurGauche.Masse; propulseurDroit.Masse ];
     objets = [ navette; reservoir; propulseurGauche; propulseurDroit ];
     
-    disp('centres de masse');
-    disp(centresDeMasse);
+    %disp('centres de masse');
+    %disp(centresDeMasse);
     
-    pcmNL = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
-    disp('centre de masse syst');
+    pcmNLCalcul = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
+    pcmNLCalcul = pcmNLCalcul + transpose(posNL);
+    pcmNL = Rotation(AngRot, pcmNLCalcul);
+    disp('pcmNL (Centre de masse du système navette-lanceur) = ');
     disp(pcmNL);
     
     %Ajustement de l'inertie par rapport au centre de masse
@@ -20,8 +22,9 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     propulseurDroit.AjusterInertie(pcmNL);
     
     %Somme de toutes les inerties
-    INL = MomentInertie.InertieSysteme(objets, AngRot);
-    disp('inertie syst');
+    INLCalcul = MomentInertie.InertieSysteme(objets, AngRot);
+    INL = Rotation(AngRot, INLCalcul);
+    disp('INL (Inertie du système navette-lanceur) = ');
     disp(INL);
     
     
@@ -30,7 +33,7 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
    
     
     alphaNL = AccelerationAngulaire( AngRot, pcmNL, INL, vangulaire, forces );
-    disp('acceleration angulaire');
+    disp('alphaNL (acceleration angulaire) = ');
     disp(alphaNL);
     
 	
