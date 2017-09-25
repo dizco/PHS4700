@@ -12,8 +12,6 @@ function accelerationAngulaire = AccelerationAngulaire( angRot, cm, momentInerti
             positionPG = [- (4.2 + 1.855); 3.5 + 4.2; 0] - cm;
             positionPD = [4.2 + 1.855; 3.5 + 4.2; 0] - cm;
             
-            disp(positionN);
-            
             momentForceN = MomentForce(positionN, [0; 0; forces(1)]);
             momentForcePG = MomentForce(positionPG, [0; 0; forces(2)]);
             momentForcePD = MomentForce(positionPD, [0; 0; forces(3)]);
