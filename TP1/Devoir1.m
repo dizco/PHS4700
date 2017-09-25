@@ -6,12 +6,10 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     masses = [ navette.Masse; reservoir.Masse; propulseurGauche.Masse; propulseurDroit.Masse ];
     objets = [ navette; reservoir; propulseurGauche; propulseurDroit ];
     
-    %disp('centres de masse');
-    %disp(centresDeMasse);
-    
     pcmNLCalcul = CentreDeMasse.CentreDeMasseObjets(centresDeMasse, masses);
-    pcmNLCalcul = pcmNLCalcul + transpose(posNL);
-    pcmNL = Rotation(AngRot, pcmNLCalcul);
+  
+    pcmNLCalcul = Rotation(AngRot, pcmNLCalcul);
+    pcmNL = pcmNLCalcul + posNL;
     disp('pcmNL (Centre de masse du système navette-lanceur) = ');
     disp(pcmNL);
     
@@ -28,22 +26,9 @@ function [pcmNL, INL, alphaNL]=Devoir1(AngRot,vangulaire,forces,posNL)
     disp(INL);
     
     
-	%alphaNL = [0,0,0];
-    %alphaNL = AccelerationAngulaire( angRot, momentInertie, vitesseAngulaire, forces)
-   
-    
     alphaNL = AccelerationAngulaire( AngRot, pcmNL, INL, vangulaire, forces );
     disp('alphaNL (acceleration angulaire) = ');
     disp(alphaNL);
-    
-	
-	if (AngRot ~= 0)
-		% TODO: Cas 2
-	end
-	
-	if (vangulaire ~= 0)
-		% TODO: Cas 2
-	end
     
 end
 
