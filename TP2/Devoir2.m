@@ -17,7 +17,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   vbf vecteur vitesse finale du cm de la basse (m/s)
 
 
-	Donnees();
+	systeme = Donnees(rbi);
     
     coup = 3;
     tf = 0;
