@@ -1,4 +1,4 @@
-function systeme = Donnees(cmBalle) 
+function systeme = Donnees(cmBalle, prendreEnCompteFrottement) 
     table = Table();
     table.Normale = [0; 0; 1];
     table.Point = [0; 0; 0.76];
@@ -23,5 +23,12 @@ function systeme = Donnees(cmBalle)
     systeme.Filet = filet;
     systeme.Balle = balle;
     systeme.Sol = sol;
+    acceleration = [0; 0; -9.8];
+    if (prendreEnCompteFrottement)
+        acceleration(1) = -1; % TODO: Calculer frottement visqueux
+        acceleration(2) = -1; % TODO:
+        acceleration(3) = -9; % TODO:
+    end
+    systeme.Acceleration = acceleration;
 
 end

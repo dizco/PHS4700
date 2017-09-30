@@ -17,12 +17,24 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   vbf vecteur vitesse finale du cm de la basse (m/s)
 
 
-	systeme = Donnees(rbi);
+	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
     
     coup = 3;
     tf = 0;
     rbf = [0; 0; 0];
     vbf = [0; 0; 0];
+    
+    
+    % isoler en vitesse x, vitesse y et vitesse z
+    
+    % on peut trouver le temps que ca prend pour se rendre au filet et
+    % évaluer hauteur
+    
+    hauteur = systeme.GetHauteurTable();
+    
+    % Vf = Vi + a * t
+    tempsPourVitesseZNulle = vbi(3) / systeme.Acceleration(3);
+        
     
     
 end
