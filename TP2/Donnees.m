@@ -7,7 +7,7 @@ function systeme = Donnees(cmBalle, prendreEnCompteFrottement)
     filet = Filet();
     filet.Normale = Vecteur(1, 0, 0);
     filet.Point = Vecteur(2.74 / 2, 0, 0.76);
-    filet.Bornes = [-Inf, Inf; -0.1525, 1.6775; 0.76, 0.1525]; % Épaisseur négligeable en X
+    filet.Bornes = [-Inf, Inf; -0.1525, 1.83 - 0.1525; 0.76, 0.76 + 0.1525]; % Épaisseur négligeable en X
     
     balle = Balle();
     balle.CentreDeMasse = Vecteur.CreateFromArray(cmBalle);
