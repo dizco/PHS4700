@@ -11,30 +11,30 @@ classdef Plan < Objet
     methods
         function obj = Plan()
             obj = obj@Objet();
-            obj.Normale = [0; 0; 0];
-            obj.Point = [0; 0; 0; 0];
+            obj.Normale = Vecteur(0, 0, 0);
+            obj.Point = Vecteur(0, 0, 0);
             obj.Bornes = [-Inf, Inf; -Inf, Inf; -Inf, Inf];
         end
         
         function distance = DistanceAuPoint(obj, point)
             % Equation de la distance a un point : (ax + by + cz + d) / sqrt(a^2 + b^2 + c^2)
-            d = -obj.Normale(1) * obj.Point(1) - obj.Normale(2) * obj.Point(2) - obj.Normale(3) * obj.Point(3);
-            distance = (obj.Normale(1) * point(1) + obj.Normale(2) * point(2) + obj.Normale(3) * point(3) + d) / sqrt(obj.Normale(1)^2 + obj.Normale(2)^2 + obj.Normale(3)^2);
+            d = -obj.Normale.X * obj.Point.X - obj.Normale.Y * obj.Point.Y - obj.Normale.Z * obj.Point.Z;
+            distance = (obj.Normale.X * point.X + obj.Normale.Y * point.Y + obj.Normale.Z * point.Z + d) / sqrt(obj.Normale.X^2 + obj.Normale.Y^2 + obj.Normale.Z^2);
         end
         
         function respecteBornes = RespecteBornes(obj, point)
             % Indique si le point donné est contenu à l'intérieur des bornes du plan
             
             respecteBornes = true;
-            if (obj.Bornes(1, 1) > point(1) || obj.Bornes(1, 2) < point(1))
+            if (obj.Bornes(1, 1) > point.X || obj.Bornes(1, 2) < point.X)
                 respecteBornes = false;
             end
             
-            if (obj.Bornes(2, 1) > point(2) || obj.Bornes(2, 2) < point(2))
+            if (obj.Bornes(2, 1) > point.Y || obj.Bornes(2, 2) < point.Y)
                 respecteBornes = false;
             end
             
-            if (obj.Bornes(3, 1) > point(3) || obj.Bornes(3, 2) < point(3))
+            if (obj.Bornes(3, 1) > point.Z || obj.Bornes(3, 2) < point.Z)
                 respecteBornes = false;
             end
         end
@@ -44,15 +44,15 @@ classdef Plan < Objet
             % La tolerance sert lorsqu'on a une balle et que le point fourni est le centre de masse
             
             respecteBornes = true;
-            if (obj.Bornes(1, 1) > (point(1) + tolerance) || obj.Bornes(1, 2) < (point(1) - tolerance))
+            if (obj.Bornes(1, 1) > (point.X + tolerance) || obj.Bornes(1, 2) < (point.X - tolerance))
                 respecteBornes = false;
             end
             
-            if (obj.Bornes(2, 1) > (point(2) + tolerance) || obj.Bornes(2, 2) < (point(2) - tolerance))
+            if (obj.Bornes(2, 1) > (point.Y + tolerance) || obj.Bornes(2, 2) < (point.Y - tolerance))
                 respecteBornes = false;
             end
             
-            if (obj.Bornes(3, 1) > (point(3) + tolerance) || obj.Bornes(3, 2) < (point(3) - tolerance))
+            if (obj.Bornes(3, 1) > (point.Z + tolerance) || obj.Bornes(3, 2) < (point.Z - tolerance))
                 respecteBornes = false;
             end
         end

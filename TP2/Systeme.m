@@ -9,11 +9,11 @@ classdef Systeme < handle
     
     methods
         function obj = Systeme()
-            obj.Acceleration = [0; 0; 0];
+            obj.Acceleration = Vecteur(0, 0, 0);
         end
         
         function hauteur = GetHauteurTable(obj)
-            hauteur = obj.Table.Point(3);
+            hauteur = obj.Table.Point.Z;
         end
     end
 end
