@@ -23,11 +23,10 @@ function systeme = Donnees(cmBalle, prendreEnCompteFrottement)
     systeme.Filet = filet;
     systeme.Balle = balle;
     systeme.Sol = sol;
-    acceleration = Vecteur(0, 0, -9.8);
+    
+    acceleration = Force.gravitationel(systeme.Balle);
     if (prendreEnCompteFrottement)
-        acceleration.X = -1; % TODO: Calculer frottement visqueux
-        acceleration.Y = -1; % TODO:
-        acceleration.Z = -9; % TODO:
+        acceleration = acceleration + Force.frottementVisqueux(obj);
     end
     systeme.Acceleration = acceleration;
 

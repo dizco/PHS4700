@@ -11,7 +11,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   coup 0 si coup reussi, 
 %        1 si atterit cote joueur qui frappe en premier,
 %        2 si frappe filet en premier,
-%        3 si touche sol en premier
+%        3 si touche sol en premier (hors des bornes)
 %   tf temps de la fin de la simulation (s)
 %   rbf vecteur positions finales du cm de la balle (m)
 %   vbf vecteur vitesse finale du cm de la balle (m/s)
@@ -27,8 +27,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     tf = 0;
     rbf = [0; 0; 0];
     vbf = [0; 0; 0];
-    
-    
     
     
     % Vf = Vi + a * delta_t
