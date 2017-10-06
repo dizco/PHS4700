@@ -5,23 +5,23 @@ classdef Force
     % Option 3: Force de Magnus
     
     methods(Static)
-        function f = gravitationnel(obj)
+        function f = gravitationnel(masse)
             %Formule de la force gravitationnel
-            f = [0; 0; obj.Masse * -9.81];
+            f = [0; 0; masse * -9.81];
         end
         
-        function f = frottementVisqueux(obj)
+        function f = frottementVisqueux(rayon, vitesse)
             %Formule du frottement visqueux
             cAire = 0.5;
             p = 1.2;
-            f = - pi * (2 * obj.Rayon) ^ 2 / 8 * p * cAire * norm(obj.Vitesse) * obj.Vitesse;
+            f = - pi * (2 * rayon) ^ 2 / 8 * p * cAire * norm(vitesse) * vitesse;
         end
         
-        function f = magnus(obj)
+        function f = magnus(rayon, vitesseAngulaire, vitesse)
             %Formule du frottement visqueux
             coefficientDeMagnus = 0.29;
             p = 1.2;
-            f = (4 * pi * ((obj.Rayon)^3) * p * coefficientDeMagnus * cross(obj.VitesseAngulaire, obj.Vitesse)); 
+            f = (4 * pi * ((rayon)^3) * p * coefficientDeMagnus * cross(vitesseAngulaire, vitesse)); 
         end
         
     end
