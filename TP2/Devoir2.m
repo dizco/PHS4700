@@ -8,7 +8,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   vbi vecteur vitesse initiale du cm de la balle (m/s)
 %   wbi vecteur vitesse angulaire de la balle autour de son cm (rad/s)
 %   OUTPUT
-%   coup 0 si coup reussi, 
+%   coup 0 si coup reussi (atterit sur la table du côté opposé au filet), 
 %        1 si atterit cote joueur qui frappe en premier,
 %        2 si frappe filet en premier,
 %        3 si touche sol en premier (hors des bornes)
