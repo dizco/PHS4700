@@ -5,7 +5,7 @@ classdef Force
     % Option 3: Force de Magnus
     
     methods(Static)
-        function f = gravitationnel(masse)
+        function f = gravitationel(masse)
             %Formule de la force gravitationnel
             f = [0; 0; masse * -9.81];
         end

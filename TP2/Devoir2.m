@@ -20,6 +20,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
     vitesseInitialeBalle = Vecteur.CreateFromArray(vbi);
+    vitesseAngulaireInitialeBalle = Vecteur.CreateFromArray(wbi);
     
     %etape1 = Etape(Vecteur.CreateFromArray(rbi), Vecteur.CreateFromArray(vbi));
     
@@ -28,8 +29,9 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     rbf = [0; 0; 0];
     vbf = [0; 0; 0];
     
-    
     % Vf = Vi + a * delta_t
+
+    %tempsPourVitesseZNulle = -vitesseInitialeBalle.Z / systeme.Acceleration.Z;
     tempsPourVitesseZNulle = -vitesseInitialeBalle.Z / systeme.Acceleration.Z;
     disp('temps vitesse nulle');
     disp(tempsPourVitesseZNulle);

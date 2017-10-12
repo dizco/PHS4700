@@ -24,7 +24,7 @@ function systeme = Donnees(cmBalle, prendreEnCompteFrottement)
     systeme.Balle = balle;
     systeme.Sol = sol;
     
-    acceleration = Force.gravitationel(systeme.Balle.Masse);
+    acceleration = Vecteur(0, 0, -9.8);%Force.gravitationel(systeme.Balle.Masse);
     if (prendreEnCompteFrottement)
         acceleration = acceleration + Force.frottementVisqueux(systeme.Balle.Rayon, system.Balle.Vitesse);
     end
