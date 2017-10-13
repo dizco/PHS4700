@@ -130,20 +130,20 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 end
 
 function dessinerSimulationVisuelle()
-    grid on;
-    A = 6;
-    B = 4;
-    C = 3;
-    D = 2;
-
-    x = [1 -1 -1 1];
-    y = [1 1 -1 -1];
-    z = -1/C*(A*x + B*y + D); 
+    grid on; %pour un décor quadrillé
+    
     %table verte
-    patch([0 2.74 2.74 0], [0 0 1.525 1.525], [0.76 0.76 0.76 0.76], [0  0.5  0]);
-    %filet jaune 0.9125
-    patch([1.37 1.37 1.37 1.37], [-0.1525 -0.1525 1.6775 1.6775], [0.76 0.9125 0.9125 0.76], [0.8 0.8 0]);
-    %patch([1 -1 -1 1], [1 1 -1 -1], [0 0 0 0], [1 1 -1 -1])  
+    vertFonce = [0  0.5  0]; 
+    longueurTable = 2.74; largeurTable = 1.525; hauteurTable = 0.76;
+    
+    patch([0, longueurTable, longueurTable, 0], [0, 0, largeurTable, largeurTable], [hauteurTable, hauteurTable, hauteurTable, hauteurTable], vertFonce);
+    %filet jaune
+    jauneFonce = [0.8 0.8 0];
+    hauteurFilet = 0.1525 + hauteurTable;
+    xFilet = longueurTable/2;
+    yDebordementFiletNegatif = -0.1525;
+    yDebordementFiletPositif = 1.6775;
+    patch([xFilet, xFilet, xFilet, xFilet], [yDebordementFiletNegatif, yDebordementFiletNegatif, yDebordementFiletPositif, yDebordementFiletPositif], [hauteurTable, hauteurFilet, hauteurFilet, hauteurTable], jauneFonce); 
 
 end
 
