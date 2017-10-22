@@ -4,8 +4,8 @@ classdef Balle < Objet
         CentreDeMasse
         Masse
         Rayon
-        Vitesse
-        VitesseAngulaire
+        %Vitesse
+        %VitesseAngulaire
     end
     
     methods
@@ -14,8 +14,8 @@ classdef Balle < Objet
             obj.CentreDeMasse = Vecteur(0, 0, 0);
             obj.Masse = 0;
             obj.Rayon = 0;
-            obj.Vitesse = Vecteur(0, 0, 0);
-            obj.VitesseAngulaire = Vecteur(0, 0, 0);
+            %obj.Vitesse = Vecteur(0, 0, 0);
+            %obj.VitesseAngulaire = Vecteur(0, 0, 0);
         end
     end
 end
