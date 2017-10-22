@@ -16,46 +16,42 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   rbf vecteur positions finales du cm de la balle (m)
 %   vbf vecteur vitesse finale du cm de la balle (m/s)
 
-    
 	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
     dessinerSimulationVisuelle();
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
     vitesseInitialeBalle = Vecteur.CreateFromArray(vbi);
     vitesseAngulaireInitialeBalle = Vecteur.CreateFromArray(wbi);
     
+    pas = 0.0001; %variation de temps à chaque itération
+    
     coup = 3;
     tf = 0;
     rbf = [0; 0; 0];
     vbf = [0; 0; 0];
     
-    pas = 0.01;    
-    
     positionsX = [];
     positionsY = [];
     positionsZ = [];
     
-    n = 0;
+    tempsEcoule = 0;
     
     qs = [vbi(1) vbi(2) vbi(3) rbi(1) rbi(2) rbi(3)];
-    
     while 1 %Loop infinie jusqu'à collision
         
-        qs = SEDRK4(qs, 0, n * pas, 'g1');
-
-        disp(qs);
+        qs = SEDRK4(qs, 0, tempsEcoule + pas, 'g1');
+        
         positionBalle = Vecteur.CreateFromArray([qs(4) qs(5) qs(6)]);
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
         if (c ~= 0)
             coup = c;
-            tf = n * pas;
-            rbf = qs;
+            tf = tempsEcoule + pas;
+            rbf = positionBalle.GetHorizontalArray();
             break;
         end
         
-        if (n > 15) %TODO: Remove
-            disp('too many iterations');
-            disp(c);
+        if (tempsEcoule > 10) %TODO: Remove
+            disp('Error: Too many iterations. Simulation ended.');
             break;
         end
         
@@ -63,12 +59,13 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
         positionsY(end + 1) = positionBalle.Y;
         positionsZ(end + 1) = positionBalle.Z;
 
-        n = n + 1;
+        tempsEcoule = tempsEcoule + pas;
     end
     
-    patch(positionsX, positionsY, positionsZ, 'red');
+    hold on;
+    plot3(positionsX, positionsY, positionsZ);
     
-    disp('rk4');
+    disp('position finale');
     disp(rbf);
 
 end
