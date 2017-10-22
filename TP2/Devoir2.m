@@ -15,7 +15,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   tf temps de la fin de la simulation (s)
 %   rbf vecteur positions finales du cm de la balle (m)
 %   vbf vecteur vitesse finale du cm de la balle (m/s)
-
+ 
 	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
     dessinerSimulationVisuelle();
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
@@ -72,6 +72,9 @@ end
 
 function dessinerSimulationVisuelle()
     grid on; %pour un décor quadrillé
+    xlabel('X');
+    ylabel('Y');
+    zlabel('Z');
     
     %table verte
     vertFonce = [0  0.5  0]; 
