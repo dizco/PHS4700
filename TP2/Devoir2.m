@@ -34,14 +34,16 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     positionsY = [];
     positionsZ = [];
     
-    n = 0; 
+    n = 0;
+    
+    qs = [vbi(1) vbi(2) vbi(3) rbi(1) rbi(2) rbi(3)];
+    
     while 1 %Loop infinie jusqu'à collision
-        qs = SEDRK4(positionInitialeBalle.GetHorizontalArray(), 0, n * pas, 'g1');
+        
+        qs = SEDRK4(qs, 0, n * pas, 'g1');
 
-        positionBalle = Vecteur.CreateFromArray(qs);
-        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
-        positionsY(end + 1) = positionBalle.Y;
-        positionsZ(end + 1) = positionBalle.Z;
+        disp(qs);
+        positionBalle = Vecteur.CreateFromArray([qs(4) qs(5) qs(6)]);
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
         if (c ~= 0)
@@ -51,9 +53,15 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
             break;
         end
         
-        if (n > 100) %TODO: Remove
+        if (n > 15) %TODO: Remove
+            disp('too many iterations');
+            disp(c);
             break;
         end
+        
+        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
+        positionsY(end + 1) = positionBalle.Y;
+        positionsZ(end + 1) = positionBalle.Z;
 
         n = n + 1;
     end

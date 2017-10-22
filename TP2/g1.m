@@ -9,4 +9,4 @@ function g = g1 (q0, t0)
 a = [0; 0; -9.8]; %TODO: Calculer accélération
 %g = [q0(1) q0(2) q0(3)]; %TODO: Appliquer ici gravité
 
-g =[q0(1) q0(2) q0(3)+a(3) * t0];
+g = [0 0 -9.8 q0(1) q0(2) q0(3)];
