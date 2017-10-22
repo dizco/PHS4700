@@ -22,7 +22,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     vitesseInitialeBalle = Vecteur.CreateFromArray(vbi);
     vitesseAngulaireInitialeBalle = Vecteur.CreateFromArray(wbi);
     
-    pas = 0.0001; %variation de temps à chaque itération
+    pas = 0.00001; %variation de temps à chaque itération
     
     coup = 3;
     tf = 0;
@@ -41,6 +41,9 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
         qs = SEDRK4(qs, 0, tempsEcoule + pas, 'g1');
         
         positionBalle = Vecteur.CreateFromArray([qs(4) qs(5) qs(6)]);
+        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
+        positionsY(end + 1) = positionBalle.Y;
+        positionsZ(end + 1) = positionBalle.Z;
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
         if (c ~= 0)
@@ -54,10 +57,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
-        
-        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
-        positionsY(end + 1) = positionBalle.Y;
-        positionsZ(end + 1) = positionBalle.Z;
 
         tempsEcoule = tempsEcoule + pas;
     end
@@ -85,6 +84,9 @@ function dessinerSimulationVisuelle()
     yDebordementFiletNegatif = -0.1525;
     yDebordementFiletPositif = 1.6775;
     patch([xFilet, xFilet, xFilet, xFilet], [yDebordementFiletNegatif, yDebordementFiletNegatif, yDebordementFiletPositif, yDebordementFiletPositif], [hauteurTable, hauteurFilet, hauteurFilet, hauteurTable], jauneFonce); 
+    
+    %axis equal;
+    view([0, 0, hauteurTable * 2]);
 end
 
 function coup = etatCollision(systeme, positionDepart, positionBalle)
