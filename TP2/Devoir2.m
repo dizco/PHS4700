@@ -16,6 +16,14 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   rbf vecteur positions finales du cm de la balle (m)
 %   vbf vecteur vitesse finale du cm de la balle (m/s)
 
+    fonctionG = 'g1';
+    if (option == 2)
+        fonctionG = 'g2';
+    end
+    if (option == 3)
+        fonctionG = 'g3';
+    end
+
 	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
     dessinerSimulationVisuelle();
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
@@ -38,7 +46,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     qs = [vbi(1) vbi(2) vbi(3) rbi(1) rbi(2) rbi(3)];
     while 1 %Loop infinie jusqu'à collision
         
-        qs = SEDRK4(qs, 0, tempsEcoule + pas, 'g1');
+        qs = SEDRK4(qs, 0, tempsEcoule + pas, fonctionG);
         
         positionBalle = Vecteur.CreateFromArray([qs(4) qs(5) qs(6)]);
         positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
@@ -50,6 +58,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
             coup = c;
             tf = tempsEcoule + pas;
             rbf = positionBalle.GetHorizontalArray();
+            vbf = qs(1, 1:3);
             break;
         end
         
