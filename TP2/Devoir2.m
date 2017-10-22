@@ -62,7 +62,8 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
         tempsEcoule = tempsEcoule + pas;
     end
     
-    patch(positionsX, positionsY, positionsZ, 'red');
+    hold on;
+    plot3(positionsX, positionsY, positionsZ);
     
     disp('position finale');
     disp(rbf);
