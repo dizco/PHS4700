@@ -5,7 +5,7 @@ classdef Balle < Objet
         Masse
         Rayon
         %Vitesse
-        %VitesseAngulaire
+        VitesseAngulaire
     end
     
     methods
