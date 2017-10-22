@@ -15,14 +15,13 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 %   tf temps de la fin de la simulation (s)
 %   rbf vecteur positions finales du cm de la balle (m)
 %   vbf vecteur vitesse finale du cm de la balle (m/s)
- 
-	systeme = Donnees(rbi, option ~= 1); % Prendre en compte frottement sauf avec option 1
+	systeme = Donnees(rbi, wbi); % Prendre en compte frottement sauf avec option 1
     dessinerSimulationVisuelle();
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
     vitesseInitialeBalle = Vecteur.CreateFromArray(vbi);
     vitesseAngulaireInitialeBalle = Vecteur.CreateFromArray(wbi);
     
-    pas = 0.0001; %variation de temps à chaque itération
+    pas = 0.00001; %variation de temps à chaque itération
     
     coup = 3;
     tf = 0;
@@ -38,9 +37,12 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     qs = [vbi(1) vbi(2) vbi(3) rbi(1) rbi(2) rbi(3)];
     while 1 %Loop infinie jusqu'à collision
         
-        qs = SEDRK4(qs, 0, tempsEcoule + pas, 'g1');
+        qs = SEDRK4(qs, 0, tempsEcoule + pas, 'g3', systeme.Balle);
         
         positionBalle = Vecteur.CreateFromArray([qs(4) qs(5) qs(6)]);
+        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
+        positionsY(end + 1) = positionBalle.Y;
+        positionsZ(end + 1) = positionBalle.Z;
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
         if (c ~= 0)
@@ -54,10 +56,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
-        
-        positionsX(end + 1) = positionBalle.X; %Push positions pour affichage
-        positionsY(end + 1) = positionBalle.Y;
-        positionsZ(end + 1) = positionBalle.Z;
 
         tempsEcoule = tempsEcoule + pas;
     end
@@ -93,6 +91,9 @@ function dessinerSimulationVisuelle()
     yDebordementFiletNegatif = -0.1525;
     yDebordementFiletPositif = 1.6775;
     patch([xFilet, xFilet, xFilet, xFilet], [yDebordementFiletNegatif, yDebordementFiletNegatif, yDebordementFiletPositif, yDebordementFiletPositif], [hauteurTable, hauteurFilet, hauteurFilet, hauteurTable], jauneFonce); 
+    
+    %axis equal;
+    view([0, 0, hauteurTable * 2]);
 end
 
 function coup = etatCollision(systeme, positionDepart, positionBalle)
