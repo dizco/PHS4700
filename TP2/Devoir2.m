@@ -63,8 +63,13 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     end
     
     hold on;
+    legende = int2str(option);
+    legende = 'option '+ legende;
     plot3(positionsX, positionsY, positionsZ);
-    
+    %legend(trajetBalle, legende, 'Location', 'northeast', 'AutoUpdate','off');
+    %legend = {'gravity only', 'viscosity and gravity', 'Magnus, viscosity and gravity'};
+    %h = findobj(gca,'Type','line');
+    %legend(h, legend, 'Location', 'northeast', 'AutoUpdate','off');
     disp('position finale');
     disp(rbf);
 

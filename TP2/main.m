@@ -12,7 +12,7 @@ disp('---- ESSAI 1 ----');
 title('Essai 1');
 for i = 1:3
     fprintf('---- OPTION %d ----\n', i);
-    [coup, tf, rbf, vbf] = Devoir2(i, [0; 0.5; 1.1], [4; 0; 0.8], [0; -70; 0]);  
+    [coup, tf, rbf, vbf] = Devoir2(i, [0; 0.5; 1.1], [4; 0; 0.8], [0; -70; 0]);
 end
 disp('==========');
 fprintf('\n');
