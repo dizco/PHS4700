@@ -120,8 +120,8 @@ function coup = etatCollision(systeme, positionDepart, positionBalle)
         distInitiale = systeme.Filet.DistanceAuPoint(positionDepart);
         distFinale = systeme.Filet.DistanceAuPoint(positionBalle);
         
-        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0)) %point dï¿½part et point de fin du mï¿½me cï¿½tï¿½ du filet
-            coup = 1; %frappe cï¿½tï¿½ du joueur qui a frappï¿½ en premier
+        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0)) %point départ et point de fin du même côté du filet
+            coup = 1; %frappe côté du joueur qui a frappé en premier
         else
             coup = 0;
         end
