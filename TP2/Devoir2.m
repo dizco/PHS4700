@@ -54,7 +54,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
         positionsZ(end + 1) = positionBalle.Z;
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
-        if (c ~= 0)
+        if (c ~= -1)
             coup = c;
             tf = tempsEcoule + pas;
             rbf = positionBalle.GetHorizontalArray();
@@ -122,10 +122,10 @@ function coup = etatCollision(systeme, positionDepart, positionBalle)
         distInitiale = systeme.Filet.DistanceAuPoint(positionDepart);
         distFinale = systeme.Filet.DistanceAuPoint(positionBalle);
         
-        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0))
-            coup = 1;
+        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0)) %point dï¿½part et point de fin du mï¿½me cï¿½tï¿½ du filet
+            coup = 1; %frappe cï¿½tï¿½ du joueur qui a frappï¿½ en premier
         else
-            coup = 2;
+            coup = 0;
         end
         return;
     end
@@ -138,7 +138,7 @@ function coup = etatCollision(systeme, positionDepart, positionBalle)
     end
     
     % Étape 4
-    coup = 0;
+    coup = -1; %Aucune collision
 
 end
 
