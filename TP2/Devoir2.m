@@ -78,8 +78,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     %legend = {'gravity only', 'viscosity and gravity', 'Magnus, viscosity and gravity'};
     %h = findobj(gca,'Type','line');
     %legend(h, legend, 'Location', 'northeast', 'AutoUpdate','off');
-    disp('position finale');
-    disp(rbf);
 
 end
 
