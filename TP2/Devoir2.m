@@ -70,21 +70,17 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     end
     
     numeroOption = num2str(option);
-    optionPlot = strcat('option ', numeroOption);
-    hold on;
-    plot = plot3(positionsX, positionsY, positionsZ);
-    legend([plot], optionPlot);
-    hold off;
-    dessinerSimulationVisuelle();
+    nom = strcat('option ', numeroOption);
+    dessinerSimulationVisuelle(positionsX, positionsY, positionsZ, nom);
 end
 
-function dessinerSimulationVisuelle()    
+function dessinerSimulationVisuelle(positionsX, positionsY, positionsZ, nom)    
     %table verte
     vertFonce = [0.4392 0.7961 0.4941];
     longueurTable = 2.74; largeurTable = 1.525; hauteurTable = 0.76;
     
     patch([0, longueurTable, longueurTable, 0], [0, 0, largeurTable, largeurTable], [hauteurTable, hauteurTable, hauteurTable, hauteurTable], vertFonce);
-
+    
     %filet jaune
     jauneFonce = [0.8 0.8 0];
     hauteurFilet = 0.1525 + hauteurTable;
@@ -92,15 +88,20 @@ function dessinerSimulationVisuelle()
     yDebordementFiletNegatif = -0.1525;
     yDebordementFiletPositif = 1.6775;
     patch([xFilet, xFilet, xFilet, xFilet], [yDebordementFiletNegatif, yDebordementFiletNegatif, yDebordementFiletPositif, yDebordementFiletPositif], [hauteurTable, hauteurFilet, hauteurFilet, hauteurTable], jauneFonce); 
-
+    
     grid on; %pour un décor quadrillé
     xlabel('X');
-    xlim([0 4]);
+    xlim([-0.5 5.5]);
     ylabel('Y');
-    ylim([0 2.5]);
+    ylim([-1 3]);
     zlabel('Z');
-    zlim([0 1.5]);
+    zlim([0 1.6]);
     view([-1, -1, hauteurTable * 1.5]);
+    
+    hold on;
+    plot = plot3(positionsX, positionsY, positionsZ);
+    legend(plot, {nom});
+    hold off;
 end
 
 function coup = etatCollision(systeme, positionDepart, positionBalle)
