@@ -25,7 +25,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     end
 
 	systeme = Donnees(rbi, wbi);
-    dessinerSimulationVisuelle();
     positionInitialeBalle = Vecteur.CreateFromArray(rbi);
     vitesseInitialeBalle = Vecteur.CreateFromArray(vbi);
     vitesseAngulaireInitialeBalle = Vecteur.CreateFromArray(wbi);
@@ -71,9 +70,13 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     end
     
     hold on;
-    legende = int2str(option);
-    legende = 'option '+ legende;
-    plot3(positionsX, positionsY, positionsZ);
+    %legende = int2str(option);
+    %legende = "option" + legende;
+    plot = plot3(positionsX, positionsY, positionsZ);
+    hold on;
+    legend(plot(option), option);
+    hold on;
+    dessinerSimulationVisuelle();
     %legend(trajetBalle, legende, 'Location', 'northeast', 'AutoUpdate','off');
     %legend = {'gravity only', 'viscosity and gravity', 'Magnus, viscosity and gravity'};
     %h = findobj(gca,'Type','line');
@@ -84,6 +87,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
 end
 
 function dessinerSimulationVisuelle()
+    hold on;
     grid on; %pour un décor quadrillé
     xlabel('X');
     ylabel('Y');
@@ -94,6 +98,7 @@ function dessinerSimulationVisuelle()
     longueurTable = 2.74; largeurTable = 1.525; hauteurTable = 0.76;
     
     patch([0, longueurTable, longueurTable, 0], [0, 0, largeurTable, largeurTable], [hauteurTable, hauteurTable, hauteurTable, hauteurTable], vertFonce);
+    hold on;
     %filet jaune
     jauneFonce = [0.8 0.8 0];
     hauteurFilet = 0.1525 + hauteurTable;
@@ -101,7 +106,7 @@ function dessinerSimulationVisuelle()
     yDebordementFiletNegatif = -0.1525;
     yDebordementFiletPositif = 1.6775;
     patch([xFilet, xFilet, xFilet, xFilet], [yDebordementFiletNegatif, yDebordementFiletNegatif, yDebordementFiletPositif, yDebordementFiletPositif], [hauteurTable, hauteurFilet, hauteurFilet, hauteurTable], jauneFonce); 
-    
+    hold on;
     %axis equal;
     view([0, 0, hauteurTable * 2]);
 end
