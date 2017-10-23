@@ -12,7 +12,6 @@
         accelerationGravitationnelle = [0, 0, -9.8];
         accelerationVisqueux = (- rho * C * aire / 2 * norm(q0(1,1:3)) * q0(1,1:3)) / masse;
         accelerationMagnus = (4 * pi * ((rayon)^3) * coefficientDeMagnus * rho * cross(balle.VitesseAngulaire, q0(1,4:6))) / masse;
-        disp(accelerationMagnus);
         accelerationTotale = accelerationGravitationnelle + accelerationVisqueux + accelerationMagnus;
          g = [accelerationTotale(1) accelerationTotale(2) accelerationTotale(3) q0(1) q0(2) q0(3)];
     end

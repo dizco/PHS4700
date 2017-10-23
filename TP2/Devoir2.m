@@ -53,7 +53,7 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
         positionsZ(end + 1) = positionBalle.Z;
         
         c = etatCollision(systeme, positionInitialeBalle, positionBalle);
-        if (c ~= 0)
+        if (c ~= -1)
             coup = c;
             tf = tempsEcoule + pas;
             rbf = positionBalle.GetHorizontalArray();
@@ -81,8 +81,6 @@ function [coup, tf, rbf, vbf] = Devoir2(option, rbi, vbi, wbi)
     %legend = {'gravity only', 'viscosity and gravity', 'Magnus, viscosity and gravity'};
     %h = findobj(gca,'Type','line');
     %legend(h, legend, 'Location', 'northeast', 'AutoUpdate','off');
-    disp('position finale');
-    disp(rbf);
 
 end
 
@@ -127,10 +125,10 @@ function coup = etatCollision(systeme, positionDepart, positionBalle)
         distInitiale = systeme.Filet.DistanceAuPoint(positionDepart);
         distFinale = systeme.Filet.DistanceAuPoint(positionBalle);
         
-        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0))
-            coup = 1;
+        if ((distInitiale < 0 && distFinale < 0) || (distInitiale > 0 && distFinale > 0)) %point départ et point de fin du même côté du filet
+            coup = 1; %frappe côté du joueur qui a frappé en premier
         else
-            coup = 2;
+            coup = 0;
         end
         return;
     end
@@ -143,7 +141,7 @@ function coup = etatCollision(systeme, positionDepart, positionBalle)
     end
     
     % Étape 4
-    coup = 0;
+    coup = -1; %Aucune collision
 
 end
 
