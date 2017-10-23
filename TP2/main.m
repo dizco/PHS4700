@@ -15,6 +15,8 @@ for i = 1:3
     [coup, tf, rbf, vbf] = Devoir2(i, [0; 0.5; 1.1], [4; 0; 0.8], [0; -70; 0]);
     print(coup, tf, rbf, vbf);
 end
+savefig('essai1.fig');
+saveas(gcf, 'essai1.jpg');
 disp('==========');
 fprintf('\n');
 
@@ -27,6 +29,8 @@ for i = 1:3
     [coup, tf, rbf, vbf] = Devoir2(i, [0; 0.4; 1.14], [10; 1; 0.2], [0; 100; -50]);
     print(coup, tf, rbf, vbf);
 end
+savefig('essai2.fig');
+saveas(gcf, 'essai2.jpg');
 disp('==========');
 fprintf('\n'); 
 
@@ -39,6 +43,8 @@ for i = 1:3
     [coup, tf, rbf, vbf] = Devoir2(i, [2.74; 0.5; 1.14], [-5; 0; 0.2], [0; 100; 0]);
     print(coup, tf, rbf, vbf);
 end
+savefig('essai3.fig');
+saveas(gcf, 'essai3.jpg');
 disp('==========');
 fprintf('\n'); 
 
@@ -51,6 +57,8 @@ for i = 1:3
     [coup, tf, rbf, vbf] = Devoir2(i, [0; 0.3; 1], [10; -2; 0.2], [0; 10; -100]);
     print(coup, tf, rbf, vbf);
 end
+savefig('essai4.fig');
+saveas(gcf, 'essai4.jpg');
 disp('==========');
 fprintf('\n'); 
 
