@@ -36,6 +36,10 @@ figure;
 print(Coll, tf, raf, vaf, rbf, vbf);
 
 
+
+
+
+
 function print(Coll, tf, raf, vaf, rbf, vbf)
     disp('-----');
     fprintf('Collision = %s\n', stringCollision(Coll));
