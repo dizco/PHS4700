@@ -4,6 +4,11 @@ classdef Auto < Objet
         Longueur
         Largeur
         Hauteur
+        Vitesse
+        VitesseAngulaire
+        %Angle
+        %Acceleration
+        
     end
     
     methods 
