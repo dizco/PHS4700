@@ -50,6 +50,8 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         
         positionA = Vecteur.CreateFromArray([qs(3) qs(4)]);
         positionB = Vecteur.CreateFromArray([qs(3) qs(4)]);
+        print(positionA);
+        print(positionB);
         positionsA(end + 1) = positionA.X; %Push positions pour affichage
         positionsA(end + 1) = positionA.Y;
         positionsB(end + 1) = positionB.X; %Push positions pour affichage
@@ -70,19 +72,21 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
 
         tempsEcoule = tempsEcoule + pas;
     end
+    print('Simulation');
     
     dessinerSimulationVisuelle(positionsA, positionsB);
 end
 
 function dessinerSimulationVisuelle(positionsA, positionsB)    
     grid on; %pour un décor quadrillé
-    xlabel('X');
-    xlim([0 100]);
-    ylabel('Y');
-    ylim([-20 80]);
+    xlabel('X (m)');
+    xlim([-2 102]);
+    ylabel('Y (m)');
+    ylim([-33 46]);
+    rouge = [1 0 0];
+    bleu = [0 0 1];
     
     hold on;
-    %plot = plot3(positionsA(:,1), positionsA(:,2);
     %TODO: Plot A
     %TODO: Plot B
     %legend(plot, {nom});

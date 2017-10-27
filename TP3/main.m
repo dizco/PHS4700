@@ -35,7 +35,6 @@ figure;
 [Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 2 2], [100 10], [10 0 5], 1.0);
 print(Coll, tf, raf, vaf, rbf, vbf);
 
-
 function print(Coll, tf, raf, vaf, rbf, vbf)
     disp('-----');
     fprintf('Collision = %s\n', stringCollision(Coll));
