@@ -11,7 +11,7 @@ function systeme = Donnees()
     autoB.Longueur = 4.23;
     autoB.Largeur = 1.6;
     autoB.Hauteur = 1.8;
-
+    
     systeme = Systeme();
     systeme.AutoA = autoA;
     systeme.AutoB = autoB;
