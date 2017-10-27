@@ -6,6 +6,9 @@ classdef Auto < Objet
         Hauteur
         Vitesse
         VitesseAngulaire
+        %Angle
+        %Acceleration
+
     end
     
     methods 
