@@ -1,4 +1,3 @@
-%function [coup, tf, rbf, vbf] = Devoir3(option, rbi, vbi, wbi)
 function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
 
 % DEVOIR3 Executer le devoir3
@@ -24,11 +23,17 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
     pas = 0.0001; %variation de temps à chaque itération
     
+    % Input les vitesses initiales
+    systeme.AutoA.Vitesse = [vai(1) vai(2)];
+    systeme.AutoA.VitesseAngulaire = vai(3);
+    systeme.AutoB.Vitesse = [vbi(1) vbi(2)];
+    systeme.AutoB.VitesseAngulaire = vbi(3);
+    
     tf = 0;
     raf = [0; 0];
-    vaf = [0; 0];
+    vaf = [0; 0; 0]; 
     rbf = [0; 0];
-    vbf = [0; 0];
+    vbf = [0; 0; 0];
     Coll = 1;
     
     positionsA = [];
@@ -87,6 +92,8 @@ end
 function estCollision = etatCollision(autoA, autoB, positionA, positionB)
 
     estCollision = false;
+    
+    
 
 end
 
