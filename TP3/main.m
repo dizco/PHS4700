@@ -6,34 +6,57 @@ close all;
 disp('TP3');
 
 % Tir 1
+figure;
 [Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 % Tir 2
-%[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+figure;
+[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [30 0 2], [100 100], [0 -30 -1], 0.0);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 %Tir 3
-%[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+figure;
+[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 50], [0 -10 0], 1.6);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 % Tir 4
-%[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+figure;
+[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [10 10 1], [25 10], [10 0 0], 0.0);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 %Tir 5
-%[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+figure;
+[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 50], [0 -10 0], 0.0);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 %Tir 6
-%[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
+figure;
+[Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 2 2], [100 10], [10 0 5], 1.0);
+print(Coll, tf, raf, vaf, rbf, vbf);
 
 
+function print(Coll, tf, raf, vaf, rbf, vbf)
+    disp('-----');
+    fprintf('Collision = %s\n', stringCollision(Coll));
+    fprintf('Temps = %d\n', tf);
+    
+    fprintf('PositionA = [%i %i]\n', raf(1), raf(2));
+    fprintf('VitesseA = [%i %i]\n', vaf(1), vaf(2));
+    
+    fprintf('PositionB = [%i %i]\n', rbf(1), rbf(2));
+    fprintf('VitesseB = [%i %i]\n', vbf(1), vbf(2));
+    
+    disp('-----');
+    fprintf('\n');
+end
 
-
-
-function print(coup, tf, rbf, vbf)
-    %fprintf('Coup = %d\n', coup);
-    %fprintf('Temps = %d\n', tf);
-    %disp('Position = ');
-    %disp(rbf);
-    %disp('Vitesse = ');
-    %disp(vbf);
+function str = stringCollision(coll)
+    if (coll == 1)
+        str = 'Faux';
+    else
+        str = 'Vrai';
+    end
 end
 
 
