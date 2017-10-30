@@ -1,4 +1,4 @@
-function g = frottement (q0, auto)
+function g = frottement (q0, t0, auto)
 
     mu = 0;
     masse = auto.Masse; 
@@ -9,8 +9,9 @@ function g = frottement (q0, auto)
         mu = 0.075;
     end
     
-    frottement = - mu * norm(q0(1,1:2)) * masse * 9.8 * (q0(1,1:2)/norm(q0(1,1:2)));
-    g = frottement;
+    %F = ma
+    accelerationFrottement = (- mu * norm(q0(1,1:2)) * masse * 9.8 * (q0(1,1:2)/norm(q0(1,1:2)))) / masse;
+    g = [accelerationFrottement(1) accelerationFrottement(2) q0(1) q0(2)];
 
 end
 

@@ -4,6 +4,7 @@ classdef Auto < Objet
         Longueur
         Largeur
         Hauteur
+        Position
         Vitesse
         VitesseAngulaire
         %Angle
@@ -13,6 +14,7 @@ classdef Auto < Objet
     
     methods 
         function obj = Auto()
+            obj.Position = [0 0];
             obj.Vitesse = [0 0];
             obj.VitesseAngulaire = 0;
         end
