@@ -75,6 +75,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     end
     print('Simulation');
     
+    AutoA = Auto();
     coinsA = getCoinsAutoSansRotation(AutoA, rai)
     dessinerSimulationVisuelle([], [] ,rai, rbi);
 end
