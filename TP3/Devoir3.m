@@ -75,10 +75,11 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     end
     print('Simulation');
     
-    dessinerSimulationVisuelle(positionsA, positionsB);
+    coinsA = getCoinsAutoSansRotation(AutoA, rai)
+    dessinerSimulationVisuelle([], [] ,rai, rbi);
 end
 
-function dessinerSimulationVisuelle(positionsA, positionsB)    
+function dessinerSimulationVisuelle(coinsAjustesA, coinsAjustesB, ra, rb)    
     grid on; %pour un décor quadrillé
     xlabel('X (m)');
     xlim([-2 102]);
@@ -87,6 +88,7 @@ function dessinerSimulationVisuelle(positionsA, positionsB)
     rouge = [1 0 0];
     bleu = [0 0 1];
     
+    patch([],[],[],[]);
     hold on;
     %TODO: Plot A
     %TODO: Plot B
