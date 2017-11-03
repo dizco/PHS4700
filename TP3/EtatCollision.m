@@ -172,22 +172,26 @@ function coinsTranslates = faireTranslationCoins(coins, positionCM)
         coinsTranslates(c,:) = coin + cm;
     end
     
+    AfficherVehicule(coinsTranslates);
+    
+end
+
+function AfficherVehicule(coins)
     hold on;
-    plot(coinsTranslates(1,1),coinsTranslates(1,2),'b.');
+    plot(coins(1,1),coins(1,2),'b.');
     hold on;
-    plot(coinsTranslates(2,1),coinsTranslates(2,2),'b.');
+    plot(coins(2,1),coins(2,2),'b.');
     hold on;
-    plot(coinsTranslates(3,1),coinsTranslates(3,2),'b.');
+    plot(coins(3,1),coins(3,2),'b.');
     hold on;
-    plot(coinsTranslates(4,1),coinsTranslates(4,2),'b.');
+    plot(coins(4,1),coins(4,2),'b.');
     
     hold on;
-    plot([coinsTranslates(1,1) coinsTranslates(2,1)], [coinsTranslates(1,2) coinsTranslates(2,2)], 'r');
+    plot([coins(1,1) coins(2,1)], [coins(1,2) coins(2,2)], 'r');
     hold on;
-    plot([coinsTranslates(2,1) coinsTranslates(3,1)], [coinsTranslates(2,2) coinsTranslates(3,2)], 'r');
+    plot([coins(2,1) coins(3,1)], [coins(2,2) coins(3,2)], 'r');
     hold on;
-    plot([coinsTranslates(3,1) coinsTranslates(4,1)], [coinsTranslates(3,2) coinsTranslates(4,2)], 'r');
+    plot([coins(3,1) coins(4,1)], [coins(3,2) coins(4,2)], 'r');
     hold on;
-    plot([coinsTranslates(4,1) coinsTranslates(1,1)], [coinsTranslates(4,2) coinsTranslates(1,2)], 'r');
-    
+    plot([coins(4,1) coins(1,1)], [coins(4,2) coins(1,2)], 'r');
 end
