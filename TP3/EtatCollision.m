@@ -22,6 +22,7 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     %disp(coinsAjustesA);
     
     coinsTranslatesA = faireTranslationCoins(coinsAjustesA, posA);
+    AfficherVehicule(coinsTranslatesA);
     disp('coinsTranslatesA');
     disp(coinsTranslatesA);
     
@@ -38,20 +39,13 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     %disp('coinsAjustesB');
     %disp(coinsAjustesB);
     
-    %hold on;
-    %plot(coinsAjustesB(1,1),coinsAjustesB(1,2),'r*');
-    %hold on;
-    %plot(coinsAjustesB(2,1),coinsAjustesB(2,2),'r*');
-    %hold on;
-    %plot(coinsAjustesB(3,1),coinsAjustesB(3,2),'r*');
-    %hold on;
-    %plot(coinsAjustesB(4,1),coinsAjustesB(4,2),'r*');
     
     coinsTranslatesB = faireTranslationCoins(coinsAjustesB, posB);
+    AfficherVehicule(coinsTranslatesB);
     disp('coinsTranslatesB');
     disp(coinsTranslatesB);
     
-    intersection = PointInclusDansSolide(coinsTranslatesA, coinsTranslatesB);
+    intersection = IntersectionDeuxSolides(coinsTranslatesA, coinsTranslatesB);
     
     estCollision = intersection;
     point = [0 0];
@@ -60,7 +54,7 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
 end
 
 
-function intersection = PointInclusDansSolide(coinsSolideA, coinsSolideB)
+function [intersection] = IntersectionDeuxSolides(coinsSolideA, coinsSolideB)
 
     divisionExiste = false;
 
@@ -121,12 +115,17 @@ function normale = CalculerPlanSeparateur(coin1, coin2)
 end
 
 function distance = DistancePlanCoin(normale, pointPlan, coinAutreSolide)
+    %Applique la formule de distance entre le plan qui contient qk1 et un coin rij
+    %di,j,k = nk ·(ri,j ? qk,1) (p. 113 Manuel de référence)
+    
     distance = dot(normale, (coinAutreSolide - pointPlan));
 end
 
 
-
 function angle = angleAuto(auto, tempsDeRotation)
+    %Calcule l'angle total de rotation de l'auto
+    %Retourne un angle en DEGRÉS
+
     %atan prend (Y, X);
     rotationInitiale = rad2deg(atan2(auto.Vitesse(2), auto.Vitesse(1))); %Auto alignée avec sa vitesse
     rotationAngulaire = rad2deg(auto.VitesseAngulaire * tempsDeRotation);
@@ -135,8 +134,12 @@ function angle = angleAuto(auto, tempsDeRotation)
 end
 
 function coinsAjustes = ajusterCoinsRotation(coins, rotationTotale)
+    %Applique une matrice de rotation sur les coins
+    %Il faut s'assurer d'appeler cette fonction AVANT d'appliquer une translation
+    %rotationTotale doit être en DEGRÉS
+    
     coinsAjustes = coins;
-    matriceRotation = (MatriceRotationZ(deg2rad(rotationTotale))); %inv pour avoir la bonne orientation    
+    matriceRotation = MatriceRotationZ(deg2rad(rotationTotale)); %Convertir en rad  
     
     for c = 1:(numel(coins) / 2)
         coin = coins(c,:);
@@ -151,6 +154,8 @@ function coinsAjustes = ajusterCoinsRotation(coins, rotationTotale)
 end
 
 function coins = getCoinsAutoSansRotation(auto)
+    %Nous donne la disposition des coins de l'auto si on ne considère ni la
+    %rotation ni la translation (donc, CM à [0 0])
     
     c1 = [- auto.Longueur / 2, + auto.Largeur / 2];
     c2 = [+ auto.Longueur / 2, + auto.Largeur / 2];
@@ -161,6 +166,8 @@ function coins = getCoinsAutoSansRotation(auto)
 end
 
 function coinsTranslates = faireTranslationCoins(coins, positionCM)
+    %Applique une translation sur tous les coins du véhicule
+
     coinsTranslates = [];
     cm = positionCM;
     if (isa(positionCM, 'Vecteur'))
@@ -172,11 +179,11 @@ function coinsTranslates = faireTranslationCoins(coins, positionCM)
         coinsTranslates(c,:) = coin + cm;
     end
     
-    AfficherVehicule(coinsTranslates);
-    
 end
 
 function AfficherVehicule(coins)
+    %Affiche les coins et les arêtes du véhicule
+
     hold on;
     plot(coins(1,1),coins(1,2),'b.');
     hold on;
