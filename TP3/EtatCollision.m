@@ -60,27 +60,34 @@ end
 
 function intersection = PointInclusDansSolide(coinsSolideA, coinsSolideB)
 
-    divisionExiste = true;
+    divisionExiste = false;
 
     for i = 1:(numel(coinsSolideA) / 2)
         indexDeuxiemeCoin = max(mod(i + 1, 5), 1); %On prend prochain, mais on retourne à 1 au lieu de 5
         normale = CalculerPlanSeparateur(coinsSolideA(i,:), coinsSolideA(indexDeuxiemeCoin,:));
-        fprintf('normale plan A coins %i et %i', i, indexDeuxiemeCoin);
-        disp(normale);
+        %fprintf('normale plan A coins %i et %i', i, indexDeuxiemeCoin);
+        %disp(normale);
         
+        estPlanDivision = true;
         
         for j = 1:(numel(coinsSolideB) / 2)
             
             distance = DistancePlanCoin(normale, coinsSolideA(i,:), coinsSolideB(j,:));
-            fprintf('distance au point de B coin %i', j);
-            disp(distance);
+            %fprintf('distance au point de B coin %i', j);
+            %disp(distance);
             if (distance <= 0)
-                divisionExiste = false;
+                estPlanDivision = false;
             end
             %TODO: interrompre des qu'une division est detectee, car il
             %n'est plus necessaire de calculer
             
         end
+        
+        if (estPlanDivision)
+            divisionExiste = true;
+        end
+        
+        fprintf('plan division pour i = %i et j = %i : %i \n', i, j, estPlanDivision);
         
     end
     
