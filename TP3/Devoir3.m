@@ -42,7 +42,6 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     tempsEcoule = 0;
     
     [estCollision, point] = EtatCollision(systeme.AutoA, systeme.AutoB, rai, rbi, 0, tb);
-    figure;
     
     
     disp('Etat Collision');
@@ -78,9 +77,9 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     end
     print('Simulation');
     
-    AutoA = Auto();
-    coinsA = getCoinsAutoSansRotation(AutoA, rai)
-    dessinerSimulationVisuelle([], [] ,rai, rbi);
+    %AutoA = Auto();
+    %coinsA = getCoinsAutoSansRotation(AutoA, rai)
+    %dessinerSimulationVisuelle([], [] ,rai, rbi);
 end
 
 function dessinerSimulationVisuelle(coinsAjustesA, coinsAjustesB, ra, rb)    
