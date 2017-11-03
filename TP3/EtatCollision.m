@@ -1,4 +1,9 @@
-function [estCollision, point] = EtatCollision(autoA, autoB, positionA, positionB, tempsEcoule, tempsDebutRotationB)
+function [estCollision, collisionSphereEnglobante, point] = EtatCollision(autoA, autoB, positionA, positionB, tempsEcoule, tempsDebutRotationB)
+    %Utilise une stratégie mixte : On teste en premier si les solides sont
+    %en collision avec leurs sphères englobantes, si non, alors on passe à
+    %la méthode des plans de division
+
+    point = [0 0];
 
     if (~isa(positionA, 'Vecteur'))
         posA = Vecteur.CreateFromArray(positionA);
@@ -16,17 +21,18 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     xlim([0 150]);
     ylim([0 150]);
     
-    disp('autoA');
-    disp(autoA);
+    
+    [collisionSphereEnglobante] = InteresectionSpheresEnglobantes(autoA, autoB, positionA, positionB);
+    if (~collisionSphereEnglobante)
+        disp('aucune collision entre les spheres englobantes!');
+        estCollision = false;
+        return;
+    end
+    
+    
     angleA = angleAuto(autoA, tempsEcoule); %Auto A commence a tourner des le debut
-    %disp('angleA');
-    %disp(angleA);
     coinsA = getCoinsAutoSansRotation(autoA);
-    %disp('coinsA');
-    %disp(coinsA);
     coinsAjustesA = ajusterCoinsRotation(coinsA, angleA);
-    %disp('coinsAjustesA');
-    %disp(coinsAjustesA);
     
     coinsTranslatesA = faireTranslationCoins(coinsAjustesA, posA);
     AfficherVehicule(coinsTranslatesA);
@@ -34,68 +40,86 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     disp(coinsTranslatesA);
     
     
-    disp('autoB');
-    disp(autoB);
     angleB = angleAuto(autoB, max(tempsEcoule - tempsDebutRotationB, 0)); %Auto B ne commence a tourner qu'au temps tb
-    %disp('angleB');
-    %disp(angleB);
     coinsB = getCoinsAutoSansRotation(autoB);
-    %disp('coinsB');
-    %disp(coinsB);
     coinsAjustesB = ajusterCoinsRotation(coinsB, angleB);
-    %disp('coinsAjustesB');
-    %disp(coinsAjustesB);
     
     
     coinsTranslatesB = faireTranslationCoins(coinsAjustesB, posB);
     %AfficherVehicule(coinsTranslatesB);
     disp('coinsTranslatesB');
     disp(coinsTranslatesB);
-    
-    intersection = IntersectionDeuxSolides(coinsTranslatesA, coinsTranslatesB);
-    
-    estCollision = intersection;
-    point = [0 0];
-    
+
+    [estCollision, point] = IntersectionDeuxSolides(coinsTranslatesA, coinsTranslatesB);
 
 end
 
 
-function [intersection] = IntersectionDeuxSolides(coinsSolideA, coinsSolideB)
-
-    divisionExiste = false;
-
+function [estCollision, point] = IntersectionDeuxSolides(coinsSolideA, coinsSolideB)
+    %Determine si deux solides sont en collision
+    
+    estCollision = false;
+    point = [0 0];
+    for i = 1:(numel(coinsSolideB) / 2)
+        pointInclus = PointInclusDansSolide(coinsSolideB(i,:), coinsSolideA);
+        if (pointInclus)
+            disp('point intersection trouve');
+            disp(coinsSolideB(i,:));
+            point = coinsSolideB(i,:); %Return ce point
+            estCollision = true;
+        else
+            fprintf('Point B%i pas inclus dans A\n', i);
+        end
+    end
+        
     for i = 1:(numel(coinsSolideA) / 2)
-        indexDeuxiemeCoin = max(mod(i + 1, 5), 1); %On prend prochain, mais on retourne à 1 au lieu de 5
-        normale = CalculerPlanSeparateur(coinsSolideA(i,:), coinsSolideA(indexDeuxiemeCoin,:));
-        %fprintf('normale plan A coins %i et %i', i, indexDeuxiemeCoin);
-        %disp(normale);
-        
-        estPlanDivision = true;
-        
-        for j = 1:(numel(coinsSolideB) / 2)
-            
-            distance = DistancePlanCoin(normale, coinsSolideA(i,:), coinsSolideB(j,:));
-            %fprintf('distance au point de B coin %i', j);
-            %disp(distance);
-            if (distance <= 0)
-                estPlanDivision = false;
-            end
-            %TODO: interrompre des qu'une division est detectee, car il
-            %n'est plus necessaire de calculer
-            
+        pointInclus = PointInclusDansSolide(coinsSolideA(i,:), coinsSolideB);
+        if (pointInclus)
+            disp('point intersection trouve');
+            disp(coinsSolideA(i,:));
+            point = coinsSolideA(i,:); %Return ce point
+            estCollision = true;
+        else 
+            fprintf('Point A%i pas inclus dans B\n', i);
         end
+    end
+
+end
+
+function index = GetProchainIndexAvecLoop(indexActuel, minVal, maxVal)
+    %ex (1, 1, 4), va retourner 2
+    %ex (4, 1, 4), va retourner 1
+    index = max(mod(indexActuel + 1, (maxVal + 1)), minVal);
+end
+
+function interieur = PointInclusDansSolide(point, coinsSolide)
+    %Determine si un point est inclus dans un solide
+    
+    interieur = true;
+
+    indexMax = (numel(coinsSolide) / 2);
+    for i = 1:indexMax
+        indexDeuxiemeCoin = GetProchainIndexAvecLoop(i, 1, indexMax); %On prend prochain, mais on retourne à 1 au lieu de 5
+        normale = CalculerPlanSeparateur(coinsSolide(i,:), coinsSolide(indexDeuxiemeCoin,:));
         
-        if (estPlanDivision)
-            divisionExiste = true;
+        distance = DistancePlanCoin(normale, coinsSolide(i,:), point);
+            
+        if (distance > 0)
+            interieur = false;
         end
-        
-        fprintf('plan division pour i = %i et j = %i : %i \n', i, j, estPlanDivision);
         
     end
-    
-    intersection = ~divisionExiste;
+end
 
+function [intersection] = InteresectionSpheresEnglobantes(autoA, autoB, cmA, cmB)
+    %Définit une sphère qui englobe chacune des autos, puis détermine s'il
+    %y a collision entre les sphères
+    
+    rayonA = ((autoA.Longueur / 2) ^ 2 + (autoA.Largeur / 2) ^ 2)^(1/2); %Pythagore pour trouver rayon de la sphere englobante
+    rayonB = ((autoB.Longueur / 2) ^ 2 + (autoB.Largeur / 2) ^ 2)^(1/2);
+    
+    distance = pdist([cmA; cmB]);
+    intersection = (distance < (rayonA + rayonB));
 end
 
 function normale = CalculerPlanSeparateur(coin1, coin2)
