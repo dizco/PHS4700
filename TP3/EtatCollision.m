@@ -3,9 +3,11 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     posA = Vecteur.CreateFromArray(positionA);
     posB = Vecteur.CreateFromArray(positionB);
     
-    grid on;
+    grid minor;
     xlim([0 15]);
     ylim([0 15]);
+    xticks(0:1:15)
+    yticks(0:1:15)
     
     disp('autoA');
     disp(autoA);
@@ -119,10 +121,6 @@ function normale = CalculerPlanSeparateur(coin1, coin2)
 end
 
 function distance = DistancePlanCoin(normale, pointPlan, coinAutreSolide)
-%disp('A');
-%disp(normale);
-%disp('B');
-%disp((coinAutreSolide - pointPlan));
     distance = dot(normale, (coinAutreSolide - pointPlan));
 end
 
@@ -138,11 +136,7 @@ end
 
 function coinsAjustes = ajusterCoinsRotation(coins, rotationTotale)
     coinsAjustes = coins;
-    matriceRotation = (MatriceRotationZ(deg2rad(rotationTotale))); %inv pour avoir la bonne orientation
-    
-    disp('matrice rotation');
-    disp(matriceRotation);
-    
+    matriceRotation = (MatriceRotationZ(deg2rad(rotationTotale))); %inv pour avoir la bonne orientation    
     
     for c = 1:(numel(coins) / 2)
         coin = coins(c,:);
@@ -167,7 +161,7 @@ function coins = getCoinsAutoSansRotation(auto)
 end
 
 function coinsTranslates = faireTranslationCoins(coins, positionCM)
-    nouveauxCoins = [];
+    coinsTranslates = [];
     cm = positionCM;
     if (isa(positionCM, 'Vecteur'))
         cm = positionCM.GetHorizontalArray();
@@ -179,12 +173,21 @@ function coinsTranslates = faireTranslationCoins(coins, positionCM)
     end
     
     hold on;
-    plot(coinsTranslates(1,1),coinsTranslates(1,2),'b*');
+    plot(coinsTranslates(1,1),coinsTranslates(1,2),'b.');
     hold on;
-    plot(coinsTranslates(2,1),coinsTranslates(2,2),'b*');
+    plot(coinsTranslates(2,1),coinsTranslates(2,2),'b.');
     hold on;
-    plot(coinsTranslates(3,1),coinsTranslates(3,2),'b*');
+    plot(coinsTranslates(3,1),coinsTranslates(3,2),'b.');
     hold on;
-    plot(coinsTranslates(4,1),coinsTranslates(4,2),'b*');
+    plot(coinsTranslates(4,1),coinsTranslates(4,2),'b.');
+    
+    hold on;
+    plot([coinsTranslates(1,1) coinsTranslates(2,1)], [coinsTranslates(1,2) coinsTranslates(2,2)], 'r');
+    hold on;
+    plot([coinsTranslates(2,1) coinsTranslates(3,1)], [coinsTranslates(2,2) coinsTranslates(3,2)], 'r');
+    hold on;
+    plot([coinsTranslates(3,1) coinsTranslates(4,1)], [coinsTranslates(3,2) coinsTranslates(4,2)], 'r');
+    hold on;
+    plot([coinsTranslates(4,1) coinsTranslates(1,1)], [coinsTranslates(4,2) coinsTranslates(1,2)], 'r');
     
 end
