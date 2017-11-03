@@ -1,6 +1,6 @@
 classdef VitessesFinalesAutos
    methods(Static)
-       function f = vitesse(AutoA, AutoB, pointDeCollision);
+       function f = vitesse(AutoA, AutoB, pointDeCollision)
            %normale
            vecteurNormal = pointDeCollision - AutoA.Position;
            normale = vecteurNormal / norm(vecteurNormal);

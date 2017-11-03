@@ -21,13 +21,18 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
 	systeme = Donnees();
     
-    pas = 0.0001; %variation de temps à chaque itération
+    pas = 0.01; %variation de temps à chaque itération
     
     % Input les vitesses initiales
+    systeme.AutoA.Position = [rai(1) rai(2)];
+  
+    
+    systeme.AutoB.Position = [rbi(1) rbi(2)];
     systeme.AutoA.Vitesse = [vai(1) vai(2)];
     systeme.AutoA.VitesseAngulaire = vai(3);
     systeme.AutoB.Vitesse = [vbi(1) vbi(2)];
     systeme.AutoB.VitesseAngulaire = vbi(3);
+  
     
     tf = 0;
     raf = [0; 0];
@@ -36,39 +41,38 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     vbf = [0; 0; 0];
     Coll = 1;
     
-    positionsA = [];
-    positionsB = [];
-    
     tempsEcoule = 0;
     
-    [estCollision, point] = EtatCollision(systeme.AutoA, systeme.AutoB, rai, rbi, 0, tb);
     
-    
-    disp('Etat Collision');
-    disp(estCollision);
-    disp(point);
-    
-    qs = [vbi(1) vbi(2) rbi(1) rbi(2)];
-    while 0 %TODO: Loop infinie jusqu'à collision
-        
-        qs = SEDRK4(qs, 0, tempsEcoule + pas, fonctionG);
-        
+    qsA = [systeme.AutoA.Vitesse(1) systeme.AutoA.Vitesse(2) 0 systeme.AutoA.Position(1) systeme.AutoA.Position(2) 0];
+    qsB = [systeme.AutoB.Vitesse(1) systeme.AutoB.Vitesse(2) 0 systeme.AutoB.Position(1) systeme.AutoB.Position(2) 0];
+   
+    while 1 %TODO: Loop infinie jusqu'à collision
+        qsA = SEDRK4(qsA, 0, tempsEcoule + pas, 'frottement', systeme.AutoA);
+        if(tempsEcoule >= tb)
+            qsB = SEDRK4(qsB, 0, tempsEcoule + pas, 'frottement', systeme.AutoB);
+        else 
+            qsB = SEDRK4(qsB, 0, tempsEcoule + pas, 'rouler', systeme.AutoB);
+        end    
         % TODO: Runge kutta pour A et B
         
-        positionA = Vecteur.CreateFromArray([qs(3) qs(4)]);
-        positionB = Vecteur.CreateFromArray([qs(3) qs(4)]);
-        positionsA(end + 1) = [positionA.X positionA.Y]; %Push positions pour affichage
-        positionsB(end + 1) = [positionB.X positionB.Y]; %Push positions pour affichage
         
+        positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
+        %positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
+        positionB = [0 0];
+
+        %positionsA(end + 1) = [positionA.X positionA.Y]; %Push positions pour affichage
+        %positionsB(end + 1) = [positionB.X positionB.Y]; %Push positions pour affichage
+       
         [estCollision, pointCollision] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
         if (estCollision)
             tf = tempsEcoule + pas;
             %rbf = positionBalle.GetHorizontalArray();
             %vbf = qs(1, 1:3);
-            break;
+            %break;
         end
         
-        if (tempsEcoule > 100) %TODO: Remove
+        if (tempsEcoule > 10) %TODO: Remove
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end

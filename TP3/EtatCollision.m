@@ -1,13 +1,20 @@
 function [estCollision, point] = EtatCollision(autoA, autoB, positionA, positionB, tempsEcoule, tempsDebutRotationB)
 
-    posA = Vecteur.CreateFromArray(positionA);
-    posB = Vecteur.CreateFromArray(positionB);
+    if (~isa(positionA, 'Vecteur'))
+        posA = Vecteur.CreateFromArray(positionA);
+    else
+        posA = positionA;
+    end
+    
+    if (~isa(positionB, 'Vecteur'))
+        posB = Vecteur.CreateFromArray(positionB);
+    else
+        posB = positionB;
+    end
     
     grid minor;
-    xlim([0 15]);
-    ylim([0 15]);
-    xticks(0:1:15)
-    yticks(0:1:15)
+    xlim([0 150]);
+    ylim([0 150]);
     
     disp('autoA');
     disp(autoA);
@@ -41,7 +48,7 @@ function [estCollision, point] = EtatCollision(autoA, autoB, positionA, position
     
     
     coinsTranslatesB = faireTranslationCoins(coinsAjustesB, posB);
-    AfficherVehicule(coinsTranslatesB);
+    %AfficherVehicule(coinsTranslatesB);
     disp('coinsTranslatesB');
     disp(coinsTranslatesB);
     
