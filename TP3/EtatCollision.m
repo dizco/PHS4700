@@ -118,8 +118,13 @@ function [intersection] = InteresectionSpheresEnglobantes(autoA, autoB, cmA, cmB
     rayonA = ((autoA.Longueur / 2) ^ 2 + (autoA.Largeur / 2) ^ 2)^(1/2); %Pythagore pour trouver rayon de la sphere englobante
     rayonB = ((autoB.Longueur / 2) ^ 2 + (autoB.Largeur / 2) ^ 2)^(1/2);
     
-    distance = pdist([cmA; cmB]);
+    distance = CalcDistance(cmA, cmB);
     intersection = (distance < (rayonA + rayonB));
+end
+
+function euclideanDistance = CalcDistance(p1, p2) 
+    %Imite la fonction pdist
+    euclideanDistance = sqrt((p2(1) - p1(1))^2 + (p2(2) - p1(2))^2);
 end
 
 function normale = CalculerPlanSeparateur(coin1, coin2)
