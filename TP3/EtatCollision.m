@@ -17,40 +17,23 @@ function [estCollision, collisionSphereEnglobante, point] = EtatCollision(autoA,
         posB = positionB;
     end
     
-    grid minor;
-    xlim([0 150]);
-    ylim([0 150]);
     
-    
-    [collisionSphereEnglobante] = InteresectionSpheresEnglobantes(autoA, autoB, positionA, positionB);
+    [collisionSphereEnglobante] = InteresectionSpheresEnglobantes(autoA, autoB, posA, posB);
     if (~collisionSphereEnglobante)
-        disp('aucune collision entre les spheres englobantes!');
         estCollision = false;
         return;
     end
     
     
-    angleA = angleAuto(autoA, tempsEcoule); %Auto A commence a tourner des le debut
-    coinsA = getCoinsAutoSansRotation(autoA);
-    coinsAjustesA = ajusterCoinsRotation(coinsA, angleA);
+    coinsA = CalculerCoinsVehicule(autoA, posA, tempsEcoule); %Auto A commence a tourner des le debut
+    %disp('coins vehicule A');
+    %disp(coinsA);
     
-    coinsTranslatesA = faireTranslationCoins(coinsAjustesA, posA);
-    AfficherVehicule(coinsTranslatesA);
-    disp('coinsTranslatesA');
-    disp(coinsTranslatesA);
-    
-    
-    angleB = angleAuto(autoB, max(tempsEcoule - tempsDebutRotationB, 0)); %Auto B ne commence a tourner qu'au temps tb
-    coinsB = getCoinsAutoSansRotation(autoB);
-    coinsAjustesB = ajusterCoinsRotation(coinsB, angleB);
-    
-    
-    coinsTranslatesB = faireTranslationCoins(coinsAjustesB, posB);
-    %AfficherVehicule(coinsTranslatesB);
-    disp('coinsTranslatesB');
-    disp(coinsTranslatesB);
+    coinsB = CalculerCoinsVehicule(autoB, posB, max(tempsEcoule - tempsDebutRotationB, 0)); %Auto B ne commence a tourner qu'au temps tb
+    %disp('coins vehicule B');
+    %disp(coinsB);
 
-    [estCollision, point] = IntersectionDeuxSolides(coinsTranslatesA, coinsTranslatesB);
+    [estCollision, point] = IntersectionDeuxSolides(coinsA, coinsB);
 
 end
 
@@ -124,7 +107,15 @@ end
 
 function euclideanDistance = CalcDistance(p1, p2) 
     %Imite la fonction pdist
-    euclideanDistance = sqrt((p2(1) - p1(1))^2 + (p2(2) - p1(2))^2);
+    
+    if (~isa(p1, 'Vecteur'))
+        p1 = Vecteur.CreateFromArray(p1);
+    end
+    
+    if (~isa(p2, 'Vecteur'))
+        p2 = Vecteur.CreateFromArray(p2);
+    end
+    euclideanDistance = sqrt((p2.X - p1.X)^2 + (p2.Y - p1.Y)^2);
 end
 
 function normale = CalculerPlanSeparateur(coin1, coin2)
@@ -155,86 +146,4 @@ function distance = DistancePlanCoin(normale, pointPlan, coinAutreSolide)
     %di,j,k = nk ·(ri,j ? qk,1) (p. 113 Manuel de référence)
     
     distance = dot(normale, (coinAutreSolide - pointPlan));
-end
-
-
-function angle = angleAuto(auto, tempsDeRotation)
-    %Calcule l'angle total de rotation de l'auto
-    %Retourne un angle en DEGRÉS
-
-    %atan prend (Y, X);
-    rotationInitiale = rad2deg(atan2(auto.Vitesse(2), auto.Vitesse(1))); %Auto alignée avec sa vitesse
-    rotationAngulaire = rad2deg(auto.VitesseAngulaire * tempsDeRotation);
-    
-    angle = mod(rotationInitiale + rotationAngulaire, 360); %Modulo 360 degrés
-end
-
-function coinsAjustes = ajusterCoinsRotation(coins, rotationTotale)
-    %Applique une matrice de rotation sur les coins
-    %Il faut s'assurer d'appeler cette fonction AVANT d'appliquer une translation
-    %rotationTotale doit être en DEGRÉS
-    
-    coinsAjustes = coins;
-    matriceRotation = MatriceRotationZ(deg2rad(rotationTotale)); %Convertir en rad  
-    
-    for c = 1:(numel(coins) / 2)
-        coin = coins(c,:);
-        coin(3) = 0; %Ajouter composante Z
-        
-        coinAjuste = matriceRotation * transpose(coin);
-        
-        coinsAjustes(c,1) = coinAjuste(1); %Enlever composante Z
-        coinsAjustes(c,2) = coinAjuste(2);
-    end
-    
-end
-
-function coins = getCoinsAutoSansRotation(auto)
-    %Nous donne la disposition des coins de l'auto si on ne considère ni la
-    %rotation ni la translation (donc, CM à [0 0])
-    
-    c1 = [- auto.Longueur / 2, + auto.Largeur / 2];
-    c2 = [+ auto.Longueur / 2, + auto.Largeur / 2];
-    c3 = [+ auto.Longueur / 2, - auto.Largeur / 2];
-    c4 = [- auto.Longueur / 2, - auto.Largeur / 2];
-    coins = [c1; c2; c3; c4];
-    
-end
-
-function coinsTranslates = faireTranslationCoins(coins, positionCM)
-    %Applique une translation sur tous les coins du véhicule
-
-    coinsTranslates = [];
-    cm = positionCM;
-    if (isa(positionCM, 'Vecteur'))
-        cm = positionCM.GetHorizontalArray();
-    end
-    
-    for c = 1:(numel(coins) / 2)
-        coin = coins(c,:);
-        coinsTranslates(c,:) = coin + cm;
-    end
-    
-end
-
-function AfficherVehicule(coins)
-    %Affiche les coins et les arêtes du véhicule
-
-    hold on;
-    plot(coins(1,1),coins(1,2),'b.');
-    hold on;
-    plot(coins(2,1),coins(2,2),'b.');
-    hold on;
-    plot(coins(3,1),coins(3,2),'b.');
-    hold on;
-    plot(coins(4,1),coins(4,2),'b.');
-    
-    hold on;
-    plot([coins(1,1) coins(2,1)], [coins(1,2) coins(2,2)], 'r');
-    hold on;
-    plot([coins(2,1) coins(3,1)], [coins(2,2) coins(3,2)], 'r');
-    hold on;
-    plot([coins(3,1) coins(4,1)], [coins(3,2) coins(4,2)], 'r');
-    hold on;
-    plot([coins(4,1) coins(1,1)], [coins(4,2) coins(1,2)], 'r');
 end
