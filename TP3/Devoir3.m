@@ -1,34 +1,21 @@
 function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
-
-% DEVOIR3 Executer le devoir3
-%   INPUT
-%   option 1: gravite, 
-%          2: gravite + frottement, 
-%          3: gravite + frottement + Magnus
-%   rbi vecteur positions initiales du cm de la balle (m)
-%   vbi vecteur vitesse initiale du cm de la balle (m/s)
-%   wbi vecteur vitesse angulaire de la balle autour de son cm (rad/s)
-%   OUTPUT
-%   coup 0 si coup reussi (atterit sur la table du côté opposé au filet), 
-%        1 si atterit cote joueur qui frappe en premier,
-%        2 si frappe filet en premier,
-%        3 si touche sol en premier (hors des bornes)
-%   tf temps de la fin de la simulation (s)
-%   rbf vecteur positions finales du cm de la balle (m)
-%   vbf vecteur vitesse finale du cm de la balle (m/s)
+    % DEVOIR3 Executer le devoir3
     
 	systeme = Donnees(rai, vai, rbi, vbi);
     
     pas = 0.1; %variation de temps à chaque itération  
     
     tf = 0;
-    raf = [0; 0];
-    vaf = [0; 0; 0]; 
-    rbf = [0; 0];
-    vbf = [0; 0; 0];
+    raf = [0, 0];
+    vaf = [0, 0, 0]; 
+    rbf = [0, 0];
+    vbf = [0, 0, 0];
     Coll = 1;
     
     tempsEcoule = 0;
+    
+    positionsA = [];
+    positionsB = [];
     
     
     qsA = [systeme.AutoA.Vitesse(1) systeme.AutoA.Vitesse(2) 0 systeme.AutoA.Position(1) systeme.AutoA.Position(2) 0];
@@ -38,27 +25,40 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         
         qsA = SEDRK4(qsA, 0, tempsEcoule, 'frottement', systeme.AutoA);
         if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
-            qsB = SEDRK4(qsB, 0, tempsEcoule, 'frottement', systeme.AutoB);
+            %qsB = SEDRK4(qsB, 0, tempsEcoule, 'frottement', systeme.AutoB);
         else 
-            qsB = SEDRK4(qsB, 0, tempsEcoule, 'rouler', systeme.AutoB);
+            %qsB = SEDRK4(qsB, 0, tempsEcoule, 'rouler', systeme.AutoB);
         end        
         
         positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
+        
+        %disp('qsA');
+        %disp(qsA);
+        
+        %disp('positonA');
+        %disp(positionA);
+        
+        coinsA = CalculerCoinsVehicule(systeme.AutoA, positionA, tempsEcoule); %TODO: Enlever cette ligne
+        AfficherVehicule(coinsA, 'b'); %TODO: Enlever cette ligne
+        
         %positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
         positionB = Vecteur.CreateFromArray(systeme.AutoB.Position);
 
-        %positionsA(end + 1) = [positionA.X positionA.Y]; %Push positions pour affichage
-        %positionsB(end + 1) = [positionB.X positionB.Y]; %Push positions pour affichage
-       
-        [estCollision, pointCollision] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
+        positionsA(end + 1,:) = [positionA.X positionA.Y]; %Push positions pour affichage
+        positionsB(end + 1,:) = [positionB.X positionB.Y]; %Push positions pour affichage
+        
+        
+        [estCollision, collisionSphereEnglobante, pointCollision] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
         if (estCollision)
             tf = tempsEcoule;
             %rbf = positionBalle.GetHorizontalArray();
             %vbf = qs(1, 1:3);
             break;
+        elseif (collisionSphereEnglobante)
+            %TODO: Reduire pas
         end
         
-        if (tempsEcoule > 10) %TODO: Remove
+        if (tempsEcoule > 2) %TODO: Remove
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
@@ -66,27 +66,36 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         tempsEcoule = tempsEcoule + pas;
         
     end
-    %print('Simulation');
     
-    %AutoA = Auto();
-    %coinsA = getCoinsAutoSansRotation(AutoA, rai)
-    %dessinerSimulationVisuelle([], [] ,rai, rbi);
+    AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb);
 end
 
-function dessinerSimulationVisuelle(coinsAjustesA, coinsAjustesB, ra, rb)    
+function AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb)    
     grid on; %pour un décor quadrillé
     xlabel('X (m)');
-    xlim([-3 3]);
     ylabel('Y (m)');
-    ylim([-3 3]);
-    rouge = [1 0 0];
-    bleu = [0 0 1];
     
-    patch([],[],[],[]);
+    xlim([0 100]);
+    ylim([0 100]);
+    xticks(0:5:100)
+    yticks(0:5:100)
+    
+    hold on;    
+    AffichagePositionsFinales(systeme, positionsA(end,:), positionsB(end,:), tf, tb);
     hold on;
-    %TODO: Plot A
-    %TODO: Plot B
-    %legend(plot, {nom});
+    courbeA = plot(positionsA(:,1), positionsA(:,2), 'color', 'b');
+    hold on;
+    courbeB = plot(positionsB(:,1), positionsB(:,2), 'color', 'r');
     hold off;
+    
+    legend([courbeA courbeB], 'Auto A', 'Auto B');
 end
 
+function AffichagePositionsFinales(systeme, posA, posB, tempsEcoule, tb)
+    %Affiche la position de chacun des véhicules
+
+    coinsA = CalculerCoinsVehicule(systeme.AutoA, posA, tempsEcoule); %Auto A commence a tourner des le debut
+    AfficherVehicule(coinsA, 'b');
+    coinsB = CalculerCoinsVehicule(systeme.AutoB, posB, max(tempsEcoule - tb, 0)); %Auto B ne commence a tourner qu'au temps tb
+    AfficherVehicule(coinsB, 'r');
+end
