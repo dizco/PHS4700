@@ -46,24 +46,16 @@ function [estCollision, point] = IntersectionDeuxSolides(coinsSolideA, coinsSoli
     for i = 1:(numel(coinsSolideB) / 2)
         pointInclus = PointInclusDansSolide(coinsSolideB(i,:), coinsSolideA);
         if (pointInclus)
-            disp('point intersection trouve');
-            disp(coinsSolideB(i,:));
             point = coinsSolideB(i,:); %Return ce point
             estCollision = true;
-        else
-            fprintf('Point B%i pas inclus dans A\n', i);
         end
     end
         
     for i = 1:(numel(coinsSolideA) / 2)
         pointInclus = PointInclusDansSolide(coinsSolideA(i,:), coinsSolideB);
         if (pointInclus)
-            disp('point intersection trouve');
-            disp(coinsSolideA(i,:));
             point = coinsSolideA(i,:); %Return ce point
             estCollision = true;
-        else 
-            fprintf('Point A%i pas inclus dans B\n', i);
         end
     end
 
