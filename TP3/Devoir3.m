@@ -23,7 +23,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
    
     while 1 %Loop infinie jusqu'à collision
         
-        qsA = SEDRK4(qsA, 0, tempsEcoule, 'frottement', systeme.AutoA);
+        qsA = SEDRK4(qsA, tempsEcoule, pas, 'frottement', systeme.AutoA);
         if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
             %qsB = SEDRK4(qsB, 0, tempsEcoule, 'frottement', systeme.AutoB);
         else 
@@ -58,7 +58,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             %TODO: Reduire pas
         end
         
-        if (tempsEcoule > 2) %TODO: Remove
+        if (tempsEcoule > 30) %TODO: Remove
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
