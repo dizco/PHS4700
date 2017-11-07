@@ -24,11 +24,12 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     while 1 %Loop infinie jusqu'à collision
         
         qsA = SEDRK4(qsA, tempsEcoule, pas, 'frottement', systeme.AutoA);
-        if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
-            %qsB = SEDRK4(qsB, 0, tempsEcoule, 'frottement', systeme.AutoB);
-        else 
-            %qsB = SEDRK4(qsB, 0, tempsEcoule, 'rouler', systeme.AutoB);
-        end        
+      
+%         if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
+%             qsB = SEDRK4(qsB, tempsEcoule, pas, 'frottement', systeme.AutoB);
+%         else 
+%             qsB = SEDRK4(qsB, tempsEcoule, pas, 'rouler', systeme.AutoB);
+%         end        
         
         positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
         

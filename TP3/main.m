@@ -5,7 +5,7 @@ close all;
 
 disp('TP3');
 
-% Tir 1
+% Tir 2
 figure;
 [Coll, tf, raf, vaf, rbf, vbf] = Devoir3([0 0], [20 0 2], [100 100], [0 -20 -1], 0.0);
 print(Coll, tf, raf, vaf, rbf, vbf, 1);

@@ -3,6 +3,14 @@ function g = frottement (q0, t0, auto)
 
     masse = auto.Masse; 
     vitesse = q0(1,1:3);
+    
+    %evite des erreurs de vitesses
+    for i = 1:2
+        if (vitesse(i) < 0.5 && vitesse(i) > -0.5)
+            vitesse(i) = 0;
+        end
+    end
+    
     vitesseScalaire = norm(vitesse);
     
     if (vitesseScalaire < 50)
@@ -16,8 +24,9 @@ function g = frottement (q0, t0, auto)
     
     %F = ma
     accelerationFrottement = force / masse;
-    g = [accelerationFrottement(1) accelerationFrottement(2) 0 q0(1) q0(2) 0];
+    g = [accelerationFrottement(1) accelerationFrottement(2) 0 vitesse(1) vitesse(2) 0];
     display("Result");
+ 
     display(g);
     %fprintf('mu : %i\n', mu);
     %fprintf('vitesse scalaire : %i\n', vitesseScalaire);
