@@ -6,9 +6,9 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     pas = 0.001; %variation de temps à chaque itération  
     
     tf = 0;
-    raf = [0, 0];
+    raf = [0, 0, 0];
     vaf = [0, 0, 0]; 
-    rbf = [0, 0];
+    rbf = [0, 0, 0];
     vbf = [0, 0, 0];
     Coll = 1;
     
@@ -52,21 +52,32 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         if (estCollision)
             tf = tempsEcoule;
             Coll = 1;
-            raf = positionA.GetHorizontalArray();
-            rbf = positionB.GetHorizontalArray();
+            raf(1, 1:2) = positionA.GetHorizontalArray();
+            rbf(1, 1:2) = positionB.GetHorizontalArray();
             vaf = qsA(1, 1:3);
             vbf = qsB(1, 1:3);
+            vitessesFinales = VitessesFinalesAutos.vitessesFinales(systeme.AutoA, systeme.AutoB, pointCollision);
+            vaf = vitessesFinales(1, 1:3);
+            vbf = vitessesFinales(1, 4:6);
+            disp("vitesse finales");
+            disp(vitessesFinales);
+            disp(vaf);
+            disp(vbf);
+            
+            
             break;
         elseif (collisionSphereEnglobante)
             %TODO: Reduire pas
         end
         
+       
+        
         if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
             %TODO: Finir simulation sans collision
             tf = tempsEcoule;
             Coll = 0;
-            raf = positionA.GetHorizontalArray();
-            rbf = positionB.GetHorizontalArray();
+            raf(1, 1:2) = positionA.GetHorizontalArray();
+            rbf(1, 1:2) = positionB.GetHorizontalArray();
             vaf = qsA(1, 1:3);
             vbf = qsB(1, 1:3);
             break;
@@ -76,6 +87,10 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
+        
+        tempsDebutRotationB = tb;
+        raf(3) = deg2rad(angleAuto(systeme.AutoA, tempsEcoule));
+        rbf(3) = deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tempsDebutRotationB, 0)));
         
         tempsEcoule = tempsEcoule + pas;
         

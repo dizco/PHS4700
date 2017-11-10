@@ -42,10 +42,10 @@ function print(Coll, tf, raf, vaf, rbf, vbf, i)
     fprintf('Collision = %s\n', stringCollision(Coll));
     fprintf('Temps = %d\n', tf);
     
-    fprintf('PositionA = [%i %i]\n', raf(1), raf(2));
+    fprintf('PositionA = [%i %i %i]\n', raf(1), raf(2), raf(3));
     fprintf('VitesseA = [%i %i %i]\n', vaf(1), vaf(2), vaf(3));
     
-    fprintf('PositionB = [%i %i]\n', rbf(1), rbf(2));
+    fprintf('PositionB = [%i %i %i]\n', rbf(1), rbf(2), rbf(3));
     fprintf('VitesseB = [%i %i %i]\n', vbf(1), vbf(2), vbf(3));
     
     disp('-----');

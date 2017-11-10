@@ -1,15 +1,20 @@
 classdef VitessesFinalesAutos
    methods(Static)
-       function vitessesFinales = vitesse(AutoA, AutoB, pointDeCollision)
+       function vitessesFinales = vitessesFinales(AutoA, AutoB, pointDeCollision)
            %normale
            vecteurNormal = pointDeCollision - AutoA.Position;
+           vecteurNormal(3) = 0;
            normale = vecteurNormal / norm(vecteurNormal);
            
            %position et vitesse du point ou la force est appliqué
            rAp = AutoA.Position - pointDeCollision;
+           rAp(3) = 0;
            rBp = AutoA.Position - pointDeCollision;
+           rBp(3) = 0;
            vAp = AutoA.Vitesse;
+           vAp(3) = 0;
            vBp = AutoB.Vitesse;
+           vBp(3) = 0;
            
            %Inertie
            InertieA = [1 0 0 ; 0 1 0; 0 0 1];
@@ -23,8 +28,8 @@ classdef VitessesFinalesAutos
            InertieB(3,3) = AutoB.Masse * (AutoB.Largeur^2 + AutoB.Longueur^2) / 12;
            
            %Facteur Ga et Gb
-           Ga = dot(normale,  InertieA \ cross(cross(rAp, normale), rAp));
-           Gb = dot(normale,  InertieB \ cross(cross(rBp, normale), rBp));
+           Ga = dot(normale,  InertieA \ (cross(cross(rAp, normale), rAp))');
+           Gb = dot(normale,  InertieB \ (cross(cross(rBp, normale), rBp))');
            
            %Vitesse relative avant
            vitesseRelativeAvant = dot(normale, vAp - vBp);
@@ -35,16 +40,16 @@ classdef VitessesFinalesAutos
            j = -alpha * (1 + e) * vitesseRelativeAvant;
            
            %Vitesse Angulaire Finale
-           wAf = AutoA.VitesseAngulaire + j * InertieA \ cross(rAp, normale);
-           wBf = AutoB.VitesseAngulaire + j * InertieB \ cross(rBp, normale);
-           
+           wAf = AutoA.VitesseAngulaire + j * InertieA \ transpose(cross(rAp, normale));
+           wBf = AutoB.VitesseAngulaire + j * InertieB \ transpose(cross(rBp, normale));
+
            %Vitesse Finales
-           vAf = vAp + j * ((normale / AutoA.Masse) + cross((InertieA \ cross(rAp, normale)), rAp));
-           vBf = vBp + j * ((normale / AutoB.Masse) + cross((InertieB \ cross(rBp, normale)), rBp));
+           vAf = vAp + j * ((normale / AutoA.Masse) + cross((InertieA \ cross(rAp, normale)'), rAp));
+           vBf = vBp + j * ((normale / AutoB.Masse) + cross((InertieB \ cross(rBp, normale)'), rBp));
            
-           vitessesFinales = [vAf wAf vBf vBf];
+           vitessesFinales = [vAf(1, 1:2) wAf(1) vBf(1, 1:2), wBf(1)];
            
-           angleAuto(AutoB, max(tempsEcoule - tempsDebutRotationB, 0));
+           
            
        end
        

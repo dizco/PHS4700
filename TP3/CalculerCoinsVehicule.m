@@ -7,17 +7,6 @@ function coins = CalculerCoinsVehicule(auto, cm, tempsRotation)
     coins = faireTranslationCoins(coinsAjustes, cm); %Ajuster la translation du véhicule
 end
 
-function angle = angleAuto(auto, tempsDeRotation)
-    %Calcule l'angle total de rotation de l'auto
-    %Retourne un angle en DEGRÉS
-
-    %atan prend (Y, X);
-    rotationInitiale = rad2deg(atan2(auto.Vitesse(2), auto.Vitesse(1))); %Auto alignée avec sa vitesse
-    rotationAngulaire = rad2deg(auto.VitesseAngulaire * tempsDeRotation);
-    
-    angle = mod(rotationInitiale + rotationAngulaire, 360); %Modulo 360 degrés
-end
-
 function coinsAjustes = ajusterCoinsRotation(coins, rotationTotale)
     %Applique une matrice de rotation sur les coins
     %Il faut s'assurer d'appeler cette fonction AVANT d'appliquer une translation
