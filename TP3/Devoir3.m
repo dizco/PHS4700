@@ -48,7 +48,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         positionsA(end + 1,:) = [positionA.X positionA.Y]; %Push positions pour affichage
         positionsB(end + 1,:) = [positionB.X positionB.Y]; %Push positions pour affichage
         
-        [estCollision, collisionSphereEnglobante, pointCollision] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
+        [estCollision, collisionSphereEnglobante, pointCollision, normale] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
         if (estCollision)
             tf = tempsEcoule;
             Coll = 1;
@@ -56,7 +56,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             rbf(1, 1:2) = positionB.GetHorizontalArray();
             vaf = qsA(1, 1:3);
             vbf = qsB(1, 1:3);
-            vitessesFinales = VitessesFinalesAutos.vitessesFinales(systeme.AutoA, systeme.AutoB, pointCollision);
+            vitessesFinales = VitessesFinalesAutos.vitessesFinales(systeme.AutoA, systeme.AutoB, pointCollision, normale);
             vaf = vitessesFinales(1, 1:3);
             vbf = vitessesFinales(1, 4:6);
             disp("vitesse finales");

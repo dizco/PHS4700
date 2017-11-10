@@ -1,10 +1,10 @@
 classdef VitessesFinalesAutos
    methods(Static)
-       function vitessesFinales = vitessesFinales(AutoA, AutoB, pointDeCollision)
+       function vitessesFinales = vitessesFinales(AutoA, AutoB, pointDeCollision, normale)
            %normale
-           vecteurNormal = pointDeCollision - AutoA.Position;
-           vecteurNormal(3) = 0;
-           normale = vecteurNormal / norm(vecteurNormal);
+           normale(3)=0;
+           disp(normale);
+           normale = normale / norm(normale);
            
            %position et vitesse du point ou la force est appliqué
            rAp = AutoA.Position - pointDeCollision;
@@ -40,7 +40,7 @@ classdef VitessesFinalesAutos
            j = -alpha * (1 + e) * vitesseRelativeAvant;
            
            %Vitesse Angulaire Finale
-           wAf = AutoA.VitesseAngulaire + j * InertieA \ transpose(cross(rAp, normale));
+           wAf = AutoA.VitesseAngulaire + j * InertieA \ cross(rAp, normale);
            wBf = AutoB.VitesseAngulaire + j * InertieB \ transpose(cross(rBp, normale));
 
            %Vitesse Finales
