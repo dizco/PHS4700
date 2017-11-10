@@ -3,7 +3,9 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
 	systeme = Donnees(rai, vai, rbi, vbi);
     
-    pas = 0.001; %variation de temps à chaque itération  
+    pasInitial = 0.01;
+    pasMin = 0.00001;
+    pas = pasInitial; %variation de temps à chaque itération
     
     tf = 0;
     raf = [0, 0, 0];
@@ -14,8 +16,8 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
     tempsEcoule = 0;
     
-    positionsA = [];
-    positionsB = [];
+    positionsA = [systeme.AutoA.Position(1) systeme.AutoA.Position(2)];
+    positionsB = [systeme.AutoB.Position(1) systeme.AutoB.Position(2)];
     
     qsA = [systeme.AutoA.Vitesse(1) systeme.AutoA.Vitesse(2) 0 systeme.AutoA.Position(1) systeme.AutoA.Position(2) 0];
     qsB = [systeme.AutoB.Vitesse(1) systeme.AutoB.Vitesse(2) 0 systeme.AutoB.Position(1) systeme.AutoB.Position(2) 0];
@@ -66,8 +68,11 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             
             
             break;
-        elseif (collisionSphereEnglobante)
+        elseif (collisionSphereEnglobante && pas ~= pasMin)
             %TODO: Reduire pas
+            pas = pasMin;
+        elseif (pas ~= pasInitial)
+            pas = pasInitial;
         end
         
        

@@ -109,7 +109,7 @@ function [intersection] = InteresectionSpheresEnglobantes(autoA, autoB, cmA, cmB
     rayonB = ((autoB.Longueur / 2) ^ 2 + (autoB.Largeur / 2) ^ 2)^(1/2);
     
     distance = CalcDistance(cmA, cmB);
-    intersection = (distance < (rayonA + rayonB));
+    intersection = (distance < (rayonA + rayonB) * 1.01); %Ajouter 1%
 end
 
 function euclideanDistance = CalcDistance(p1, p2) 
