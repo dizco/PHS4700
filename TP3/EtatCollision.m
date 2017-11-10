@@ -85,7 +85,7 @@ function [interieur, normale] = PointInclusDansSolide(point, coinsSolide)
         
         distance = DistancePlanCoin(n, coinsSolide(i,:), point);
         
-        if (abs(distance) < abs(plusPetiteDistance))
+        if (distance < 0 && abs(distance) < abs(plusPetiteDistance))
             plusPetiteDistance = distance;
             normale = n;
         end
