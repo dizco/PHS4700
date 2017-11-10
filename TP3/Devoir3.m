@@ -3,9 +3,8 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
 	systeme = Donnees(rai, vai, rbi, vbi);
     
-    pasInitial = 0.01;
-    pasMin = 0.00001;
-    pas = pasInitial; %variation de temps à chaque itération
+    pas = 0.01; %variation de temps à chaque itération
+    precisionMinimaleInitiale = systeme.PrecisionMinimale;
     
     tf = 0;
     raf = [0, 0, 0];
@@ -24,18 +23,10 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
    
     while 1 %Loop infinie jusqu'à collision
         
-        qsA = SEDRK4(qsA, tempsEcoule, pas, 'frottement', systeme.AutoA);
-      
-        if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
-            qsB = SEDRK4(qsB, tempsEcoule, pas, 'frottement', systeme.AutoB);
-        else 
-            qsB = SEDRK4(qsB, tempsEcoule, pas, 'rouler', systeme.AutoB);
-        end        
+        [qsA, qsB, tempsEcoule] = AppliquerRK(systeme, qsA, qsB, pas, tempsEcoule, tb);
         
         positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
-        normeVitesseA = norm(qsA(1,1:2));
         positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
-        normeVitesseB = norm(qsA(1,1:2));
         
 %         if (normeVitesseA >= systeme.SeuilVitesseMinimale)
 %             coinsA = CalculerCoinsVehicule(systeme.AutoA, positionA, tempsEcoule); %TODO: Enlever cette ligne
@@ -68,17 +59,16 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             
             
             break;
-        elseif (collisionSphereEnglobante && pas ~= pasMin)
-            %TODO: Reduire pas
-            pas = pasMin;
-        elseif (pas ~= pasInitial)
-            pas = pasInitial;
+        elseif (collisionSphereEnglobante && systeme.PrecisionMinimale ~= precisionMinimaleInitiale)
+            systeme.PrecisionMinimale = precisionMinimaleInitiale; %Reduire pas
+        elseif (systeme.PrecisionMinimale == precisionMinimaleInitiale)
+            systeme.PrecisionMinimale = precisionMinimaleInitiale * 10; %Augmenter le pas puisqu'on n'est pas près d'une collision
         end
         
-       
-        
+        normeVitesseA = norm(qsA(1,1:2));
+        normeVitesseB = norm(qsA(1,1:2));
         if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
-            %TODO: Finir simulation sans collision
+            %Finir simulation sans collision
             tf = tempsEcoule;
             Coll = 0;
             raf(1, 1:2) = positionA.GetHorizontalArray();
@@ -93,15 +83,41 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             break;
         end
         
-        tempsDebutRotationB = tb;
         raf(3) = deg2rad(angleAuto(systeme.AutoA, tempsEcoule));
-        rbf(3) = deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tempsDebutRotationB, 0)));
-        
-        tempsEcoule = tempsEcoule + pas;
+        rbf(3) = deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)));
         
     end
     
     AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb);
+end
+
+function [qsA, qsB, tempsEcoule] = AppliquerRK(systeme, qsA, qsB, pas, tempsEcoule, tb)
+    prevQsA = qsA;
+    prevQsB = qsB;
+    
+    deplacementAssezPetit = false;
+    intervale = pas;
+    
+    while (~deplacementAssezPetit)
+        qsA = SEDRK4(prevQsA, tempsEcoule, intervale, 'frottement', systeme.AutoA);
+      
+        if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
+            qsB = SEDRK4(prevQsB, tempsEcoule, intervale, 'frottement', systeme.AutoB);
+        else 
+            qsB = SEDRK4(prevQsB, tempsEcoule, intervale, 'rouler', systeme.AutoB);
+        end
+        
+        deplacementA = norm(qsA(1,4:6) - prevQsA(1,4:6));
+        deplacementB = norm(qsB(1,4:6) - prevQsB(1,4:6));
+        if (deplacementA < systeme.PrecisionMinimale && deplacementB < systeme.PrecisionMinimale)
+            deplacementAssezPetit = true;
+        else
+            intervale = intervale / 2;
+        end
+    end
+    
+    tempsEcoule = tempsEcoule + intervale;
+    
 end
 
 function AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb)    

@@ -3,6 +3,7 @@
         AutoA
         AutoB
         SeuilVitesseMinimale
+        PrecisionMinimale
     end
     
     methods

@@ -24,15 +24,9 @@ function [estCollision, collisionSphereEnglobante, point, normale] = EtatCollisi
         estCollision = false;
         return;
     end
-    
-    
+
     coinsA = CalculerCoinsVehicule(autoA, posA, tempsEcoule); %Auto A commence a tourner des le debut
-    %disp('coins vehicule A');
-    %disp(coinsA);
-    
     coinsB = CalculerCoinsVehicule(autoB, posB, max(tempsEcoule - tempsDebutRotationB, 0)); %Auto B ne commence a tourner qu'au temps tb
-    %disp('coins vehicule B');
-    %disp(coinsB);
 
     [estCollision, point, normale] = IntersectionDeuxSolides(coinsA, coinsB);
 
@@ -109,7 +103,7 @@ function [intersection] = InteresectionSpheresEnglobantes(autoA, autoB, cmA, cmB
     rayonB = ((autoB.Longueur / 2) ^ 2 + (autoB.Largeur / 2) ^ 2)^(1/2);
     
     distance = CalcDistance(cmA, cmB);
-    intersection = (distance < (rayonA + rayonB) * 1.01); %Ajouter 1%
+    intersection = (distance < (rayonA + rayonB) * 1.1); %Ajouter 10%, pour gérer les cas où les 2 autos s'approchent par les coins
 end
 
 function euclideanDistance = CalcDistance(p1, p2) 

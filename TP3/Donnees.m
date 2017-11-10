@@ -22,5 +22,6 @@ function systeme = Donnees(rai, vai, rbi, vbi)
     systeme.AutoA = autoA;
     systeme.AutoB = autoB;
     systeme.SeuilVitesseMinimale = 0.01;
+    systeme.PrecisionMinimale = 0.005;
 
 end
