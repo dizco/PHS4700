@@ -53,7 +53,7 @@ function print(Coll, tf, raf, vaf, rbf, vbf, i)
 end
 
 function str = stringCollision(coll)
-    if (~coll)
+    if (coll == 1)
         str = 'Faux';
     else
         str = 'Vrai';

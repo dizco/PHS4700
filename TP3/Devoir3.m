@@ -44,11 +44,9 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         [estCollision, collisionSphereEnglobante, pointCollision, normale] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
         if (estCollision)
             tf = tempsEcoule;
-            Coll = 1;
+            Coll = 0;
             raf(1, 1:2) = positionA.GetHorizontalArray();
             rbf(1, 1:2) = positionB.GetHorizontalArray();
-            vaf = qsA(1, 1:3);
-            vbf = qsB(1, 1:3);
             vitessesFinales = VitessesFinalesAutos.vitessesFinales(systeme.AutoA, systeme.AutoB, pointCollision, normale);
             vaf = vitessesFinales(1, 1:3);
             vbf = vitessesFinales(1, 4:6);
@@ -70,7 +68,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
             %Finir simulation sans collision
             tf = tempsEcoule;
-            Coll = 0;
+            Coll = 1;
             raf(1, 1:2) = positionA.GetHorizontalArray();
             rbf(1, 1:2) = positionB.GetHorizontalArray();
             vaf = qsA(1, 1:3);
