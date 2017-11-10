@@ -3,7 +3,6 @@ classdef VitessesFinalesAutos
        function vitessesFinales = vitessesFinales(AutoA, AutoB, pointDeCollision, normale)
            %normale
            normale(3)=0;
-           disp(normale);
            normale = normale / norm(normale);
            
            %position et vitesse du point ou la force est appliqué
@@ -40,7 +39,7 @@ classdef VitessesFinalesAutos
            j = -alpha * (1 + e) * vitesseRelativeAvant;
            
            %Vitesse Angulaire Finale
-           wAf = AutoA.VitesseAngulaire + j * InertieA \ cross(rAp, normale);
+           wAf = AutoA.VitesseAngulaire + j * InertieA \ transpose(cross(rAp, normale));
            wBf = AutoB.VitesseAngulaire + j * InertieB \ transpose(cross(rBp, normale));
 
            %Vitesse Finales
