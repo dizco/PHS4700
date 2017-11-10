@@ -1,9 +1,10 @@
-function [estCollision, collisionSphereEnglobante, point] = EtatCollision(autoA, autoB, positionA, positionB, tempsEcoule, tempsDebutRotationB)
+function [estCollision, collisionSphereEnglobante, point, normale] = EtatCollision(autoA, autoB, positionA, positionB, tempsEcoule, tempsDebutRotationB)
     %Utilise une stratégie mixte : On teste en premier si les solides sont
     %en collision avec leurs sphères englobantes, si non, alors on passe à
     %la méthode des plans de division
 
     point = [0 0];
+    normale = [0 0];
 
     if (~isa(positionA, 'Vecteur'))
         posA = Vecteur.CreateFromArray(positionA);
@@ -33,27 +34,30 @@ function [estCollision, collisionSphereEnglobante, point] = EtatCollision(autoA,
     %disp('coins vehicule B');
     %disp(coinsB);
 
-    [estCollision, point] = IntersectionDeuxSolides(coinsA, coinsB);
+    [estCollision, point, normale] = IntersectionDeuxSolides(coinsA, coinsB);
 
 end
 
 
-function [estCollision, point] = IntersectionDeuxSolides(coinsSolideA, coinsSolideB)
+function [estCollision, point, normale] = IntersectionDeuxSolides(coinsSolideA, coinsSolideB)
     %Determine si deux solides sont en collision
     
     estCollision = false;
     point = [0 0];
+    normale = [0 0];
     for i = 1:(numel(coinsSolideB) / 2)
-        pointInclus = PointInclusDansSolide(coinsSolideB(i,:), coinsSolideA);
+        [pointInclus, n] = PointInclusDansSolide(coinsSolideB(i,:), coinsSolideA);
         if (pointInclus)
+            normale = n;
             point = coinsSolideB(i,:); %Return ce point
             estCollision = true;
         end
     end
         
     for i = 1:(numel(coinsSolideA) / 2)
-        pointInclus = PointInclusDansSolide(coinsSolideA(i,:), coinsSolideB);
+        [pointInclus, n] = PointInclusDansSolide(coinsSolideA(i,:), coinsSolideB);
         if (pointInclus)
+            normale = n;
             point = coinsSolideA(i,:); %Return ce point
             estCollision = true;
         end
@@ -67,23 +71,34 @@ function index = GetProchainIndexAvecLoop(indexActuel, minVal, maxVal)
     index = max(mod(indexActuel + 1, (maxVal + 1)), minVal);
 end
 
-function interieur = PointInclusDansSolide(point, coinsSolide)
+function [interieur, normale] = PointInclusDansSolide(point, coinsSolide)
     %Determine si un point est inclus dans un solide
     
     interieur = true;
+    normale = [0 0];
+    plusPetiteDistance = Inf;
 
     indexMax = (numel(coinsSolide) / 2);
     for i = 1:indexMax
         indexDeuxiemeCoin = GetProchainIndexAvecLoop(i, 1, indexMax); %On prend prochain, mais on retourne à 1 au lieu de 5
-        normale = CalculerPlanSeparateur(coinsSolide(i,:), coinsSolide(indexDeuxiemeCoin,:));
+        n = CalculerPlanSeparateur(coinsSolide(i,:), coinsSolide(indexDeuxiemeCoin,:));
         
-        distance = DistancePlanCoin(normale, coinsSolide(i,:), point);
-            
+        distance = DistancePlanCoin(n, coinsSolide(i,:), point);
+        
+        if (abs(distance) < abs(plusPetiteDistance))
+            plusPetiteDistance = distance;
+            normale = n;
+        end
         if (distance > 0)
             interieur = false;
         end
         
     end
+    
+    if (~interieur)
+        normale = [0 0];
+    end
+    
 end
 
 function [intersection] = InteresectionSpheresEnglobantes(autoA, autoB, cmA, cmB)
