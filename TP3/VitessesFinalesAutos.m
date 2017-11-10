@@ -1,6 +1,6 @@
 classdef VitessesFinalesAutos
    methods(Static)
-       function f = vitesse(AutoA, AutoB, pointDeCollision)
+       function vitessesFinales = vitesse(AutoA, AutoB, pointDeCollision)
            %normale
            vecteurNormal = pointDeCollision - AutoA.Position;
            normale = vecteurNormal / norm(vecteurNormal);
@@ -13,14 +13,14 @@ classdef VitessesFinalesAutos
            
            %Inertie
            InertieA = [1 0 0 ; 0 1 0; 0 0 1];
-           InertieA(1,1) = AutoA.Masse * (AutoA.Hauteur^2 + AutoA.Longueur^2) / 3;
-           InertieA(2,2) = AutoA.Masse * (AutoA.Hauteur^2 + AutoA.Largeur^2) / 3;
-           InertieA(3,3) = AutoA.Masse * (AutoA.Largeur^2 + AutoA.Longueur^2) / 3;
+           InertieA(1,1) = AutoA.Masse * (AutoA.Hauteur^2 + AutoA.Largeur^2) / 12;
+           InertieA(2,2) = AutoA.Masse * (AutoA.Hauteur^2 + AutoA.Longueur^2) / 12;
+           InertieA(3,3) = AutoA.Masse * (AutoA.Largeur^2 + AutoA.Longueur^2) / 12;
            
            InertieB = [1 0 0 ; 0 1 0; 0 0 1];
-           InertieB(1,1) = AutoB.Masse * (AutoB.Hauteur^2 + AutoB.Longueur^2) / 3;
-           InertieB(2,2) = AutoB.Masse * (AutoB.Hauteur^2 + AutoB.Largeur^2) / 3;
-           InertieB(3,3) = AutoB.Masse * (AutoB.Largeur^2 + AutoB.Longueur^2) / 3;
+           InertieB(1,1) = AutoB.Masse * (AutoB.Hauteur^2 + AutoB.Largeur^2) / 12;
+           InertieB(2,2) = AutoB.Masse * (AutoB.Hauteur^2 + AutoB.Longueur^2) / 12;
+           InertieB(3,3) = AutoB.Masse * (AutoB.Largeur^2 + AutoB.Longueur^2) / 12;
            
            %Facteur Ga et Gb
            Ga = dot(normale,  InertieA \ cross(cross(rAp, normale), rAp));
@@ -42,7 +42,9 @@ classdef VitessesFinalesAutos
            vAf = vAp + j * ((normale / AutoA.Masse) + cross((InertieA \ cross(rAp, normale)), rAp));
            vBf = vBp + j * ((normale / AutoB.Masse) + cross((InertieB \ cross(rBp, normale)), rBp));
            
-          
+           vitessesFinales = [vAf wAf vBf vBf];
+           
+           angleAuto(AutoB, max(tempsEcoule - tempsDebutRotationB, 0));
            
        end
        
