@@ -123,10 +123,10 @@ function AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb)
     xlabel('X (m)');
     ylabel('Y (m)');
     
-    xlim([-10 150]);
-    ylim([-10 150]);
-    xticks(-10:10:150)
-    yticks(-10:10:150)
+    xlim([-10 180]);
+    ylim([-10 180]);
+    xticks(-10:10:180)
+    yticks(-10:10:180)
     
     hold on;
     AffichagePositionsInitiales(systeme);
