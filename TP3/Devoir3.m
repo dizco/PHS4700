@@ -32,18 +32,14 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
 %         end        
         
         positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
-        
-        %disp('qsA');
-        %disp(qsA);
-        
-        %disp('positonA');
-        %disp(positionA);
+        normeVitesseA = norm(qsA(1,1:2));
+        normeVitesseB = 0; %TODO: Faire comme avec A
         
         coinsA = CalculerCoinsVehicule(systeme.AutoA, positionA, tempsEcoule); %TODO: Enlever cette ligne
         AfficherVehicule(coinsA, 'b'); %TODO: Enlever cette ligne
         
         %positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
-        positionB = Vecteur.CreateFromArray(systeme.AutoB.Position);
+        positionB = Vecteur.CreateFromArray(systeme.AutoB.Position); %TODO: Enlever cette ligne
 
         positionsA(end + 1,:) = [positionA.X positionA.Y]; %Push positions pour affichage
         positionsB(end + 1,:) = [positionB.X positionB.Y]; %Push positions pour affichage
@@ -59,7 +55,13 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             %TODO: Reduire pas
         end
         
-        if (tempsEcoule > 30) %TODO: Remove
+        if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
+            %TODO: Finir simulation sans collision
+            tf = tempsEcoule;
+            break;
+        end
+        
+        if (tempsEcoule > 20) %TODO: Remove
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end

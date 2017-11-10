@@ -21,5 +21,6 @@ function systeme = Donnees(rai, vai, rbi, vbi)
     systeme = Systeme();
     systeme.AutoA = autoA;
     systeme.AutoB = autoB;
+    systeme.SeuilVitesseMinimale = 0.01;
 
 end

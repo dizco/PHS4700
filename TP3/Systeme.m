@@ -2,6 +2,7 @@
     properties
         AutoA
         AutoB
+        SeuilVitesseMinimale
     end
     
     methods
