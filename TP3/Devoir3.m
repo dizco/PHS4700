@@ -3,7 +3,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     
 	systeme = Donnees(rai, vai, rbi, vbi);
     
-    pas = 0.1; %variation de temps à chaque itération  
+    pas = 0.001; %variation de temps à chaque itération  
     
     tf = 0;
     raf = [0, 0];
@@ -17,7 +17,6 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
     positionsA = [];
     positionsB = [];
     
-    
     qsA = [systeme.AutoA.Vitesse(1) systeme.AutoA.Vitesse(2) 0 systeme.AutoA.Position(1) systeme.AutoA.Position(2) 0];
     qsB = [systeme.AutoB.Vitesse(1) systeme.AutoB.Vitesse(2) 0 systeme.AutoB.Position(1) systeme.AutoB.Position(2) 0];
    
@@ -25,31 +24,38 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         
         qsA = SEDRK4(qsA, tempsEcoule, pas, 'frottement', systeme.AutoA);
       
-%         if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
-%             qsB = SEDRK4(qsB, tempsEcoule, pas, 'frottement', systeme.AutoB);
-%         else 
-%             qsB = SEDRK4(qsB, tempsEcoule, pas, 'rouler', systeme.AutoB);
-%         end        
+        if(tempsEcoule >= tb) %L'auto B commence à glisser au temps tb
+            qsB = SEDRK4(qsB, tempsEcoule, pas, 'frottement', systeme.AutoB);
+        else 
+            qsB = SEDRK4(qsB, tempsEcoule, pas, 'rouler', systeme.AutoB);
+        end        
         
         positionA = Vecteur.CreateFromArray([qsA(4) qsA(5)]);
         normeVitesseA = norm(qsA(1,1:2));
-        normeVitesseB = 0; %TODO: Faire comme avec A
+        positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
+        normeVitesseB = norm(qsA(1,1:2));
         
-        coinsA = CalculerCoinsVehicule(systeme.AutoA, positionA, tempsEcoule); %TODO: Enlever cette ligne
-        AfficherVehicule(coinsA, 'b'); %TODO: Enlever cette ligne
-        
-        %positionB = Vecteur.CreateFromArray([qsB(4) qsB(5)]);
-        positionB = Vecteur.CreateFromArray(systeme.AutoB.Position); %TODO: Enlever cette ligne
+%         if (normeVitesseA >= systeme.SeuilVitesseMinimale)
+%             coinsA = CalculerCoinsVehicule(systeme.AutoA, positionA, tempsEcoule); %TODO: Enlever cette ligne
+%             AfficherVehicule(coinsA, 'b'); %TODO: Enlever cette ligne
+%         end
+%         
+%         if (normeVitesseB >= systeme.SeuilVitesseMinimale)
+%             coinsB = CalculerCoinsVehicule(systeme.AutoB, positionB, max(tempsEcoule - tb, 0)); %TODO: Enlever cette ligne
+%             AfficherVehicule(coinsB, 'r'); %TODO: Enlever cette ligne
+%         end
 
         positionsA(end + 1,:) = [positionA.X positionA.Y]; %Push positions pour affichage
         positionsB(end + 1,:) = [positionB.X positionB.Y]; %Push positions pour affichage
         
-        
         [estCollision, collisionSphereEnglobante, pointCollision] = EtatCollision(systeme.AutoA, systeme.AutoB, positionA, positionB, tempsEcoule, tb);
         if (estCollision)
             tf = tempsEcoule;
-            %rbf = positionBalle.GetHorizontalArray();
-            %vbf = qs(1, 1:3);
+            Coll = 1;
+            raf = positionA.GetHorizontalArray();
+            rbf = positionB.GetHorizontalArray();
+            vaf = qsA(1, 1:3);
+            vbf = qsB(1, 1:3);
             break;
         elseif (collisionSphereEnglobante)
             %TODO: Reduire pas
@@ -58,6 +64,11 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
             %TODO: Finir simulation sans collision
             tf = tempsEcoule;
+            Coll = 0;
+            raf = positionA.GetHorizontalArray();
+            rbf = positionB.GetHorizontalArray();
+            vaf = qsA(1, 1:3);
+            vbf = qsB(1, 1:3);
             break;
         end
         
@@ -78,11 +89,13 @@ function AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb)
     xlabel('X (m)');
     ylabel('Y (m)');
     
-    xlim([0 100]);
-    ylim([0 100]);
-    xticks(0:5:100)
-    yticks(0:5:100)
+    xlim([-10 150]);
+    ylim([-10 150]);
+    xticks(-10:10:150)
+    yticks(-10:10:150)
     
+    hold on;
+    AffichagePositionsInitiales(systeme);
     hold on;    
     AffichagePositionsFinales(systeme, positionsA(end,:), positionsB(end,:), tf, tb);
     hold on;
@@ -92,6 +105,15 @@ function AficherSimulationVisuelle(systeme, positionsA, positionsB, tf, tb)
     hold off;
     
     legend([courbeA courbeB], 'Auto A', 'Auto B');
+end
+
+function AffichagePositionsInitiales(systeme)
+    %Affiche la position de chacun des véhicules
+
+    coinsA = CalculerCoinsVehicule(systeme.AutoA, systeme.AutoA.Position, 0);
+    AfficherVehicule(coinsA, 'b');
+    coinsB = CalculerCoinsVehicule(systeme.AutoB, systeme.AutoB.Position, 0);
+    AfficherVehicule(coinsB, 'r');
 end
 
 function AffichagePositionsFinales(systeme, posA, posB, tempsEcoule, tb)
