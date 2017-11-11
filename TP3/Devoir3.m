@@ -45,17 +45,9 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         if (estCollision)
             tf = tempsEcoule;
             Coll = 0;
-            raf(1, 1:2) = positionA.GetHorizontalArray();
-            rbf(1, 1:2) = positionB.GetHorizontalArray();
-            vitessesFinales = VitessesFinalesAutos.vitessesFinales(systeme.AutoA, systeme.AutoB, pointCollision, normale);
-            vaf = vitessesFinales(1, 1:3);
-            vbf = vitessesFinales(1, 4:6);
-            disp("vitesse finales");
-            disp(vitessesFinales);
-            disp(vaf);
-            disp(vbf);
-            
-            
+            raf = [positionA.GetHorizontalArray() systeme.AutoA.Hauteur / 2];
+            rbf = [positionB.GetHorizontalArray() systeme.AutoB.Hauteur / 2];
+            [vaf, vbf] = VitessesApresCollision(systeme, positionA.GetHorizontalArray(), positionB.GetHorizontalArray(), qsA(1,1:2), qsB(1,1:2), pointCollision, normale);
             break;
         elseif (collisionSphereEnglobante && systeme.PrecisionMinimale ~= precisionMinimaleInitiale)
             systeme.PrecisionMinimale = precisionMinimaleInitiale; %Reduire pas
@@ -69,10 +61,10 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             %Finir simulation sans collision
             tf = tempsEcoule;
             Coll = 1;
-            raf(1, 1:2) = positionA.GetHorizontalArray();
-            rbf(1, 1:2) = positionB.GetHorizontalArray();
-            vaf = qsA(1, 1:3);
-            vbf = qsB(1, 1:3);
+            raf = [positionA.GetHorizontalArray() systeme.AutoA.Hauteur / 2];
+            rbf = [positionB.GetHorizontalArray() systeme.AutoB.Hauteur / 2];
+            vaf = [qsA(1, 1:2) deg2rad(angleAuto(systeme.AutoA, tempsEcoule))];
+            vbf = [qsB(1, 1:2) deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)))];
             break;
         end
         
@@ -80,9 +72,6 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             disp('Error: Too many iterations. Simulation ended.');
             break;
         end
-        
-        raf(3) = deg2rad(angleAuto(systeme.AutoA, tempsEcoule));
-        rbf(3) = deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)));
         
     end
     
