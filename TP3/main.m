@@ -40,13 +40,13 @@ function print(Coll, tf, raf, vaf, rbf, vbf, i)
     affichage = ['-----TIR ', num2str(i), '------'];
     disp(affichage);
     fprintf('Collision = %s\n', stringCollision(Coll));
-    fprintf('Temps = %d\n', tf);
+    fprintf('Temps = %.2f\n', tf);
     
-    fprintf('PositionA = [%i %i %i]\n', raf(1), raf(2), raf(3));
-    fprintf('VitesseA = [%i %i %i]\n', vaf(1), vaf(2), vaf(3));
+    fprintf('PositionA = [%6.2f   %6.2f   %6.2f]\n', raf(1), raf(2), raf(3));
+    fprintf('VitesseA  = [%6.2f   %6.2f   %6.2f]\n', vaf(1), vaf(2), vaf(3));
     
-    fprintf('PositionB = [%i %i %i]\n', rbf(1), rbf(2), rbf(3));
-    fprintf('VitesseB = [%i %i %i]\n', vbf(1), vbf(2), vbf(3));
+    fprintf('PositionB = [%6.2f   %6.2f   %6.2f]\n', rbf(1), rbf(2), rbf(3));
+    fprintf('VitesseB  = [%6.2f   %6.2f   %6.2f]\n', vbf(1), vbf(2), vbf(3));
     
     disp('-----');
     fprintf('\n');
