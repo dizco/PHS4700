@@ -43,26 +43,25 @@ function [vaf, vbf] = VitessesApresCollision(systeme, cmA, cmB, vitesseA, vitess
     disp(rAp);
     disp('rBp');
     disp(rBp);
-    croixA = cross(rAp, normale);
-    croixB = cross(rBp, normale);
+    croixA = -cross(rAp, normale);
+    croixB = -cross(rBp, normale);
     disp('croixA');
-    disp(croixA);
+    disp(InertieA);
     disp('croixB');
-    disp(croixB);
 %     disp('wAi : ');
 %     disp(systeme.AutoA.VitesseAngulaire);
 %     disp('wBi : ');
 %     disp(systeme.AutoB.VitesseAngulaire);
     
-    wAf = systeme.AutoA.VitesseAngulaire + j * InertieA \ (cross(rAp, normale)');
-    wBf = systeme.AutoB.VitesseAngulaire - j * InertieB \ (cross(rBp, normale)');
+    wAf = systeme.AutoA.VitesseAngulaire + j * ( InertieA \ (cross(rAp, normale)') );
+    wBf = systeme.AutoB.VitesseAngulaire - j * ( InertieB \ (cross(rBp, normale)') );
 
     %Vitesse Finales
     vAf = vAp + j * ((normale / systeme.AutoA.Masse) + cross((InertieA \ cross(rAp, normale)'), rAp));
     vBf = vBp - j * ((normale / systeme.AutoB.Masse) + cross((InertieB \ cross(rBp, normale)'), rBp));
     
     
-    vaf = [vAf(1, 1:2) wAf(1)];
-    vbf = [vBf(1, 1:2) wBf(1)];
+    vaf = [vAf(1, 1:2) wAf(3)];
+    vbf = [vBf(1, 1:2) wBf(3)];
     
 end
