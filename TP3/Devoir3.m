@@ -45,8 +45,8 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         if (estCollision)
             tf = tempsEcoule;
             Coll = 0;
-            raf = [positionA.GetHorizontalArray() systeme.AutoA.Hauteur / 2];
-            rbf = [positionB.GetHorizontalArray() systeme.AutoB.Hauteur / 2];
+            raf = [positionA.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoA, tempsEcoule))];
+            rbf = [positionB.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)))];
             [vaf, vbf] = VitessesApresCollision(systeme, positionA.GetHorizontalArray(), positionB.GetHorizontalArray(), qsA(1,1:2), qsB(1,1:2), pointCollision, normale);
             break;
         elseif (collisionSphereEnglobante && systeme.PrecisionMinimale ~= precisionMinimaleInitiale)
