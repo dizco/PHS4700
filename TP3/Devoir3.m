@@ -61,10 +61,10 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             %Finir simulation sans collision
             tf = tempsEcoule;
             Coll = 1;
-            raf = [positionA.GetHorizontalArray() systeme.AutoA.Hauteur / 2];
-            rbf = [positionB.GetHorizontalArray() systeme.AutoB.Hauteur / 2];
-            vaf = [qsA(1, 1:2) deg2rad(angleAuto(systeme.AutoA, tempsEcoule))];
-            vbf = [qsB(1, 1:2) deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)))];
+            raf = [positionA.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoA, tempsEcoule))];
+            rbf = [positionB.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)))];
+            vaf = [qsA(1, 1:2) systeme.AutoA.VitesseAngulaire];
+            vbf = [qsB(1, 1:2) systeme.AutoA.VitesseAngulaire];
             break;
         end
         
