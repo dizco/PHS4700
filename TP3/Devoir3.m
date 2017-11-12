@@ -64,7 +64,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
             raf = [positionA.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoA, tempsEcoule))];
             rbf = [positionB.GetHorizontalArray() deg2rad(angleAuto(systeme.AutoB, max(tempsEcoule - tb, 0)))];
             vaf = [qsA(1, 1:2) systeme.AutoA.VitesseAngulaire];
-            vbf = [qsB(1, 1:2) systeme.AutoA.VitesseAngulaire];
+            vbf = [qsB(1, 1:2) systeme.AutoB.VitesseAngulaire];
             break;
         end
         
