@@ -38,7 +38,7 @@ function [vaf, vbf] = VitessesApresCollision(systeme, cmA, cmB, vitesseA, vitess
     
     %Vitesse Angulaire Finale
     wAf = systeme.AutoA.VitesseAngulaire + j * InertieA \ transpose(cross(rAp, normale));
-    wBf = systeme.AutoB.VitesseAngulaire + j * InertieB \ transpose(cross(rBp, normale));
+    wBf = systeme.AutoB.VitesseAngulaire - j * InertieB \ transpose(cross(rBp, normale));
 
     %Vitesse Finales
     vAf = vAp + j * ((normale / systeme.AutoA.Masse) + cross((InertieA \ cross(rAp, normale)'), rAp));
