@@ -52,7 +52,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         elseif (collisionSphereEnglobante && systeme.PrecisionMinimale ~= precisionMinimaleInitiale)
             systeme.PrecisionMinimale = precisionMinimaleInitiale; %Reduire pas
         elseif (systeme.PrecisionMinimale == precisionMinimaleInitiale)
-            systeme.PrecisionMinimale = precisionMinimaleInitiale * 10; %Augmenter le pas puisqu'on n'est pas près d'une collision
+            systeme.PrecisionMinimale = precisionMinimaleInitiale * 5; %Augmenter le pas puisqu'on n'est pas près d'une collision
         end
         
         normeVitesseA = norm(qsA(1,1:2));
