@@ -56,7 +56,7 @@ function [Coll, tf, raf, vaf, rbf, vbf] = Devoir3(rai, vai, rbi, vbi, tb)
         end
         
         normeVitesseA = norm(qsA(1,1:2));
-        normeVitesseB = norm(qsA(1,1:2));
+        normeVitesseB = norm(qsB(1,1:2));
         if (normeVitesseA < systeme.SeuilVitesseMinimale && normeVitesseB < systeme.SeuilVitesseMinimale)
             %Finir simulation sans collision
             tf = tempsEcoule;
