@@ -3,5 +3,5 @@
 % ni : vecteur normale unitaire (sortant de la surface)
 function ur = Reflexion (ui, i)
     % Eq (7.13)
-    ur = ui - 2 * dot(ui, i) * ui;
+    ur = ui - 2 * i * dot(ui, i);
 end
