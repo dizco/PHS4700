@@ -4,8 +4,8 @@
 % ni : indice de réfraction du milieu i
 % nt : indice de réfraction du milieu t
 
-function ut = Refraction(ui, i, ni, nt)
-
+function [ut, estRefracte] = Refraction(ui, i, ni, nt)
+estRefracte = true;
 %vecteurs unitaires
 ui = ui / norm(u);
 i = i / norm(i);
@@ -33,5 +33,6 @@ anglei = asin(sini);
         ut = -i * (1 - sint^2)^(1/2) + k * sint;
     else
         ut = [0 0 0]';
+        estRefracte = false;
     end
 end
