@@ -10,4 +10,7 @@ function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObse
     %TODO: Calculer le range de valeurs possibles
     rangeVertical = [20, 40];
     rangeHorizontal = [20, 40];
+    Centre = systeme.CylindreTransparent.Centre;
+    disp("centre du cylindre:");
+    disp(Centre);
 end
