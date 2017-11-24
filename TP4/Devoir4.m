@@ -7,7 +7,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     systeme = Donnees();
     
-    positionPhoton = poso;
+    positionPhoton = Vecteur.CreateFromArray(poso);
     
     droite = DroiteAleatoire(pointObservateur, systeme);
     
