@@ -1,6 +1,6 @@
 function systeme = Donnees()
     cylindre = CylindreTransparent();
-    cylindre.Centre = [0.04 0.04 0.11];
+    cylindre.Centre = Vecteur(0.04, 0.04, 0.11);
     cylindre.Rayon = 0.02;
     cylindre.Hauteur = 0.18;
     
