@@ -3,7 +3,9 @@ function droite = DroiteAleatoire(pointObservateur, systeme)
     angleVertical = 10; %TODO: Assigner nombre aleatoire contenu dans le rangeVertical
     angleHorizontal = 10; %TODO: Assigner nombre aleatoire contenu dans le rangeHorizontal
     
-    droite = [0, 0, 0]; %TODO: Calculer l'equation de la droite a partir des angles
+    droite = Droite();
+    droite.Point = Vecteur.CreateFromArray(pointObservateur);
+    droite.Pente = Vecteur(0, 0, 0); %TODO: Calculer l'equation de la droite a partir des angles
 end
 
 function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)

@@ -13,7 +13,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent.Centre);
     if (intersectionCylindreExiste)
-        [nouvelleDroite, estRefracte] = Refraction(droite, normaleIntersectionCylindre, nout, nin);
+        [nouvelleDroite, estRefracte] = Refraction(droite.Pente, normaleIntersectionCylindre, nout, nin);
         if (~estRefracte)
             %TODO: Drop sauf sil est a linterieur
         end
