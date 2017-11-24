@@ -7,13 +7,13 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     systeme = Donnees();
     
-    positionPhoton = poso;
+    positionPhoton = Vecteur.CreateFromArray(poso);
     
     droite = DroiteAleatoire(pointObservateur, systeme);
     
-    [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent.Centre);
+    [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
     if (intersectionCylindreExiste)
-        [nouvelleDroite, estRefracte] = Refraction(droite.Pente, normaleIntersectionCylindre, nout, nin);
+        [nouvelleDroite, estRefracte] = Refraction(droite.Pente.GetHorizontalArray(), normaleIntersectionCylindre, nout, nin);
         if (~estRefracte)
             %TODO: Drop sauf sil est a linterieur
         end

@@ -7,7 +7,7 @@
 function [ut, estRefracte] = Refraction(ui, i, ni, nt)
 estRefracte = true;
 %vecteurs unitaires
-ui = ui / norm(u);
+ui = ui / norm(ui);
 i = i / norm(i);
 
 angleCritique = abs(asin(nt/ni));
@@ -15,7 +15,7 @@ angleCritique = abs(asin(nt/ni));
 % Eq (7.10)
 j = cross(ui, i);
 % Eq (7.11)
-k = cross(n, j);
+k = cross(i, j);
 
 % Eq (7.30)
 sini = dot(ui, k);
@@ -24,13 +24,13 @@ anglei = asin(sini);
 
     if -angleCritique <= anglei && anglei <= angleCritique
         % Eq (7.31)
-        sint = ni/n2 * sini;
+        sint = ni/nt * sini;
         
         % cos^2 + sin^2 = 1
         % cos = (1 - sin^2)^(1/2)
         
         % Eq (7.36)
-        ut = -i * (1 - sint^2)^(1/2) + k * sint;
+        ut = -i * sqrt(1 - power(sint, 2)) + k * sint;
     else
         ut = [0 0 0]';
         estRefracte = false;
