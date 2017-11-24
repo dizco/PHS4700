@@ -7,10 +7,10 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
     rayon = systeme.CylindreTransparent.Rayon;
     demiHauteur = systeme.CylindreTransparent.Hauteur / 2;
     centre = systeme.CylindreTransparent.Centre;
-    coinVertical1 = [centre(1) - rayon      centre(2) - rayon    centre(3) - demiHauteur];
-    coinVertical2 = [centre(1) + rayon      centre(2) + rayon    centre(3) - demiHauteur];
-    coinVertical3 = [centre(1) - rayon      centre(2) - rayon    centre(3) + demiHauteur];
-    coinVertical4 = [centre(1) + rayon      centre(2) + rayon    centre(3) + demiHauteur];
+    coinVertical1 = [centre.X - rayon      centre.Y - rayon    centre.Z - demiHauteur];
+    coinVertical2 = [centre.X + rayon      centre.Y + rayon    centre.Z - demiHauteur];
+    coinVertical3 = [centre.X - rayon      centre.Y - rayon    centre.Z + demiHauteur];
+    coinVertical4 = [centre.X + rayon      centre.Y + rayon    centre.Z + demiHauteur];
     segmentVertical1 = [coinVertical1(1) - pointObservateur.X; coinVertical1(2) - pointObservateur.Y; coinVertical1(3) - pointObservateur.Z];
     segmentVertical2 = [coinVertical2(1) - pointObservateur.X; coinVertical2(2) - pointObservateur.Y; coinVertical2(3) - pointObservateur.Z];
     segmentVertical3 = [coinVertical3(1) - pointObservateur.X; coinVertical3(2) - pointObservateur.Y; coinVertical3(3) - pointObservateur.Z];
@@ -46,7 +46,7 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
     angles = [angle1 angle2 angle3 angle4];
     disp(angles);
     angleZMin = angles(1);
-    angleZMax = 0;
+    angleZMax = angles(1);
     for i = 2:4
         if angles(i) < angleZMin
             angleZMin = angles(i);
