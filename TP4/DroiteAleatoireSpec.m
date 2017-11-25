@@ -1,7 +1,4 @@
-clear;
 clc;
-clf;
-close all;
 
 %pour tester l'IntervalleAnglesPossibles
 systeme = Donnees();
