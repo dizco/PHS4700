@@ -1,7 +1,16 @@
 function droite = DroiteAleatoire(pointObservateur, systeme)
-    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
-    angleVertical = 10; %TODO: Assigner nombre aleatoire contenu dans le rangeVertical
-    angleHorizontal = 10; %TODO: Assigner nombre aleatoire contenu dans le rangeHorizontal
+    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
+    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1); %TODO: Assigner nombre aleatoire contenu dans le rangeVertical
+    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1); %TODO: Assigner nombre aleatoire contenu dans le rangeHorizontal
+
+    disp("range vertical");
+    disp(rangeVertical);
+    disp("angleVertical aléatoire");
+    disp(angleVertical);
+    disp("range horizontal");
+    disp(rangeHorizontal);
+    disp("angleHorizontal aléatoire");
+    disp(angleHorizontal);
     
     droite = Droite();
     droite.Point = pointObservateur;
@@ -13,10 +22,6 @@ function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObse
     [angleXYMin, angleXYMax]  = TrouverRangeHorizontal(pointObservateur, systeme);
     rangeVertical = [angleZMin, angleZMax];
     rangeHorizontal = [angleXYMin, angleXYMax];
-    disp("intervalle vertical en degrés :");
-    disp(rangeVertical);
-    disp("intervalle horizontal en degrés :");
-    disp(rangeHorizontal);
 end
 
 function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme)
@@ -32,16 +37,16 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
     segmentVertical3 = [coinVertical3(1) - pointObservateur.X coinVertical3(2) - pointObservateur.Y coinVertical3(3) - pointObservateur.Z];
     segmentVertical4 = [coinVertical4(1) - pointObservateur.X coinVertical4(2) - pointObservateur.Y coinVertical4(3) - pointObservateur.Z];
     segments = [segmentVertical1; segmentVertical2; segmentVertical3; segmentVertical4];
-
-    rapports = [0 0 0 0];
+    %segments est de dimension 4x3 => 4 vecteurs horizontaux
+    
     angles = [0 0 0 0];
     for i = 1:4
         if segments(i, 3) < 0
-            rapports(i) = abs(segments(i, 3) / segments(i, 1));
-            angles(i) = 90 + atand(rapports(i));
+            rapportTan = abs(segments(i, 3) / segments(i, 1));
+            angles(i) = 90 + atand(rapportTan);
         else
-            rapports(i) = segments(i, 1) / segments(i, 3);
-            angles(i) = atand(rapports(i));
+            rapportTan = segments(i, 1) / segments(i, 3);
+            angles(i) = atand(rapportTan);
         end
     end
     angleZMin = angles(1);
@@ -61,8 +66,10 @@ function [angleXYMin, angleXYMax] = TrouverRangeHorizontal(pointObservateur, sys
     centre = systeme.CylindreTransparent.Centre;
     segment = [centre.X - pointObservateur.X centre.Y - pointObservateur.Y centre.Z - pointObservateur.Z];
     longueurXYSegment = sqrt(segment(1)^2 + segment(2)^2);
+    
     rapport = segment(2) / segment(1);
     angleSegment = atand(rapport);
+    
     ecartAngleCercle = atand(rayon / longueurXYSegment);
     angleXYMin = angleSegment - ecartAngleCercle;
     angleXYMax = angleSegment + ecartAngleCercle;

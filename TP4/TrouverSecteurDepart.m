@@ -23,15 +23,14 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
     segmentVertical4 = [coinVertical4(1) - pointObservateur.X coinVertical4(2) - pointObservateur.Y coinVertical4(3) - pointObservateur.Z];
     segments = [segmentVertical1; segmentVertical2; segmentVertical3; segmentVertical4];
 
-    rapports = [0 0 0 0];
     angles = [0 0 0 0];
     for i = 1:4
         if segments(i, 3) < 0
-            rapports(i) = abs(segments(i, 3) / segments(i, 1));
-            angles(i) = 90 + atand(rapports(i));
+            rapportTan = abs(segments(i, 3) / segments(i, 1));
+            angles(i) = 90 + atand(rapportTan);
         else
-            rapports(i) = segments(i, 1) / segments(i, 3);
-            angles(i) = atand(rapports(i));
+            rapportTan = segments(i, 1) / segments(i, 3);
+            angles(i) = atand(rapportTan);
         end
     end
     angleZMin = angles(1);
