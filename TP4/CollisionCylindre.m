@@ -15,8 +15,12 @@ function [intersectionCylindreExiste, positionIntersectionCylindre, normaleInter
     y = ComposanteYCollision(droite, x);
     z = ComposanteZCollision(droite, x);
     
-    positionIntersectionCylindre = Vecteur(x, y, z);
+    if (z > cylindre.GetBorneSuperieureZ() || z < cylindre.GetBorneInferieureZ())
+        intersectionCylindreExiste = false;
+        return;
+    end
     
+    positionIntersectionCylindre = Vecteur(x, y, z);
     normaleIntersectionCylindre = CalculerNormaleIntersection(positionIntersectionCylindre, cylindre);
 end
 
