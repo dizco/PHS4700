@@ -48,7 +48,6 @@ end
 
 function [angleXYMin, angleXYMax] = TrouverRangeHorizontal(pointObservateur, systeme)
     rayon = systeme.CylindreTransparent.Rayon;
-    demiHauteur = systeme.CylindreTransparent.Hauteur / 2;
     centre = systeme.CylindreTransparent.Centre;
     segment = [centre.X - pointObservateur.X centre.Y - pointObservateur.Y centre.Z - pointObservateur.Z];
     longueurXYSegment = sqrt(segment(1)^2 + segment(2)^2);
