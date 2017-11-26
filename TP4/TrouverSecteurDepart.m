@@ -1,6 +1,12 @@
 function [rangeVertical, rangeHorizontal] = TrouverSecteurDepart(pointObservateur, systeme)
-    rangeVertical = TrouverRangeVertical(pointObservateur, systeme);
-    rangeHorizontal = TrouverRangeHorizontal(pointObservateur, systeme);
+    [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme);
+    [angleXYMin, angleXYMax]  = TrouverRangeHorizontal(pointObservateur, systeme);
+    rangeVertical = [angleZMin, angleZMax];
+    rangeHorizontal = [angleXYMin, angleXYMax];
+    disp("intervalle vertical en degrés :");
+    disp(rangeVertical);
+    disp("intervalle horizontal en degrés :");
+    disp(rangeHorizontal);
 end
 
 function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme)
@@ -38,14 +44,17 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
             angleZMax = angles(i);
         end
     end
-    disp("angle vertical min (degrés) :");
-    disp(angleZMin);
-    disp("angle vertical max  (degrés) :");
-    disp(angleZMax);
 end
 
-function [angleHMin, angleHMax] = TrouverRangeHorizontal(pointObservateur, systeme)
-%     angles = [angle1 angle2 angle3 angle4];
-    angleHMin = 0;%angles(1);
-    angleHMax = 0;
+function [angleXYMin, angleXYMax] = TrouverRangeHorizontal(pointObservateur, systeme)
+    rayon = systeme.CylindreTransparent.Rayon;
+    demiHauteur = systeme.CylindreTransparent.Hauteur / 2;
+    centre = systeme.CylindreTransparent.Centre;
+    segment = [centre.X - pointObservateur.X centre.Y - pointObservateur.Y centre.Z - pointObservateur.Z];
+    longueurXYSegment = sqrt(segment(1)^2 + segment(2)^2);
+    rapport = segment(2) / segment(1);
+    angleSegment = atand(rapport);
+    ecartAngleCercle = atand(rayon / longueurXYSegment);
+    angleXYMin = angleSegment - ecartAngleCercle;
+    angleXYMax = angleSegment + ecartAngleCercle;
 end
