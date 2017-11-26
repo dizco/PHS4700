@@ -33,6 +33,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     disp(normaleIntersectionCylindre);
     
     if (intersectionCylindreExiste)
+        distance = DistanceParcourue(positionPhoton, positionIntersectionCylindre);
         [nouvelleDroite, estRefracte] = Refraction(droite.Pente.GetHorizontalArray(), normaleIntersectionCylindre, nout, nin);
         if (~estRefracte)
             %TODO: Drop sauf sil est a linterieur
