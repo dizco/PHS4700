@@ -53,24 +53,8 @@ function [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, 
     a = 1 + power(penteXY, 2);
     b = - (2 * cylindre.Centre.X) + 2 * penteXY * (ordonneeAOrigine - cylindre.Centre.Y);
     c = power(cylindre.Centre.X, 2) + power(ordonneeAOrigine - cylindre.Centre.Y, 2) - power(cylindre.Rayon, 2);
-%     disp('cyl centre');
-%     disp(cylindre.Centre.Y);
-%     disp('ord or');
-%     disp(ordonneeAOrigine);
-%     disp('c1');
-%     disp(power(ordonneeAOrigine - cylindre.Centre.Y, 2));
-%     
-%     disp('a');
-%     disp(a);
-%     disp('b');
-%     disp(b);
-%     disp('c');
-%     disp(c);
     
     [x1, x2] = ResoudreEquationQuadratique(a, b, c);
-%     disp('eq quad');
-%     disp(x1);
-%     disp(x2);
     
     x1Valide = isreal(x1) && ((x1 > positionDepart.X && droite.Pente.X > 0) || (x1 < positionDepart.X && droite.Pente.X < 0));
     x2Valide = isreal(x2) && ((x2 > positionDepart.X && droite.Pente.X > 0) || (x2 < positionDepart.X && droite.Pente.X < 0));
@@ -79,9 +63,7 @@ function [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, 
         %Les 2 valeurs sont valides, on prend le x pour lequel on a un step positif
         stepsX1 = (x1 - positionDepart.X) / droite.Pente.X;
         stepsX2 = (x2 - positionDepart.X) / droite.Pente.X;
-%         disp('steps x1 et x2');
-%         disp(stepsX1);
-%         disp(stepsX2);
+
         if (stepsX1 > 0 && stepsX1 < stepsX2)
             x = x1;
         else
@@ -104,8 +86,6 @@ function y = ComposanteYCollision(droite, x)
 end
 
 function z = ComposanteZCollision(droite, x)
-    %TODO: Valider que la valeur de Z est incluse dans la hauteur du cylindre. Si non, pas d'intersection
-    
     %z = ax+b
     z = droite.PentePlanXZ() * x + droite.ValeurZPourX0();
 end

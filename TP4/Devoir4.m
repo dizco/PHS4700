@@ -11,26 +11,21 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     %droite = DroiteAleatoire(pointObservateur, systeme);
     
-    positionPhoton = Vecteur(0.03, 0.04, 0);
+    positionPhoton = Vecteur(0.03, 0.04, 0.05);
     
     droite = Droite();
-    droite.Point = Vecteur(0.03, 0.04, 0);
-    droite.Pente = Vecteur(-1, 0, 0);
+    droite.Point = Vecteur(0.03, 0.04, 0.05);
+    droite.Pente = Vecteur(1, 1, 0);
     
     AfficherSimulationVisuelle();
     AfficherCylindre(systeme.CylindreTransparent);
     
     [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
-    disp('normale intersection');
-    disp(normaleIntersectionCylindre);
-    disp('pos intersection');
-    disp(positionIntersectionCylindre);
+    
     hold on;
     plot3(positionIntersectionCylindre.X, positionIntersectionCylindre.Y, positionIntersectionCylindre.Z, '*b');
     hold on;
     plot3(droite.Point.X, droite.Point.Y, droite.Point.Z, '*g');
-    disp('normale');
-    disp(normaleIntersectionCylindre);
     
     if (intersectionCylindreExiste)
         distance = DistanceParcourue(positionPhoton, positionIntersectionCylindre);
