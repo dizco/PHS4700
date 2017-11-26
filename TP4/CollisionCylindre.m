@@ -1,32 +1,46 @@
 function [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionDepart, cylindre)
-    %TODO: Utiliser la positionDepart pour resoudre quel des 2 points de collision doit etre retourne (utiliser distance)
-    
-    intersectionCylindreExiste = true;
-    positionIntersectionCylindre = [0, 0, 0];
-    normaleIntersectionCylindre = [0, 0, 0]; %TODO: Utiliser la position (x, y) du centre du cylindre afin de déterminer la normale
-    
     %On considere le cylindre comme un tas de cercles empiles de facon continue
     %Donc on commence par resoudre la position (x, y) du point d'intersection s'il y a lieu
     %Comme on a calcule cette position, on est en mesure de retrouver la position en Z a l'aide des equations de la droite
+
+    positionIntersectionCylindre = Vecteur(0, 0, 0);
+    normaleIntersectionCylindre = Vecteur(0, 0, 0);
     
     [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, cylindre);
-    disp('intersection avec cylindre existe');
-    disp(intersectionExiste);
+    intersectionCylindreExiste = intersectionExiste;
+    if (~intersectionExiste)
+        return;
+    end
     
     y = ComposanteYCollision(droite, x);
-    
     z = ComposanteZCollision(droite, x);
     
-    disp('composante X collision');
-    disp(x);
-    disp('composante Y collision');
-    disp(y);
-    disp('composante Z collision');
-    disp(z);
+    positionIntersectionCylindre = Vecteur(x, y, z);
     
+    normaleIntersectionCylindre = CalculerNormaleIntersection(positionIntersectionCylindre, cylindre);
 end
 
+
+function normale = CalculerNormaleIntersection(positionIntersection, cylindre)
+    %Utiliser la position (x, y) du centre du cylindre afin de déterminer la normale
+    pos2D = copy(positionIntersection);
+    pos2D = pos2D.GetHorizontalArray();
+    pos2D(3) = 0;
+    
+    centre2D = copy(cylindre.Centre);
+    centre2D = centre2D.GetHorizontalArray();
+    centre2D(3) = 0;
+    
+    vecteurDirecteur = pos2D - centre2D;
+    normale = vecteurDirecteur / norm(vecteurDirecteur);
+end
+
+
 function [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, cylindre) 
+    %Equation 1 : (x-h)^2 + (y-k)^2 = r^2
+    %Equation 2 : y = ax + b, on néglige ici la composante Z puisque le cylindre est orienté vers le haut. 
+    %En d'autres mots, on applatit la situation dans la plan XY, pour avoir un cercle et une ligne
+    
     intersectionExiste = true;
     x = 0;
     
@@ -59,12 +73,12 @@ function [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, 
     
     if (x1Valide && x2Valide)
         %Les 2 valeurs sont valides, on prend le x pour lequel on a un step positif
-        stepsX1 = (x1 - positionDepart.X) / droite.PentePlanXY();
-        %stepsX2 = (x2 - positionDepart.X) / droite.PentePlanXY();
+        stepsX1 = (x1 - positionDepart.X) / droite.Pente.X;
+        stepsX2 = (x2 - positionDepart.X) / droite.Pente.X;
 %         disp('steps x1 et x2');
 %         disp(stepsX1);
 %         disp(stepsX2);
-        if (stepsX1 > 0)
+        if (stepsX1 > 0 && stepsX1 < stepsX2)
             x = x1;
         else
             x = x2;
@@ -86,6 +100,8 @@ function y = ComposanteYCollision(droite, x)
 end
 
 function z = ComposanteZCollision(droite, x)
+    %TODO: Valider que la valeur de Z est incluse dans la hauteur du cylindre. Si non, pas d'intersection
+    
     %z = ax+b
     z = droite.PentePlanXZ() * x + droite.ValeurZPourX0();
 end
