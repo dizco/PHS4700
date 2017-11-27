@@ -11,11 +11,11 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     %droite = DroiteAleatoire(pointObservateur, systeme);
     
-    positionPhoton = Vecteur(0.03, 0.04, 0.05);
+    positionPhoton = Vecteur(0.03, 0.03, 0.05);
     
     droite = Droite();
-    droite.Point = Vecteur(0.03, 0.04, 0.05);
-    droite.Pente = Vecteur(1, 1, 0);
+    droite.Point = Vecteur(0.03, 0.03, 0.05);
+    droite.Pente = Vecteur(0, 1, 0);
     
     AfficherSimulationVisuelle();
     AfficherCylindre(systeme.CylindreTransparent);
