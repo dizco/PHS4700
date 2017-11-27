@@ -27,6 +27,7 @@ function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = Colli
         c = droite.Z
         
         %Formule de resolution du parametre d'intersection t
+        %https://stackoverflow.com/questions/23975555/how-to-do-ray-plane-intersection
         
         %on verifie que la droite n'est pas parallele au plan
         determinant = A * a + B * b + C * c;
