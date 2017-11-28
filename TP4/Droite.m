@@ -68,5 +68,17 @@ classdef Droite < matlab.mixin.Copyable
         function estVertical = EstVertical(obj)
             estVertical = (obj.PentePlanXY() == Inf); %Si VecteurDirecteur.X == 0, alors c'est une droite verticale
         end
+        
+        function calculerDroitePourAngle(angles)
+            xResolution = 0.01;
+            composanteY = xResolution* tan(angles(1));
+            hypothenuseXY = sqrt(xResolution^2 + composanteY^2);
+            composanteZ = hypothenuseXY / tan(angles(2));
+            disp("Y");
+            disp(composanteY);
+            disp("Z");
+            disp(composanteZ);
+            obj.Pente = Vecteur(0, 0, 0);
+        end
     end
 end

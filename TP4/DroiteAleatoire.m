@@ -1,20 +1,23 @@
 function droite = DroiteAleatoire(pointObservateur, systeme)
     [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
-    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1); %TODO: Assigner nombre aleatoire contenu dans le rangeVertical
-    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1); %TODO: Assigner nombre aleatoire contenu dans le rangeHorizontal
+    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
+    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
 
-    disp("range vertical");
-    disp(rangeVertical);
-    disp("angleVertical aléatoire");
-    disp(angleVertical);
-    disp("range horizontal");
-    disp(rangeHorizontal);
-    disp("angleHorizontal aléatoire");
-    disp(angleHorizontal);
-    
+%     disp("range vertical");
+%     disp(rangeVertical);
+%     disp("angleVertical aléatoire");
+%     disp(angleVertical);
+%     disp("range horizontal");
+%     disp(rangeHorizontal);
+%     disp("angleHorizontal aléatoire");
+%     disp(angleHorizontal);
+
     droite = Droite();
     droite.Point = pointObservateur;
-    droite.Pente = Vecteur(0, 0, 0); %TODO: Calculer l'equation de la droite a partir des angles
+    droite.Pente = Vecteur(0, 0, 0);
+    angles = [angleHorizontal angleVertical];
+    droite.calculerDroitePourAngle(angles);    
+    %TODO: Calculer l'equation de la droite a partir des angles
 end
 
 function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
