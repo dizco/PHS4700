@@ -13,7 +13,7 @@ i = i / norm(i);
 angleCritique = abs(asin(nt/ni));
 
 % Eq (7.10)
-j = cross(ui, i);
+j = cross(ui, i) / norm(cross(ui, i));
 % Eq (7.11)
 k = cross(i, j);
 
