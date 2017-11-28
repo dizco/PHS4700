@@ -53,6 +53,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 estInterieur = true;
                 positionPhoton = positionIntersectionCylindre;
                 % Générer une nouvelle droite.
+                nouvelleDroite = Droite();
                 nouvelleDroite.Point = positionPhoton;
                 nouvelleDroite.Pente = ut;
             end
@@ -66,6 +67,11 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 distance = distance + DistanceParcourue(nouvelleDroite.Point, positionIntersectionBloc);
                 couleur = systeme.bloc.Faces(faceTouchee).CodeCouleur;
                 collisionAvecBloc = true;
+                
+                % ON PUSH TOUTES LES NOUVELLES VALEURS DE POSITION DANS LE TABLEAU.
+                xi = [xi, positionIntersectionBloc(1)];
+                yi = [yi, positionIntersectionBloc(2)];
+                zi = [zi, positionIntersectionBloc(3)];
                 % TO-DO : Tester la couleur.
                 break;
                 
@@ -88,7 +94,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                         
                         nReflexionInterne = nReflexionInterne + 1;
                     else % Étape 2.2b : Le rayon est sorti du cylindre;
-                        estRayonValide = false;
+                        rayonEstValide = false;
                     end
                 end
             end
