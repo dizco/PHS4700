@@ -14,9 +14,20 @@ function droite = DroiteAleatoire(pointObservateur, systeme)
 
     droite = Droite();
     droite.Point = pointObservateur;
-    droite.Pente = Vecteur(0, 0, 0);
-    angles = [angleHorizontal angleVertical];
-    droite.calculerDroitePourAngle(angles);    
+    
+    angleHTest = 60;%degrés
+    angleVTest = 40;%degrés
+    xResolution = 0.01;
+    composanteY = xResolution * tand(angleHTest);
+    hypothenuseXY = sqrt(xResolution^2 + composanteY^2);
+    composanteZ = hypothenuseXY / tand(angleVTest);
+    disp("HYPE othenuse");
+    disp(hypothenuseXY);
+    disp("Y");
+    disp(composanteY);
+    disp("Z");
+    disp(composanteZ);
+    droite.Pente = Vecteur(xResolution, composanteY, composanteZ);   
     %TODO: Calculer l'equation de la droite a partir des angles
 end
 
