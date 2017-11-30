@@ -1,4 +1,4 @@
-function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(poso, systeme)
+function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, positionPhoton, systeme)
     % MONTE CARLO BABYYYY
     estInterieur = false; %initialement faux, pcq le rayon n'est pas à l'intérieur du cylindre
     rayonEstValide = true; %initialement vrai pour commencer la boucle

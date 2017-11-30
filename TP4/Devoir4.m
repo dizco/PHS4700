@@ -28,7 +28,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     nFois = 0;
     while nFois < 5
-        [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(systeme);
+        [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme);
         if (collisionAvecBloc)
             xi = [xi, ptCollision(1)];
             yi = [yi, ptCollision(2)];
