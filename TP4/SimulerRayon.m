@@ -1,4 +1,4 @@
-function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, positionPhoton, systeme)
+function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, positionPhoton, systeme, N, M, iBoucle, jBoucle)
     % MONTE CARLO BABYYYY
     estInterieur = false; %initialement faux, pcq le rayon n'est pas à l'intérieur du cylindre
     rayonEstValide = true; %initialement vrai pour commencer la boucle
@@ -10,8 +10,15 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
         % Situation #1 : Le rayon n'est pas à l'intérieur du cylindre.
         if estInterieur == false
             rayonEstValide = false;
-        % Étape 1.1 : On choisit l'angle de tir.
-            %droite = DroiteAleatoire(poso, systeme);
+        % Étape 1.1 : 
+        % NOTE IMPORTANTE : ORDRE DES OPÉRATIONS.
+        % a. On trouve le range. (Angle max et Angle min)
+        % b. On sélectionne N et M pour polaire et azimutal.
+        % c. b) nous retourne les VARIATION comme valeurs.
+        % d. On boucle tant que i < N et j < M, en boucles imbriquées.
+        % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
+        % elle nous retournera la droite à shooter.
+            %droite = DroiteAleatoire(positionPhoton, systeme);
         % Étape 1.2 : On shoot.
             %[intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
         % Étape 1.3 : On regarde la collision avec le cylindre transparent.
@@ -42,7 +49,8 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
                 collisionAvecBloc = true;
                 
                 ptCollision = positionInterSectionBloc;
-                % TO-DO : Tester la couleur.
+                
+                disp(ptCollision);
                 break;
                 
             % Étape 2.2 : Il n'y a pas eu de collisions avec le bloc de couleurs...

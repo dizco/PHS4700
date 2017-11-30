@@ -27,21 +27,31 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     plot3(droite.Point.X, droite.Point.Y, droite.Point.Z, '*g');
     
     nFois = 0;
-    while nFois < 5
-        [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme);
-        if (collisionAvecBloc)
-            % On conserve les parametres du photon.
-            xi = [xi, ptCollision(1)];
-            yi = [yi, ptCollision(2)];
-            zi = [zi, ptCollision(3)];
-            face = [face, couleur];
+    
+    % Valeurs à choisir ici :
+    N = 0;
+    M = 0;
+    % Initialisation de la boucle
+    iBoucle = 0;
+    jBoucle = 0;
+    
+    while iBoucle < N
+        while jBoucle < M
+        [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme, N, M, iBoucle, jBoucle);
+            if (collisionAvecBloc)
+                % On conserve les parametres du photon.
+                xi = [xi, ptCollision(1)];
+                yi = [yi, ptCollision(2)];
+                zi = [zi, ptCollision(3)];
+                face = [face, couleur];
 
-            % On trouve son image virtuelle.
-            posi = TrouverImageVirtuelle(poso, ptCollision, distance);
-            
-            % TO-DO : On dessine.
-            
-            nFois = nFois + 1;
+                % On trouve son image virtuelle.
+                posi = TrouverImageVirtuelle(poso, ptCollision, distance);
+
+                % TO-DO : On dessine.
+
+                nFois = nFois + 1;
+            end
         end
     end
 
