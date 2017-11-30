@@ -1,37 +1,37 @@
-function droite = DroiteAleatoire(pointObservateur, systeme)
-    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
-    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
-    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
-
-%     disp("range vertical");
-%     disp(rangeVertical);
-%     disp("angleVertical aléatoire");
-%     disp(angleVertical);
-%     disp("range horizontal");
-%     disp(rangeHorizontal);
-%     disp("angleHorizontal aléatoire");
-%     disp(angleHorizontal);
-
+% À partir de SimulerRayon.m
+% Étape 1.1 : 
+        % NOTE IMPORTANTE : ORDRE DES OPÉRATIONS.
+        % a. On trouve le range. (Angle max et Angle min) V
+        % b. On sélectionne N et M pour polaire et azimutal. 
+        % c. b) nous retourne les VARIATION comme valeurs.
+        % d. On boucle tant que i < N et j < M, en boucles imbriquées.
+        % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
+        % elle nous retournera la droite à shooter.
+            %droite = DroiteAleatoire(positionPhoton, systeme);
+function droite = DroiteAleatoire(pointObservateur, systeme, M, N)
     droite = Droite();
     droite.Point = pointObservateur;
     
-    angleHTest = 60;%degrés
-    angleVTest = 40;%degrés
+    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
+    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
+    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
+    VecteurDirecteurUnitaire(angleVertical, angleHorizontal, droite);
+end
+
+function VecteurDirecteurUnitaire(angleVertical, angleHorizontal, droite)
     xResolution = 0.01;
-    composanteY = xResolution * tand(angleHTest);
+    composanteY = xResolution * tand(angleHorizontal);
     hypothenuseXY = sqrt(xResolution^2 + composanteY^2);
-    composanteZ = hypothenuseXY / tand(angleVTest);
-    droite.Pente = Vecteur(xResolution, composanteY, composanteZ);
-    disp(droite.Pente);
+    composanteZ = hypothenuseXY / tand(angleVertical);
+    
     norme = sqrt(xResolution^2 + composanteY^2 + composanteZ^2);
     x = xResolution / norme;
     y = composanteY / norme;
     z = composanteZ / norme;
-    disp(x);
-    disp(y);
-    disp(z);
-    
-    %TODO: Calculer l'equation de la droite a partir des angles
+    droite.Pente = Vecteur(x, y, z);
+    normeUnitaire = sqrt(x^2 + y^2 + z^2);
+    disp("la norme unitaire est");
+    disp(normeUnitaire);
 end
 
 function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
