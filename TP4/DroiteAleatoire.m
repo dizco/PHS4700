@@ -15,17 +15,6 @@ function droite = DroiteAleatoire(pointObservateur, systeme, M, N, m, n)
     [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
     angleVerticalAleatoire = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
     angleHorizontalAleatoire = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
-    droite.Pente = VecteurDirecteurUnitaire(angleVerticalAleatoire, angleHorizontalAleatoire);
+    VecteurDirecteur(droite, angleVerticalAleatoire, angleHorizontalAleatoire);
 end
 
-function [x, y, z] = VecteurDirecteurUnitaire(angleVertical, angleHorizontal)
-    xResolution = 0.01;
-    composanteY = xResolution * tand(angleHorizontal);
-    hypothenuseXY = sqrt(xResolution^2 + composanteY^2);
-    composanteZ = hypothenuseXY / tand(angleVertical);
-    
-    norme = sqrt(xResolution^2 + composanteY^2 + composanteZ^2);
-    x = xResolution / norme;
-    y = composanteY / norme;
-    z = composanteZ / norme;
-end
