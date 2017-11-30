@@ -4,12 +4,12 @@ function systeme = Donnees()
     cylindre.Rayon = 0.02;
     cylindre.Hauteur = 0.18;
     
-    face1 = CreerFace([3, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [-1, 0, 0], 'r'); %rouge
-    face2 = CreerFace([4, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [1, 0, 0], 'r'); %cyan
-    face3 = CreerFace([3, 3, 12], [3, 4; -Inf, Inf; 12, 17], [0, -1, 0], 'r'); %vert
-    face4 = CreerFace([3, 5, 12], [3, 4; -Inf, Inf; 12, 17], [0, 1, 0], 'r'); %jaune
-    face5 = CreerFace([3, 3, 12], [3, 4; 3, 5; -Inf, Inf], [0, 0, -1], 'r'); %bleu
-    face6 = CreerFace([3, 3, 17], [3, 4; 3, 5; -Inf, Inf], [0, 0, 1], 'r'); %magenta
+    face1 = CreerFace([3, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [-1, 0, 0], 1); %rouge
+    face2 = CreerFace([4, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [1, 0, 0], 2); %cyan
+    face3 = CreerFace([3, 3, 12], [3, 4; -Inf, Inf; 12, 17], [0, -1, 0], 3); %vert
+    face4 = CreerFace([3, 5, 12], [3, 4; -Inf, Inf; 12, 17], [0, 1, 0], 4); %jaune
+    face5 = CreerFace([3, 3, 12], [3, 4; 3, 5; -Inf, Inf], [0, 0, -1], 5); %bleu
+    face6 = CreerFace([3, 3, 17], [3, 4; 3, 5; -Inf, Inf], [0, 0, 1], 6); %magenta
     
     bloc = BlocRectangulaire();
     bloc.Faces = [face1 face2 face3 face4 face5 face6];
