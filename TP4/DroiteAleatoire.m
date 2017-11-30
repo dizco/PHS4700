@@ -2,23 +2,38 @@
 % Étape 1.1 : 
         % NOTE IMPORTANTE : ORDRE DES OPÉRATIONS.
         % a. On trouve le range. (Angle max et Angle min) V
-        % b. On sélectionne N et M pour polaire et azimutal. 
+        % b. On sélectionne N et M pour polaire et azimutal. Pas ma partie?
         % c. b) nous retourne les VARIATION comme valeurs.
         % d. On boucle tant que i < N et j < M, en boucles imbriquées.
         % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
         % elle nous retournera la droite à shooter.
             %droite = DroiteAleatoire(positionPhoton, systeme);
-function droite = DroiteAleatoire(pointObservateur, systeme, M, N)
+function droite = DroiteAleatoire(pointObservateur, systeme, M, N, m, n)
     droite = Droite();
     droite.Point = pointObservateur;
     
     [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
-    angleVertical = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
-    angleHorizontal = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
-    VecteurDirecteurUnitaire(angleVertical, angleHorizontal, droite);
+    angleVerticalAleatoire = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
+    angleHorizontalAleatoire = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
+    droite.Pente = VecteurDirecteurUnitaire(angleVerticalAleatoire, angleHorizontalAleatoire);
+    
+    phiMin = rangeHorizontal(1);
+    phiMax = rangeHorizontal(2);
+    thetaMin = rangeVertical(1);
+    thetaMax = rangeVertical(2);
+    
+    phiM = phiMin + ( ( (phiMax - phiMin) / (2 * M) ) * (2 * m - 1) );
+    thetaN = thetaMin + ( ( (thetaMax - thetaMin) / (2 * N) ) * (2 * n - 1) );
 end
 
-function VecteurDirecteurUnitaire(angleVertical, angleHorizontal, droite)
+function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
+    [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme);
+    [angleXYMin, angleXYMax]  = TrouverRangeHorizontal(pointObservateur, systeme);
+    rangeVertical = [angleZMin, angleZMax];
+    rangeHorizontal = [angleXYMin, angleXYMax];
+end
+
+function [x, y, z] =VecteurDirecteurUnitaire(angleVertical, angleHorizontal)
     xResolution = 0.01;
     composanteY = xResolution * tand(angleHorizontal);
     hypothenuseXY = sqrt(xResolution^2 + composanteY^2);
@@ -28,17 +43,6 @@ function VecteurDirecteurUnitaire(angleVertical, angleHorizontal, droite)
     x = xResolution / norme;
     y = composanteY / norme;
     z = composanteZ / norme;
-    droite.Pente = Vecteur(x, y, z);
-    normeUnitaire = sqrt(x^2 + y^2 + z^2);
-    disp("la norme unitaire est");
-    disp(normeUnitaire);
-end
-
-function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
-    [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme);
-    [angleXYMin, angleXYMax]  = TrouverRangeHorizontal(pointObservateur, systeme);
-    rangeVertical = [angleZMin, angleZMax];
-    rangeHorizontal = [angleXYMin, angleXYMax];
 end
 
 function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme)
