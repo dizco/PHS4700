@@ -30,12 +30,17 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     while nFois < 5
         [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme);
         if (collisionAvecBloc)
+            % On conserve les parametres du photon.
             xi = [xi, ptCollision(1)];
             yi = [yi, ptCollision(2)];
             zi = [zi, ptCollision(3)];
+            face = [face, couleur];
 
-            %TO-DO : Dessiner le rayon lumineux
-            %Fonction a ajouter : utilise la distance et la couleur.
+            % On trouve son image virtuelle.
+            posi = TrouverImageVirtuelle(poso, ptCollision, distance);
+            
+            % TO-DO : On dessine.
+            
             nFois = nFois + 1;
         end
     end
