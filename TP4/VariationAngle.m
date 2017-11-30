@@ -1,0 +1,20 @@
+% À partir de SimulerRayon.m
+% Étape 1.1 : 
+        % NOTE IMPORTANTE : ORDRE DES OPÉRATIONS.
+        % a. On trouve le range. (Angle max et Angle min) V
+        % b. On sélectionne N et M pour polaire et azimutal. N
+        % c. b) nous retourne les VARIATION comme valeurs. V
+        % d. On boucle tant que i < N et j < M, en boucles imbriquées. N
+        % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
+        % elle nous retournera la droite à shooter.
+            %droite = DroiteAleatoire(positionPhoton, systeme);
+            
+function [variationPhi, variationTheta] = VariationAngle(rangeVertical, rangeHorizontal, M, N)
+    phiMin = rangeHorizontal(1);
+    phiMax = rangeHorizontal(2);
+    thetaMin = rangeVertical(1);
+    thetaMax = rangeVertical(2);
+    
+    variationPhi = phiMin + ( (phiMax - phiMin) / (2 * M) );
+    variationTheta = thetaMin + ( (thetaMax - thetaMin) / (2 * N) );
+end
