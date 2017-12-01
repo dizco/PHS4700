@@ -3,6 +3,10 @@ function systeme = Donnees()
     cylindre.Centre = Vecteur(0.04, 0.04, 0.11);
     cylindre.Rayon = 0.02;
     cylindre.Hauteur = 0.18;
+    
+    cercle1 = CreerCercle([0.04, 0.04, 0.02], [0.02, 0.06; 0.02, 0.06; -Inf, Inf], [0, 0, -1], cylindre.Rayon);
+    cercle2 = CreerCercle([0.04, 0.04, 0.20], [0.02, 0.06; 0.02, 0.06; -Inf, Inf], [0, 0, 1], cylindre.Rayon);
+    cylindre.Extremites = [cercle1 cercle2];
 
     face1 = CreerFace([0.03, 0.03, 0.12], [-Inf, Inf; 0.03, 0.05; 0.12, 0.17], [-1, 0, 0], 1, 'r'); %rouge
     face2 = CreerFace([0.04, 0.03, 0.12], [-Inf, Inf; 0.03, 0.05; 0.12, 0.17], [1, 0, 0], 2, 'r'); %cyan
@@ -29,4 +33,12 @@ function face = CreerFace(point, bornes, normale, indice, codeCouleur)
     face.Indice = indice;
     face.CodeCouleur = codeCouleur;
     face.Plan = plan;
+end
+
+function cercle = CreerCercle(point, bornes, normale, rayon)
+    cercle = Cercle();
+    cercle.Point = Vecteur.CreateFromArray(point);
+    cercle.Normale = Vecteur.CreateFromArray(normale);
+    cercle.Bornes = bornes;
+    cercle.Rayon = rayon;
 end
