@@ -6,11 +6,6 @@ function [intersectionCylindreExiste, positionIntersectionCylindre, normaleInter
     [intersectionExtremitesExiste, positionIntersectionExtremites, normaleIntersectionExtremites, stepsExtremite] = CollisionExtremites(droite, positionDepart, cylindre);
     [intersectionCourbeExiste, positionIntersectionCourbe, normaleIntersectionCourbe] = CollisionCourbeCylindre(droite, positionDepart, cylindre);
     
-    disp('normale extremites');
-    disp(normaleIntersectionExtremites);
-    disp('position extremites');
-    disp(positionIntersectionExtremites);
-    
     if (intersectionExtremitesExiste && intersectionCourbeExiste)
         intersectionCylindreExiste = true;
         stepsCourbe = (positionIntersectionCourbe.X - positionDepart.X) / droite.Pente.X;
@@ -68,10 +63,7 @@ function [intersectionExtremitesExiste, positionIntersectionExtremites, normaleI
     if (isa(normaleIntersection, 'Vecteur'))
         normaleIntersection = normaleIntersection.GetHorizontalArray();
     end
-    
-    disp('ici depart et steps');
-    disp(positionDepart);
-    disp(steps);
+
     if (cylindre.PointEstInterieur(positionDepart))
         normaleIntersection = normaleIntersection * -1;
     end
