@@ -9,14 +9,9 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     AfficherSimulationVisuelle();
     AfficherCylindre(systeme.CylindreTransparent);
     
-    nFois = 0;
-    
     % Valeurs à choisir ici :
     N = 0; n = 0;
     M = 0; m = 0;
-    % Initialisation de la boucle
-    iBoucle = 0;
-    jBoucle = 0;
     
     while n < N
         while m < M
