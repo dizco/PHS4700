@@ -8,6 +8,11 @@ disp('Devoir 4');
 %Cas 1
 [xi, yi, zi, face] = Devoir4(1, 1, [0, 0, 5]);
 
+% disp(xi);
+% disp(yi);
+% disp(zi);
+% disp(face);
+
 %Cas 2
 %[xi, yi, zi, face] = Devoir4(1, 1.5, [0, 0, 5]);
 

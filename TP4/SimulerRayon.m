@@ -11,7 +11,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
         positionPhoton = Vecteur.CreateFromArray(positionPhoton);
     end
     
-    while rayonEstValide && collisionAvecBloc == false && nReflexionInterne < 100
+    while (rayonEstValide && collisionAvecBloc == false && nReflexionInterne < 100)
         % Situation #1 : Le rayon n'est pas à l'intérieur du cylindre.
         if estInterieur == false
             rayonEstValide = false;
@@ -44,7 +44,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
                 % Générer une nouvelle droite.
                 nouvelleDroite = Droite();
                 nouvelleDroite.Point = positionPhoton;
-                nouvelleDroite.Pente = ut;
+                nouvelleDroite.Pente = Vecteur.CreateFromArray(ut);
             end
         end
         
@@ -78,7 +78,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
                         
                         % Générer une nouvelle droite.
                         nouvelleDroite.Point = normaleIntersectionCylindre;
-                        nouvelleDroite.Pente = ur;
+                        nouvelleDroite.Pente = Vecteur.CreateFromArray(ur);
                         
                         nReflexionInterne = nReflexionInterne + 1;
                     else % Étape 2.2b : Le rayon est sorti du cylindre;
