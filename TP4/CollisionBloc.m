@@ -37,6 +37,8 @@ function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = Colli
         determinant = A * a + B * b + C * c;
         if (determinant ~= 0)
             t = -(D + A * a0 + B * b0 + C * c0) / determinant;
+        else
+            continue;
         end
         
         %on resout les equations parametriques de la droite
