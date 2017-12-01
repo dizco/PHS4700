@@ -1,4 +1,4 @@
-function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = CollisionBloc(droite, positionDepart)
+function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = CollisionBloc(systeme, droite, positionDepart)
     %TODO: Iterer sur chacune des faces pour voir si la droite intersecte
     
     intersectionBlocExiste = false;

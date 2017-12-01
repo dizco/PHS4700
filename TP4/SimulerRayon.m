@@ -51,7 +51,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
         % Situation #2 : Le rayon est à l'intérieur du cylindre
         else
             % Étape 2.1 : On regarde la collision avec le bloc de couleurs.
-            [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = CollisionBloc(nouvelleDroite, positionPhoton);
+            [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = CollisionBloc(systeme, nouvelleDroite, positionPhoton);
             if (intersectionBlocExiste)
                 distance = distance + DistanceParcourue(nouvelleDroite.Point, positionIntersectionBloc);
                 couleur = systeme.bloc.Faces(faceTouchee).CodeCouleur;
