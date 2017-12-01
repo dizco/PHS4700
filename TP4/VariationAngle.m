@@ -7,8 +7,9 @@
         % d. On boucle tant que i < N et j < M, en boucles imbriquées. N
         % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
         % elle nous retournera la droite à shooter.
-            %droite = DroiteAleatoire(positionPhoton, systeme);
+            %droite = DroiteAleatoire(positionPhoton, systeme)
             
+            % TO-DO : ENLEVER, SERT A RIEN
 function [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M)
     thetaMin = rangeVertical(1);
     thetaMax = rangeVertical(2);

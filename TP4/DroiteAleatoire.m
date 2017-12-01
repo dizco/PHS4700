@@ -16,17 +16,9 @@ function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
     
     % a. On trouve le range. (Angle max et Angle min)
     [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
-    % On calcule la variation
-    [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M);
     % On calcule l'angle à utiliser
-    angleVertical = variationTheta * (2 * n - 1);
-    angleHorizontal = variationPhi * (2 * m - 1);
-    
-    % TO-DO : REMOVE.
-    % angleVerticalAleatoire = (rangeVertical(2)-rangeVertical(1)).*rand(1) + rangeVertical(1);
-    % angleHorizontalAleatoire = (rangeHorizontal(2)-rangeHorizontal(1)).*rand(1) + rangeHorizontal(1);
-    
+    [thetaN, phiM] = EchantillonAngle(rangeVertical, rangeHorizontal, N, M, n, m);    
     % On calcule la pente et on l'affecte à la droite.
-    VecteurDirecteur(droite, angleVerticalAleatoire, angleHorizontalAleatoire);
+    VecteurDirecteur(droite, thetaN, phiM);
 end
 

@@ -1,4 +1,4 @@
-function [thetaN, phiM] = EchantillonAngle(rangeVertical, rangeHorizontal, N, M)
+function [thetaN, phiM] = EchantillonAngle(rangeVertical, rangeHorizontal, N, M, n, m)
     thetaMin = rangeVertical(1);
     thetaMax = rangeVertical(2);    
     phiMin = rangeHorizontal(1);
