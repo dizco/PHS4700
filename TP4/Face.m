@@ -1,6 +1,7 @@
 classdef Face < handle
     properties
         CodeCouleur
+        Indice
         Plan
     end
     

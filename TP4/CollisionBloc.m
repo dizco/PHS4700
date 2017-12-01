@@ -63,9 +63,10 @@ function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = Colli
             %fprintf('nouveau %d ancien %d\n', distanceNouveauPoint, distanceAncientPoint);
             
             if (distanceNouveauPoint < distanceAncientPoint)
-               faceTouchee = i;
                 %fprintf('on selectionne car %d < %d\n', distanceNouveauPoint, distanceAncientPoint);
                 pointIntersectionLePlusProche = [x, y, z];
+                %on retourne la face pour se rappeller de la couleur
+                faceTouchee = systeme.BlocRectangulaire.Faces(i).Indice;
             end           
         end
     end
