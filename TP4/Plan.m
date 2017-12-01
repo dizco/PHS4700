@@ -37,5 +37,13 @@ classdef Plan < matlab.mixin.Copyable
                 respecteBornes = false;
             end
         end
+        
+        function collision = PointEstDerriere(obj, point)
+            collision = (obj.RespecteBornes(point) && (obj.DistanceAuPoint(point) < 0));
+        end
+        
+        function collision = PointTouche(obj, point)
+            collision = (obj.RespecteBornes(point) && (obj.DistanceAuPoint(point) == 0));
+        end
     end
 end
