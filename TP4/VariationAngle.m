@@ -10,11 +10,11 @@
             %droite = DroiteAleatoire(positionPhoton, systeme);
             
 function [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M)
-    phiMin = rangeHorizontal(1);
-    phiMax = rangeHorizontal(2);
     thetaMin = rangeVertical(1);
     thetaMax = rangeVertical(2);
+    phiMin = rangeHorizontal(1);
+    phiMax = rangeHorizontal(2);
     
-    variationPhi = phiMin + ( (phiMax - phiMin) / (2 * M) );
     variationTheta = thetaMin + ( (thetaMax - thetaMin) / (2 * N) );
+    variationPhi = phiMin + ( (phiMax - phiMin) / (2 * M) );
 end
