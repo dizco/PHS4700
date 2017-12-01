@@ -12,6 +12,8 @@ function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
 
     % On initialise la droite avec le point.
     droite = Droite();
+    
+    % pointObservateur est deja un vecteur.
     droite.Point = pointObservateur;
     
     % a. On trouve le range. (Angle max et Angle min)

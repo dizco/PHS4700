@@ -26,6 +26,7 @@ function [intersectionBlocExiste, positionIntersectionBloc, faceTouchee] = Colli
         c0 = droite.Point.Z;
         
         %direction de la droite
+        %disp(droite.Pente);
         a = droite.Pente.X;
         b = droite.Pente.Y;
         c = droite.Pente.Z;
