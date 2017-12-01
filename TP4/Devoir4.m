@@ -10,12 +10,13 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     AfficherCylindre(systeme.CylindreTransparent);
     
     % Valeurs à choisir ici :
-    N = 0; n = 0;
-    M = 0; m = 0;
+    N = 2; n = 0;
+    M = 2; m = 0;
     
     while n < N
         while m < M
             [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme, N, M, n, m);
+            disp('Je rentre ici');
             if (collisionAvecBloc)
                 % On conserve les parametres du photon.
                 xi = [xi, ptCollision(1)];
@@ -31,6 +32,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
             m = m + 1;
         end
         n = n + 1;
+        m = 0;
     end
 
                 
