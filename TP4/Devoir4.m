@@ -26,7 +26,8 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 % On trouve son image virtuelle.
                 posi = TrouverImageVirtuelle(poso, ptCollision, distance);
 
-                % TO-DO : On dessine.
+                % On dessine.                
+                afficherImage(posi, couleur); 
             end
             m = m + 1;
         end
