@@ -35,9 +35,9 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     iBoucle = 0;
     jBoucle = 0;
     
-    while iBoucle < N
-        while jBoucle < M
-            [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme, N, M, iBoucle, jBoucle);
+    while n < N
+        while m < M
+            [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme, N, M, n, m);
             if (collisionAvecBloc)
                 % On conserve les parametres du photon.
                 xi = [xi, ptCollision(1)];
@@ -50,9 +50,9 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
 
                 % TO-DO : On dessine.
             end
-            jBoucle = jBoucle + 1;
+            m = m + 1;
         end
-        iBoucle = iBoucle + 1;
+        n = n + 1;
     end
 
                 
