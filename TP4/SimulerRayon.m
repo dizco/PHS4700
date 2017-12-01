@@ -18,7 +18,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
         % d. On boucle tant que i < N et j < M, en boucles imbriquées.
         % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
         % elle nous retournera la droite à shooter.
-            droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m);
+            droite = DroiteAleatoire(positionPhoton, systeme, N, M, n, m);
         % Étape 1.2 : On shoot.
             [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
         % Étape 1.3 : On regarde la collision avec le cylindre transparent.
