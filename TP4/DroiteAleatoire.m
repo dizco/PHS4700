@@ -17,7 +17,7 @@ function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
     % a. On trouve le range. (Angle max et Angle min)
     [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
     % On calcule la variation
-    [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M)
+    [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M);
     % On calcule l'angle à utiliser
     angleVertical = variationTheta * (2 * n - 1);
     angleHorizontal = variationPhi * (2 * m - 1);

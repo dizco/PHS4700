@@ -6,31 +6,14 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     systeme = Donnees();
     
-    %positionPhoton = Vecteur.CreateFromArray(poso);
-    
-    %droite = DroiteAleatoire(pointObservateur, systeme);
-    
-    positionPhoton = Vecteur(0.03, 0.03, 0.05);
-    
-    droite = Droite();
-    droite.Point = Vecteur(0.03, 0.03, 0.05);
-    droite.Pente = Vecteur(0, 1, 0);
-    
     AfficherSimulationVisuelle();
     AfficherCylindre(systeme.CylindreTransparent);
-    
-    [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
-    
-    hold on;
-    plot3(positionIntersectionCylindre.X, positionIntersectionCylindre.Y, positionIntersectionCylindre.Z, '*b');
-    hold on;
-    plot3(droite.Point.X, droite.Point.Y, droite.Point.Z, '*g');
     
     nFois = 0;
     
     % Valeurs à choisir ici :
-    N = 0;
-    M = 0;
+    N = 0; n = 0;
+    M = 0; m = 0;
     % Initialisation de la boucle
     iBoucle = 0;
     jBoucle = 0;
