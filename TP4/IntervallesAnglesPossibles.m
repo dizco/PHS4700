@@ -1,4 +1,4 @@
-function [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme)
+function [rangeHorizontal, rangeVertical] = IntervallesAnglesPossibles(pointObservateur, systeme)
     [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme);
     [angleXYMin, angleXYMax]  = TrouverRangeHorizontal(pointObservateur, systeme);
     rangeVertical = [angleZMin, angleZMax];

@@ -8,7 +8,7 @@
         % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
         % elle nous retournera la droite à shooter.
             %droite = DroiteAleatoire(positionPhoton, systeme);
-function droite = DroiteAleatoire(pointObservateur, systeme, M, N, m, n)
+function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
     droite = Droite();
     droite.Point = pointObservateur;
     

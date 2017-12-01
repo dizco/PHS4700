@@ -9,7 +9,7 @@
         % elle nous retournera la droite à shooter.
             %droite = DroiteAleatoire(positionPhoton, systeme);
             
-function [variationPhi, variationTheta] = VariationAngle(rangeVertical, rangeHorizontal, M, N)
+function [variationTheta, variationPhi] = VariationAngle(rangeVertical, rangeHorizontal, N, M)
     phiMin = rangeHorizontal(1);
     phiMax = rangeHorizontal(2);
     thetaMin = rangeVertical(1);
