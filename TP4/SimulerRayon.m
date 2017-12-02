@@ -1,4 +1,4 @@
-function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt(nout, nin, positionPhoton, systeme, N, M, n, m)
+function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, positionPhoton, systeme, N, M, n, m)
     % MONTE CARLO BABYYYY
     estInterieur = false; %initialement faux, pcq le rayon n'est pas à l'intérieur du cylindre
     rayonEstValide = false; %initialement faux pour commencer la boucle
@@ -12,13 +12,13 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
         positionPhoton = Vecteur.CreateFromArray(positionPhoton);
     end
     
-    % Valeurs de test.
-    N = 1;
-    M = 1;
-    n = 1;
-    m = 1;
-    nout = 1;
-    nin = 1;
+%     % Valeurs de test.
+%     N = 1;
+%     M = 1;
+%     n = 1;
+%     m = 1;
+%     nout = 1;
+%     nin = 1;
     
     % droite = Droite();
     % Ne touche pas le bloc.
@@ -37,7 +37,11 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
     % elle nous retournera la droite à shooter.
     % Étape 1.2 : On shoot.
     [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(droite, positionPhoton, systeme.CylindreTransparent);
-    disp(intersectionCylindreExiste);
+    %disp('droite generee');
+    %disp(intersectionCylindreExiste);
+    %disp(droite.Point);
+    %disp(droite.Pente);
+    
     % Étape 1.3 : On regarde la collision avec le cylindre transparent.
     if (intersectionCylindreExiste)
         distance = distance + DistanceParcourue(positionPhoton, positionIntersectionCylindre);
@@ -50,7 +54,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
             positionPhoton = positionIntersectionCylindre;
 
             % Générer une nouvelle droite.
-            disp('NOUVELLE DROITE');
+            %disp('NOUVELLE DROITE');
             nouvelleDroite = Droite();
             nouvelleDroite.Point = positionPhoton;
             nouvelleDroite.Pente = Vecteur.CreateFromArray(ut);
@@ -75,7 +79,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
 
             ptCollision = positionIntersectionBloc;
 
-            disp(ptCollision);
+            %disp(ptCollision);
             %break;
 
         % Étape 2.2 : Il n'y a pas eu de collisions avec le bloc de couleurs...
@@ -86,9 +90,9 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
             %disp(nouvelleDroite.Point);
             %disp(nouvelleDroite.Pente);
             [intersectionCylindreExiste, positionIntersectionCylindre, normaleIntersectionCylindre] = CollisionCylindre(nouvelleDroite, nouvelleDroite.Point, systeme.CylindreTransparent);
-            disp(intersectionCylindreExiste);
+            %disp(intersectionCylindreExiste);
             if (intersectionCylindreExiste)
-                disp('Cylindre');
+                %disp('Cylindre');
                 distance = distance + DistanceParcourue(positionPhoton, positionIntersectionCylindre);
 
                 % ATTENTION : ON INVERSE LES INDICES DE RÉFRACTION
@@ -97,7 +101,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
 
                 % Étape 2.2a : Réflexion interne.
                 if (~estRefracte)
-                    disp('Allo');
+                    %disp('Allo');
                     ur = Reflexion(nouvelleDroite.Pente.GetHorizontalArray(), normaleIntersectionCylindre);
 
                     % Générer une nouvelle droite.
@@ -106,12 +110,15 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayonAlt
 
                     nReflexionInterne = nReflexionInterne + 1;
                 else % Étape 2.2b : Le rayon est sorti du cylindre;
-                    disp('rayon invalide');
+                    %disp('rayon invalide');
                     rayonEstValide = false;
                 end
             % Erreur : On n'a pas d'intersection avec le cylindre.
             else
-                disp('On a pas dintersection avec le cylindre inside.');
+                %disp('On a pas dintersection avec le cylindre inside.');
+                %disp(nouvelleDroite.Point);
+                %disp(nouvelleDroite.Pente);
+                %finish;
                 rayonEstValide = false;
             end
         end

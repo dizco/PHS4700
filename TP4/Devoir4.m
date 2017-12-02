@@ -10,8 +10,8 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     AfficherCylindre(systeme.CylindreTransparent);
     
     % Valeurs à choisir ici :
-    N = 10; n = 0;
-    M = 10; m = 0;
+    N = 250; n = 0;
+    M = 100; m = 0;
     
     while n < N
         while m < M
@@ -27,7 +27,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 posi = TrouverImageVirtuelle(poso, ptCollision, distance);
 
                 % On dessine.                
-                afficherImage(posi, couleur); 
+                AfficherImage(posi, couleur); 
             end
             m = m + 1;
         end
@@ -52,7 +52,6 @@ end
 
 function AfficherCylindre(cylindre)
     hold on;
-    plot3(cylindre.Centre.X, cylindre.Centre.Y, cylindre.Centre.Z, '*r');
     
     [X, Y, Z] = cylinder(cylindre.Rayon);
     Z(1, :) = cylindre.Centre.Z - cylindre.Hauteur / 2;
