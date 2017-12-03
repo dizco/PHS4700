@@ -143,6 +143,7 @@ function [intersectionExiste, x] = ComposanteXCollision(droite, positionDepart, 
 end
 
 function [intersectionExiste, valeur] = SelectionnerValeurComposanteValide(c1, c2, cPositionDepart, cPente)
+    epsilonSteps = 0.000001; %Eviter des erreurs lors de la comparaison, nos calculs accumulent une imprecision quelque part de lordre de 10^-15
     intersectionExiste = true;
     valeur = 0;
     
@@ -154,10 +155,12 @@ function [intersectionExiste, valeur] = SelectionnerValeurComposanteValide(c1, c
         stepsC1 = (c1 - cPositionDepart) / cPente;
         stepsC2 = (c2 - cPositionDepart) / cPente;
 
-        if (stepsC1 > 0 && stepsC1 < stepsC2)
+        if (stepsC1 > epsilonSteps && (stepsC1 < stepsC2 || stepsC2 <= epsilonSteps))
             valeur = c1;
-        else
+        elseif (stepsC2 > epsilonSteps)
             valeur = c2;
+        else 
+            intersectionExiste = false;
         end
     elseif (c1Valide)
         valeur = c1;
