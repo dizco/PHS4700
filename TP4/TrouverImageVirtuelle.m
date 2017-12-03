@@ -1,8 +1,5 @@
-function posi = TrouverImageVirtuelle(poso, ptCollision, distance)
-% Eq (7.40)
-% Vecteur unitaire de la direction du rayon observe
-u = (ptCollision - poso) / (norm(ptCollision - poso));
+function posi = TrouverImageVirtuelle(poso, omega, distance)
 
-% En combinant avec la distance...
-posi = poso + (distance * u);
+% Omega est la direction initiale du rayon.
+    posi = poso + omega * distance;
 end

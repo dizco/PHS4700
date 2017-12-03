@@ -10,12 +10,12 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     AfficherCylindre(systeme.CylindreTransparent);
     
     % Valeurs à choisir ici :
-    N = 250; n = 0;
-    M = 100; m = 0;
+    N = 250;
+    M = 100;
     
-    while n < N
-        while m < M
-            [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, poso, systeme, N, M, n, m);
+    for n = 1:N
+        for m = 1:M
+            [ collisionAvecBloc, distance, couleur, ptCollision, omega ] = SimulerRayon(nout, nin, poso, systeme, N, M, n, m);
             if (collisionAvecBloc)
                 % On conserve les parametres du photon.
                 xi = [xi, ptCollision(1)];
@@ -24,15 +24,13 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 face = [face, couleur];
 
                 % On trouve son image virtuelle.
-                posi = TrouverImageVirtuelle(poso, ptCollision, distance);
+                % posi = TrouverImageVirtuelle(poso, ptCollision, distance);
+                posi = TrouverImageVirtuelle(poso, omega, distance);
 
                 % On dessine.                
                 AfficherImage(posi, couleur); 
             end
-            m = m + 1;
         end
-        n = n + 1;
-        m = 0;
     end
 
                 
