@@ -40,6 +40,10 @@ function [angleZMin, angleZMax] = TrouverRangeVertical(pointObservateur, systeme
             angleZMax = angles(i);
         end
     end
+    
+    % Conversion des angles en radians
+    angleZMin = deg2rad(angleZMin);
+    angleZMax = deg2rad(angleZMax);
 end
 
 function [angleXYMin, angleXYMax] = TrouverRangeHorizontal(pointObservateur, systeme)
@@ -54,4 +58,8 @@ function [angleXYMin, angleXYMax] = TrouverRangeHorizontal(pointObservateur, sys
     ecartAngleCercle = atand(rayon / longueurXYSegment);
     angleXYMin = angleSegment - ecartAngleCercle;
     angleXYMax = angleSegment + ecartAngleCercle;
+    
+    % Conversion des angles en radians
+    angleXYMin = deg2rad(angleXYMin);
+    angleXYMax = deg2rad(angleXYMax);
 end

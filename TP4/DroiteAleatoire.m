@@ -17,11 +17,11 @@ function [droite, omega] = DroiteAleatoire(pointObservateur, systeme, N, M, n, m
     droite.Point = pointObservateur;
     
     % a. On trouve le range. (Angle max et Angle min)
-    %[rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
+    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
     
-    % Hardcode du range : ÇA MARCHE ?!?!
-    rangeVertical = [pi/2 -pi/4];
-    rangeHorizontal = [0 pi/2];
+    % Hardcode du range pour test
+    % rangeVertical = [pi/2 -pi/4];
+    % rangeHorizontal = [0 pi/2];
     
     % On calcule l'angle à utiliser
     [thetaN, phiM] = EchantillonAngle(rangeVertical, rangeHorizontal, N, M, n, m);    
