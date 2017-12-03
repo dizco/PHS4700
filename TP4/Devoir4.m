@@ -37,7 +37,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
 end
 
 function AfficherSimulationVisuelle(positionCamera, positionTarget)
-    figure;
+    figure('Position', [10 10 600 600]);
     xlabel('X (cm)');
     ylabel('Y (cm)');
     zlabel('Z (cm)');
@@ -45,11 +45,11 @@ function AfficherSimulationVisuelle(positionCamera, positionTarget)
     campos(positionCamera);
     camtarget(positionTarget);
     
-    cCamera = Vecteur(positionCamera(1), positionCamera(2), 0);
-    cTarget = Vecteur(positionTarget(1), positionTarget(2), 0);
-    distanceXY = DistanceParcourue(cCamera, cTarget);
-    distanceZ = positionTarget(3) - positionCamera(3);
-    angleVertical = atand(distanceZ / distanceXY);
+    %cCamera = Vecteur(positionCamera(1), positionCamera(2), 0);
+    %cTarget = Vecteur(positionTarget(1), positionTarget(2), 0);
+    %distanceXY = DistanceParcourue(cCamera, cTarget);
+    %distanceZ = positionTarget(3) - positionCamera(3);
+    %angleVertical = atand(distanceZ / distanceXY);
     
     %xlim([0 8]);
     %ylim([0 8]);
@@ -57,8 +57,8 @@ function AfficherSimulationVisuelle(positionCamera, positionTarget)
     %view(-45, -angleVertical);
     
     % Ajuste la taille des axes
-    %daspect([3 3 1]);
     grid minor;
+    
 end
 
 function AfficherCylindre(cylindre)
