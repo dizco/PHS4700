@@ -8,7 +8,7 @@
         % e. On a besoin d'une fonction qui prend les VARIATIONS et i, j
         % elle nous retournera la droite à shooter.
             %droite = DroiteAleatoire(positionPhoton, systeme);
-function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
+function [droite, omega] = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
 
     % On initialise la droite avec le point.
     droite = Droite();
@@ -17,10 +17,15 @@ function droite = DroiteAleatoire(pointObservateur, systeme, N, M, n, m)
     droite.Point = pointObservateur;
     
     % a. On trouve le range. (Angle max et Angle min)
-    [rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
+    %[rangeVertical, rangeHorizontal] = IntervallesAnglesPossibles(pointObservateur, systeme);
+    
+    % Hardcode du range : ÇA MARCHE ?!?!
+    rangeVertical = [pi/2 -pi/4];
+    rangeHorizontal = [0 pi/2];
+    
     % On calcule l'angle à utiliser
     [thetaN, phiM] = EchantillonAngle(rangeVertical, rangeHorizontal, N, M, n, m);    
     % On calcule la pente et on l'affecte à la droite.
-    VecteurDirecteur(droite, thetaN, phiM);
+    omega = VecteurDirecteur(droite, thetaN, phiM);
 end
 

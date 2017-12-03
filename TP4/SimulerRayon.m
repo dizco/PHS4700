@@ -1,4 +1,4 @@
-function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(nout, nin, positionPhoton, systeme, N, M, n, m)
+function [ collisionAvecBloc, distance, couleur, ptCollision, omega ] = SimulerRayon(nout, nin, positionPhoton, systeme, N, M, n, m)
     % MONTE CARLO BABYYYY
     estInterieur = false; %initialement faux, pcq le rayon n'est pas à l'intérieur du cylindre
     rayonEstValide = false; %initialement faux pour commencer la boucle
@@ -26,7 +26,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
     % droite.Pente = Vecteur.CreateFromArray([1, 0, 0]/norm([1, 0, 0]));
     
     % Situation #1 : Le rayon n'est pas à l'intérieur du cylindre.
-    droite = DroiteAleatoire(positionPhoton, systeme, N, M, n, m);
+    [droite, omega] = DroiteAleatoire(positionPhoton, systeme, N, M, n, m);
     % Étape 1.1 : 
 	% NOTE IMPORTANTE : ORDRE DES OPÉRATIONS.
 	% a. On trouve le range. (Angle max et Angle min)
