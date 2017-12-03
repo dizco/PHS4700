@@ -105,7 +105,7 @@ function [ collisionAvecBloc, distance, couleur, ptCollision ] = SimulerRayon(no
                     ur = Reflexion(nouvelleDroite.Pente.GetHorizontalArray(), normaleIntersectionCylindre);
 
                     % Générer une nouvelle droite.
-                    nouvelleDroite.Point = normaleIntersectionCylindre;
+                    nouvelleDroite.Point = positionIntersectionCylindre;
                     nouvelleDroite.Pente = Vecteur.CreateFromArray(ur);
 
                     nReflexionInterne = nReflexionInterne + 1;

@@ -13,8 +13,8 @@ function [intersectionCylindreExiste, positionIntersectionCylindre, normaleInter
             positionIntersectionCylindre = positionIntersectionExtremites;
             normaleIntersectionCylindre = normaleIntersectionExtremites;
         else
-            positionIntersectionCylindre = positionIntersectionExtremites;
-            normaleIntersectionCylindre = normaleIntersectionExtremites;
+            positionIntersectionCylindre = positionIntersectionCourbe;
+            normaleIntersectionCylindre = normaleIntersectionCourbe;
         end
     elseif (intersectionExtremitesExiste)
         intersectionCylindreExiste = true;

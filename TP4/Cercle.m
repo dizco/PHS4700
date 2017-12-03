@@ -16,7 +16,7 @@ classdef Cercle < Plan
             if (obj.Point.Z == point.Z)
                 p1 = Vecteur(obj.Point.X, obj.Point.Y, 0);
                 p2 = Vecteur(point.X, point.Y, 0);
-                if (DistanceParcourue(p1, p2) <= obj.Rayon)
+                if (DistanceParcourue(p1, p2) < obj.Rayon)
                     respecteBornes = true;
                 end
             end
