@@ -49,7 +49,6 @@ function AfficherSimulationVisuelle(positionCamera, positionTarget)
     xlim([0 8]);
     ylim([0 8]);
     zlim([0 24]);
-
     view(-45, 45);
     
     % Ajuste la taille des axes
