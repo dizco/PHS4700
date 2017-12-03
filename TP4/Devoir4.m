@@ -40,16 +40,20 @@ end
 
 function AfficherSimulationVisuelle(positionCamera, positionTarget)
     figure;
-    xlabel('X (m)');
-    ylabel('Y (m)');
-    zlabel('Z (m)');
+    xlabel('X (cm)');
+    ylabel('Y (cm)');
+    zlabel('Z (cm)');
     
     %campos(positionCamera);
     %camtarget(positionTarget);
-    xlim([0.0 0.08]);
-    ylim([0.0 0.08]);
-    zlim([0 0.24]);
+    xlim([0 8]);
+    ylim([0 8]);
+    zlim([0 24]);
+
     view(-45, 45);
+    
+    % Ajuste la taille des axes
+    %daspect([3 3 1]);
     grid minor;
 end
 
@@ -60,7 +64,7 @@ function AfficherCylindre(cylindre)
     Z(1, :) = cylindre.Centre.Z - cylindre.Hauteur / 2;
     Z(2, :) = cylindre.Centre.Z + cylindre.Hauteur / 2;
     X = X + cylindre.Centre.X;
-    Y = Y + cylindre.Centre.Y;
+    Y = Y + cylindre.Centre.Y;   
     hold on;
     surf(X, Y, Z, 'EdgeColor', 'b', 'FaceAlpha', 0, 'EdgeAlpha', 0.9);
     hold off;

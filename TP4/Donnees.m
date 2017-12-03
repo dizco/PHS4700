@@ -1,19 +1,19 @@
 function systeme = Donnees()
     cylindre = CylindreTransparent();
-    cylindre.Centre = Vecteur(0.04, 0.04, 0.11);
-    cylindre.Rayon = 0.02;
-    cylindre.Hauteur = 0.18;
+    cylindre.Centre = Vecteur(4, 4, 11);
+    cylindre.Rayon = 2;
+    cylindre.Hauteur = 18;
     
-    cercle1 = CreerCercle([0.04, 0.04, 0.02], [0.02, 0.06; 0.02, 0.06; -Inf, Inf], [0, 0, -1], cylindre.Rayon);
-    cercle2 = CreerCercle([0.04, 0.04, 0.20], [0.02, 0.06; 0.02, 0.06; -Inf, Inf], [0, 0, 1], cylindre.Rayon);
+    cercle1 = CreerCercle([4, 4, 2], [2, 6; 2, 6; -Inf, Inf], [0, 0, -1], cylindre.Rayon);
+    cercle2 = CreerCercle([4, 4, 20], [2, 6; 2, 6; -Inf, Inf], [0, 0, 1], cylindre.Rayon);
     cylindre.Extremites = [cercle1 cercle2];
 
-    face1 = CreerFace([0.03, 0.03, 0.12], [-Inf, Inf; 0.03, 0.05; 0.12, 0.17], [-1, 0, 0], 1, 'r'); %rouge
-    face2 = CreerFace([0.04, 0.03, 0.12], [-Inf, Inf; 0.03, 0.05; 0.12, 0.17], [1, 0, 0], 2, 'r'); %cyan
-    face3 = CreerFace([0.03, 0.03, 0.12], [0.03, 0.04; -Inf, Inf; 0.12, 0.17], [0, -1, 0], 3, 'r'); %vert
-    face4 = CreerFace([0.03, 0.05, 0.12], [0.03, 0.04; -Inf, Inf; 0.12, 0.17], [0, 1, 0], 4, 'r'); %jaune
-    face5 = CreerFace([0.03, 0.03, 0.12], [0.03, 0.04; 0.03, 0.05; -Inf, Inf], [0, 0, -1], 5, 'r'); %bleu
-    face6 = CreerFace([0.03, 0.03, 0.17], [0.03, 0.04; 0.03, 0.05; -Inf, Inf], [0, 0, 1], 6, 'r'); %magenta
+    face1 = CreerFace([3, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [-1, 0, 0], 1, 'r'); %rouge
+    face2 = CreerFace([4, 3, 12], [-Inf, Inf; 3, 5; 12, 17], [1, 0, 0], 2, 'r'); %cyan
+    face3 = CreerFace([3, 3, 12], [3, 4; -Inf, Inf; 12, 17], [0, -1, 0], 3, 'r'); %vert
+    face4 = CreerFace([3, 5, 12], [3, 4; -Inf, Inf; 12, 17], [0, 1, 0], 4, 'r'); %jaune
+    face5 = CreerFace([3, 3, 12], [3, 4; 3, 5; -Inf, Inf], [0, 0, -1], 5, 'r'); %bleu
+    face6 = CreerFace([3, 3, 17], [3, 4; 3, 5; -Inf, Inf], [0, 0, 1], 6, 'r'); %magenta
     
     bloc = BlocRectangulaire();
     bloc.Faces = [face1 face2 face3 face4 face5 face6];

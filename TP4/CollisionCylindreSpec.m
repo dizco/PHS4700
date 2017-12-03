@@ -1,8 +1,8 @@
 clc; 
 
 droite = Droite();
-droite.Point = Vecteur(0.03, 0.04, 0);
-droite.Pente = Vecteur.CreateFromArray([0.01, 0, 0.01]);
+droite.Point = Vecteur(3, 4, 0);
+droite.Pente = Vecteur.CreateFromArray([1, 0, 1]);
 
 positionDepart = droite.Point;
 

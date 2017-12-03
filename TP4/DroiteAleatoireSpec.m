@@ -3,7 +3,7 @@ clc;
 %pour tester l'IntervalleAnglesPossibles
 systeme = Donnees();
 pointObservateur = Vecteur(0, 0, 0);
-pointObs2 = Vecteur(0, 0, 0.05);
+pointObs2 = Vecteur(0, 0, 5);
 M = 10;
 N = 10;
 m = 8;

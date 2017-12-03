@@ -6,7 +6,10 @@ close all;
 disp('Devoir 4');
 
 %Cas 1
-%[xi, yi, zi, face] = Devoir4(1, 1, [0, 0, 0.05]);
+nout = 1;
+nin  = 1;
+poso = [0, 0, 5];
+[xi, yi, zi, face] = Devoir4(nout, nin, poso);
 
 % disp(xi);
 % disp(yi);
@@ -14,10 +17,19 @@ disp('Devoir 4');
 % disp(face);
 
 %Cas 2
-%[xi, yi, zi, face] = Devoir4(1, 1.5, [0, 0, 0.05]);
+nout = 1;
+nin  = 1.5;
+poso = [0, 0, 5];
+%[xi, yi, zi, face] = Devoir4(nout, nin, poso);
 
 %Cas 3
-%[xi, yi, zi, face] = Devoir4(1, 1.5, [0, 0, 0]);
+nout = 1;
+nin  = 1.5;
+poso = [0, 0, 0];
+%[xi, yi, zi, face] = Devoir4(nout, nin, poso);
 
 %Cas 4
-[xi, yi, zi, face] = Devoir4(1.2, 1, [0, 0, 0.05]);
+nout = 1.2;
+nin  = 1;
+poso = [0, 0, 5];
+%[xi, yi, zi, face] = Devoir4(nout, nin, poso);
