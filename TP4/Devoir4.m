@@ -6,7 +6,7 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
     
     systeme = Donnees();
     
-    AfficherSimulationVisuelle();
+    AfficherSimulationVisuelle(poso, systeme.CylindreTransparent.Centre.GetHorizontalArray());
     AfficherCylindre(systeme.CylindreTransparent);
     
     % Valeurs à choisir ici :
@@ -38,14 +38,17 @@ function [xi, yi, zi, face] = Devoir4(nout, nin, poso)
                 
 end
 
-function AfficherSimulationVisuelle()
+function AfficherSimulationVisuelle(positionCamera, positionTarget)
     figure;
     xlabel('X (m)');
     ylabel('Y (m)');
     zlabel('Z (m)');
-    xlim([0.01 0.07]);
-    ylim([0.01 0.07]);
-    zlim([0 0.22]);
+    
+    %campos(positionCamera);
+    %camtarget(positionTarget);
+    xlim([0.0 0.08]);
+    ylim([0.0 0.08]);
+    zlim([0 0.24]);
     view(-45, 45);
     grid minor;
 end
