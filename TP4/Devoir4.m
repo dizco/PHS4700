@@ -42,8 +42,8 @@ function AfficherSimulationVisuelle(positionCamera, positionTarget)
     ylabel('Y (cm)');
     zlabel('Z (cm)');
     
-    %campos(positionCamera);
-    %camtarget(positionTarget);
+    campos(positionCamera);
+    camtarget(positionTarget);
     
     cCamera = Vecteur(positionCamera(1), positionCamera(2), 0);
     cTarget = Vecteur(positionTarget(1), positionTarget(2), 0);
@@ -51,10 +51,10 @@ function AfficherSimulationVisuelle(positionCamera, positionTarget)
     distanceZ = positionTarget(3) - positionCamera(3);
     angleVertical = atand(distanceZ / distanceXY);
     
-    xlim([0 8]);
-    ylim([0 8]);
-    zlim([0 24]);
-    view(-45, -angleVertical);
+    %xlim([0 8]);
+    %ylim([0 8]);
+    %zlim([0 24]);
+    %view(-45, -angleVertical);
     
     % Ajuste la taille des axes
     %daspect([3 3 1]);
